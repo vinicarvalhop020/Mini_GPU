@@ -5,28 +5,41 @@ module dualport_memory_tb;
     localparam int ADDR_WIDTH = 8;
     localparam int DATA_WIDTH = 32;
 
-    dualport_mem_if #(ADDR_WIDTH, DATA_WIDTH) intf();
+    logic                  clk;
+    logic [ADDR_WIDTH-1:0] a_addr;
+    logic [ADDR_WIDTH-1:0] b_addr;
+    logic [DATA_WIDTH-1:0] a_wdata;
+    logic [DATA_WIDTH-1:0] b_wdata;
+    logic                  a_we;
+    logic                  b_we;
+    logic                  a_re;
+    logic                  b_re;
+    logic [DATA_WIDTH-1:0] a_rdata;
+    logic [DATA_WIDTH-1:0] b_rdata;
 
     dualport_memory #(
         .ADDR_WIDTH(ADDR_WIDTH),
         .DATA_WIDTH(DATA_WIDTH)
     ) uut (
-        .intf(intf)
+        .clk(clk),
+        .a_addr(a_addr), .b_addr(b_addr),
+        .a_wdata(a_wdata), .b_wdata(b_wdata),
+        .a_we(a_we), .b_we(b_we),
+        .a_re(a_re), .b_re(b_re),
+        .a_rdata(a_rdata), .b_rdata(b_rdata)
     );
 
-    always #5 intf.clk = ~intf.clk;
+    always #5 clk = ~clk;
 
     task automatic write_a(
         input logic [ADDR_WIDTH-1:0] addr,
         input logic [DATA_WIDTH-1:0] data
     );
         begin
-            @(negedge intf.clk);
-            intf.a_addr  = addr;
-            intf.a_wdata = data;
-            intf.a_we    = 1'b1;
-            @(negedge intf.clk);
-            intf.a_we    = 1'b0;
+            @(negedge clk);
+            a_addr = addr; a_wdata = data; a_we = 1'b1;
+            @(negedge clk);
+            a_we = 1'b0;
         end
     endtask
 
@@ -35,12 +48,10 @@ module dualport_memory_tb;
         input logic [DATA_WIDTH-1:0] data
     );
         begin
-            @(negedge intf.clk);
-            intf.b_addr  = addr;
-            intf.b_wdata = data;
-            intf.b_we    = 1'b1;
-            @(negedge intf.clk);
-            intf.b_we    = 1'b0;
+            @(negedge clk);
+            b_addr = addr; b_wdata = data; b_we = 1'b1;
+            @(negedge clk);
+            b_we = 1'b0;
         end
     endtask
 
@@ -50,16 +61,15 @@ module dualport_memory_tb;
         input string                 test_name
     );
         begin
-            @(negedge intf.clk);
-            intf.a_addr = addr;
-            intf.a_re   = 1'b1;
-            @(posedge intf.clk);
+            @(negedge clk);
+            a_addr = addr; a_re = 1'b1;
+            @(posedge clk);
             #1;
-            assert (intf.a_rdata === expected_data)
+            assert (a_rdata === expected_data)
                 else $fatal(1, "%s: porta A esperava %0h, recebeu %0h",
-                            test_name, expected_data, intf.a_rdata);
-            @(negedge intf.clk);
-            intf.a_re = 1'b0;
+                            test_name, expected_data, a_rdata);
+            @(negedge clk);
+            a_re = 1'b0;
         end
     endtask
 
@@ -69,53 +79,37 @@ module dualport_memory_tb;
         input string                 test_name
     );
         begin
-            @(negedge intf.clk);
-            intf.b_addr = addr;
-            intf.b_re   = 1'b1;
-            @(posedge intf.clk);
+            @(negedge clk);
+            b_addr = addr; b_re = 1'b1;
+            @(posedge clk);
             #1;
-            assert (intf.b_rdata === expected_data)
+            assert (b_rdata === expected_data)
                 else $fatal(1, "%s: porta B esperava %0h, recebeu %0h",
-                            test_name, expected_data, intf.b_rdata);
-            @(negedge intf.clk);
-            intf.b_re = 1'b0;
+                            test_name, expected_data, b_rdata);
+            @(negedge clk);
+            b_re = 1'b0;
         end
     endtask
 
     initial begin
-        intf.clk     = 1'b0;
-        intf.a_addr  = '0;
-        intf.b_addr  = '0;
-        intf.a_wdata = '0;
-        intf.b_wdata = '0;
-        intf.a_we    = 1'b0;
-        intf.b_we    = 1'b0;
-        intf.a_re    = 1'b0;
-        intf.b_re    = 1'b0;
+        clk = 1'b0;
+        a_addr = '0; b_addr = '0;
+        a_wdata = '0; b_wdata = '0;
+        a_we = 1'b0; b_we = 1'b0;
+        a_re = 1'b0; b_re = 1'b0;
 
-        // A porta A escreve e le seu proprio endereco.
         write_a(8'h00, 32'hDEAD_BEEF);
         read_a(8'h00, 32'hDEAD_BEEF, "escrita e leitura na porta A");
-
-        // A porta B escreve e le o ultimo endereco da memoria.
         write_b(8'hFF, 32'hCAFE_BABE);
         read_b(8'hFF, 32'hCAFE_BABE, "escrita e leitura na porta B");
-
-        // As duas portas enxergam a mesma memoria, e nao bancos independentes.
         write_a(8'h42, 32'h1234_5678);
         read_b(8'h42, 32'h1234_5678, "leitura pela porta B de escrita pela A");
 
-        // Acessos simultaneos em enderecos diferentes devem ser independentes.
-        @(negedge intf.clk);
-        intf.a_addr  = 8'h10;
-        intf.a_wdata = 32'hAAAA_1111;
-        intf.a_we    = 1'b1;
-        intf.b_addr  = 8'hE0;
-        intf.b_wdata = 32'hBBBB_2222;
-        intf.b_we    = 1'b1;
-        @(negedge intf.clk);
-        intf.a_we = 1'b0;
-        intf.b_we = 1'b0;
+        @(negedge clk);
+        a_addr = 8'h10; a_wdata = 32'hAAAA_1111; a_we = 1'b1;
+        b_addr = 8'hE0; b_wdata = 32'hBBBB_2222; b_we = 1'b1;
+        @(negedge clk);
+        a_we = 1'b0; b_we = 1'b0;
 
         read_a(8'h10, 32'hAAAA_1111, "escrita simultanea da porta A");
         read_b(8'hE0, 32'hBBBB_2222, "escrita simultanea da porta B");

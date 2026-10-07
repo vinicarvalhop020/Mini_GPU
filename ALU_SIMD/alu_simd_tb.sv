@@ -2,40 +2,44 @@
 
 module alu_simd_tb;
 
-    localparam int LANES         = 4;
-
+    localparam int LANES = 4;
     localparam logic [7:0] ADD = 8'h01,
                            SUB = 8'h02,
                            MUL = 8'h03,
                            DIV = 8'h04;
 
-    alu_simd_if #(LANES) alu_if();
+    logic [31:0] vector_a;
+    logic [31:0] vector_b;
+    logic [7:0]  alu_opcode;
+    logic [31:0] result;
 
     alu_simd #(.LANES(LANES)) uut (
-        .alu_if(alu_if)
+        .vector_a(vector_a),
+        .vector_b(vector_b),
+        .alu_opcode(alu_opcode),
+        .result(result)
     );
 
     task automatic test_simd(
-        input logic [31:0] vector_a,
-        input logic [31:0] vector_b,
-        input logic [7:0]  opcode,
+        input logic [31:0] a_in,
+        input logic [31:0] b_in,
+        input logic [7:0]  opcode_in,
         input logic [31:0] expected_result,
         input string       test_name
     );
         begin
-            alu_if.vector_a   = vector_a;
-            alu_if.vector_b   = vector_b;
-            alu_if.alu_opcode = opcode;
+            vector_a   = a_in;
+            vector_b   = b_in;
+            alu_opcode = opcode_in;
             #1;
 
-            assert (alu_if.result === expected_result)
+            assert (result === expected_result)
                 else $fatal(1, "%s: resultado esperado=%0h, obtido=%0h",
-                            test_name, expected_result, alu_if.result);
+                            test_name, expected_result, result);
         end
     endtask
 
     initial begin
-        // Cada byte e uma lane: [31:24], [23:16], [15:8] e [7:0].
         test_simd(32'hFA01_10FF, 32'h0702_F001, ADD, 32'h0103_0000,
                   "ADD com overflow em duas lanes");
         test_simd(32'h1000_04FF, 32'h0301_1001, SUB, 32'h0DFF_F4FE,

@@ -1,25 +1,20 @@
 `timescale 1ns / 1ps
 
-interface scheduler_if;
-    logic clk;
-    logic rst;
-    logic cmd_valid;
-    logic cmd_ready;
-    logic [31:0] cmd_fields;
-    logic exec_valid;
-    logic exec_ready;
-    logic [31:0] exec_fields;
-    logic exec_done;
-    logic busy;
-    logic done;
-    logic [1:0] debug_state;
-endinterface
-
-module scheduler(
-    scheduler_if sif
+module scheduler (
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        cmd_valid,
+    output logic        cmd_ready,
+    input  logic [31:0] cmd_fields,
+    output logic        exec_valid,
+    input  logic        exec_ready,
+    output logic [31:0] exec_fields,
+    input  logic        exec_done,
+    output logic        busy,
+    output logic        done,
+    output logic [1:0]  debug_state
 );
 
-    // FSM interna e registrador da unica entrada pendente.
     typedef enum logic [1:0] {
         IDLE     = 2'b00,
         DISPATCH = 2'b01,
@@ -27,77 +22,59 @@ module scheduler(
         DONE     = 2'b11
     } fsm_state_t;
 
-    // Loop de estados da FSM
     fsm_state_t state, next_state;
     logic [31:0] local_cmd_fields;
 
-    always_ff @(posedge sif.clk or posedge sif.rst) begin
-        if (sif.rst) begin
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst)
             state <= IDLE;
-        end else begin
+        else
             state <= next_state;
-        end
     end
 
-    // O comando so e capturado quando o Scheduler esta pronto para aceita-lo
-    always_ff @(posedge sif.clk or posedge sif.rst) begin
-        if (sif.rst) begin
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
             local_cmd_fields <= 32'h0000_0000;
-        end else if (((state == IDLE) || (state == DONE)) &&
-                     sif.cmd_valid && sif.cmd_ready) begin
-            local_cmd_fields <= sif.cmd_fields;
+        end else if (((state == IDLE) || (state == DONE)) && cmd_valid && cmd_ready) begin
+            local_cmd_fields <= cmd_fields;
         end
     end
 
     always_comb begin
         next_state = state;
         case (state)
-            IDLE: begin
-                if (sif.cmd_valid && sif.cmd_ready) begin
-                    next_state = DISPATCH;
-                end
-            end
-            DISPATCH: begin
-                if (sif.exec_ready) begin
-                    next_state = EXECUTE;
-                end
-            end
-            EXECUTE: begin
-                if (sif.exec_done) begin
-                    next_state = DONE;
-                end
-            end
-            DONE: begin
-                if (sif.cmd_valid && sif.cmd_ready) begin
-                    next_state = DISPATCH;
-                end
-            end
-            default: next_state = IDLE;
+            IDLE:     if (cmd_valid && cmd_ready) next_state = DISPATCH;
+            DISPATCH: if (exec_ready)             next_state = EXECUTE;
+            EXECUTE:  if (exec_done)              next_state = DONE;
+            DONE:     if (cmd_valid && cmd_ready) next_state = DISPATCH;
+            default:                              next_state = IDLE;
         endcase
     end
 
     always_comb begin
-        sif.cmd_ready   = 1'b0;
-        sif.exec_valid  = 1'b0;
-        sif.exec_fields = local_cmd_fields;
-        sif.busy        = 1'b0;
-        sif.done        = 1'b0;
-        sif.debug_state = state;
+        cmd_ready   = 1'b0;
+        exec_valid  = 1'b0;
+        exec_fields = local_cmd_fields;
+        busy        = 1'b0;
+        done        = 1'b0;
+        debug_state = state;
 
         case (state)
             IDLE: begin
-                sif.cmd_ready = 1'b1;
+                cmd_ready = 1'b1;
             end
             DISPATCH: begin
-                sif.exec_valid = 1'b1;
-                sif.busy       = 1'b1;
+                exec_valid = 1'b1;
+                busy       = 1'b1;
             end
             EXECUTE: begin
-                sif.busy = 1'b1;
+                busy = 1'b1;
             end
             DONE: begin
-                sif.cmd_ready = 1'b1;
-                sif.done      = 1'b1;
+                cmd_ready = 1'b1;
+                done      = 1'b1;
+            end
+            default: begin
             end
         endcase
     end

@@ -1,22 +1,34 @@
-
 `timescale 1ns / 1ps
 
 module scheduler_tb;
 
     localparam logic [31:0] CMD_1 = 32'h01_10_20_30;
-
     localparam logic [1:0] IDLE     = 2'b00;
     localparam logic [1:0] DISPATCH = 2'b01;
     localparam logic [1:0] EXECUTE  = 2'b10;
     localparam logic [1:0] DONE     = 2'b11;
 
-    scheduler_if sif();
+    logic        clk;
+    logic        rst;
+    logic        cmd_valid;
+    logic        cmd_ready;
+    logic [31:0] cmd_fields;
+    logic        exec_valid;
+    logic        exec_ready;
+    logic [31:0] exec_fields;
+    logic        exec_done;
+    logic        busy;
+    logic        done;
+    logic [1:0]  debug_state;
 
     scheduler uut (
-        .sif(sif)
+        .clk(clk), .rst(rst),
+        .cmd_valid(cmd_valid), .cmd_ready(cmd_ready), .cmd_fields(cmd_fields),
+        .exec_valid(exec_valid), .exec_ready(exec_ready), .exec_fields(exec_fields),
+        .exec_done(exec_done), .busy(busy), .done(done), .debug_state(debug_state)
     );
 
-    always #5 sif.clk = ~sif.clk;
+    always #5 clk = ~clk;
 
     task automatic check(
         input logic condition,
@@ -27,55 +39,53 @@ module scheduler_tb;
     endtask
 
     initial begin
-        sif.clk        = 1'b0;
-        sif.rst        = 1'b1;
-        sif.cmd_valid  = 1'b0;
-        sif.cmd_fields = '0;
-        sif.exec_ready = 1'b0;
-        sif.exec_done  = 1'b0;
+        clk = 1'b0;
+        rst = 1'b1;
+        cmd_valid = 1'b0;
+        cmd_fields = '0;
+        exec_ready = 1'b0;
+        exec_done = 1'b0;
 
-        // Mostra o estado da FSM e os sinais principais sempre que um deles mudar.
         $monitor("%0t state=%b cmd_v/r=%b/%b exec_v/r=%b/%b busy=%b done=%b",
-                 $time, sif.debug_state, sif.cmd_valid, sif.cmd_ready,
-                 sif.exec_valid, sif.exec_ready, sif.busy, sif.done);
+                 $time, debug_state, cmd_valid, cmd_ready,
+                 exec_valid, exec_ready, busy, done);
 
-        repeat (2) @(posedge sif.clk);
-        @(negedge sif.clk);
-        sif.rst = 1'b0;
+        repeat (2) @(posedge clk);
+        @(negedge clk);
+        rst = 1'b0;
         #1;
-        check(sif.debug_state == IDLE && sif.cmd_ready && !sif.busy && !sif.done,
+        check(debug_state == IDLE && cmd_ready && !busy && !done,
               "reset retorna ao estado IDLE");
 
-        // Envia um comando e verifica o estado de despacho.
-        @(negedge sif.clk);
-        sif.cmd_fields = CMD_1;
-        sif.cmd_valid  = 1'b1;
-        @(posedge sif.clk);
+        @(negedge clk);
+        cmd_fields = CMD_1;
+        cmd_valid = 1'b1;
+        @(posedge clk);
         #1;
-        check(sif.debug_state == DISPATCH && sif.exec_valid && sif.busy,
+        check(debug_state == DISPATCH && exec_valid && busy,
               "comando entra em DISPATCH");
-        check(sif.exec_fields == CMD_1, "campos do comando armazenados");
+        check(exec_fields == CMD_1, "campos do comando armazenados");
 
-        @(negedge sif.clk);
-        sif.cmd_valid = 1'b0;
-        sif.exec_ready = 1'b1;
-        @(posedge sif.clk);
+        @(negedge clk);
+        cmd_valid = 1'b0;
+        exec_ready = 1'b1;
+        @(posedge clk);
         #1;
-        check(sif.debug_state == EXECUTE && !sif.exec_valid && sif.busy,
+        check(debug_state == EXECUTE && !exec_valid && busy,
               "FSM aceitou o comando");
 
-        @(negedge sif.clk);
-        sif.exec_ready = 1'b0;
-        sif.exec_done  = 1'b1;
-        @(posedge sif.clk);
+        @(negedge clk);
+        exec_ready = 1'b0;
+        exec_done = 1'b1;
+        @(posedge clk);
         #1;
-        check(sif.debug_state == DONE && sif.done && !sif.busy && sif.cmd_ready,
+        check(debug_state == DONE && done && !busy && cmd_ready,
               "exec_done leva ao estado DONE");
 
-        @(negedge sif.clk);
-        sif.exec_done = 1'b0;
+        @(negedge clk);
+        exec_done = 1'b0;
         #1;
-        check(sif.debug_state == DONE && sif.done,
+        check(debug_state == DONE && done,
               "DONE permanece ativo ate um novo comando");
 
         $display("scheduler_tb: todos os testes passaram.");
