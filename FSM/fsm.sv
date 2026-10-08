@@ -1,34 +1,35 @@
 `timescale 1ns / 1ps
 
 module fsm(
+    // clk sincroniza a FSM; rst assincrono retorna o estado para IDLE.
     input  logic clk, 
     input  logic rst,
 
     // Handshake com o Scheduler
-    input  logic exec_valid,
-    output logic exec_ready,
+    input  logic exec_valid, // Scheduler apresenta exec_fields para executar.
+    output logic exec_ready, // FSM aceita comando somente no estado IDLE.
 
     // OPCODE, SRCA, SRCB, DST recebido do Scheduler.
-    input [31:0] exec_fields,
+    input  logic [31:0] exec_fields, // Formato: {opcode, src_a, src_b, dst}.
 
     // Endereço da porta B da memória.
-    output logic [7:0] mem_b_addr,
+    output logic [7:0] mem_b_addr, // Endereco de leitura/escrita da porta B.
     // Controles de escrita e leitura da porta B.
-    output logic mem_b_we,
-    output logic mem_b_re,
+    output logic mem_b_we, // Habilita escrita do resultado da ALU no endereco dst.
+    output logic mem_b_re, // Solicita leitura sincrona de src_a ou src_b.
 
     // Habilitações dos registradores vetoriais.
-    output logic load_a,
-    output logic load_b,
+    output logic load_a, // Carrega a leitura em vector_a.
+    output logic load_b, // Carrega a leitura em vector_b.
 
     // Opcode aplicado a ALU SIMD.
-    output logic [7:0] alu_opcode,
+    output logic [7:0] alu_opcode, // Opcode enviado a ALU SIMD.
 
     // Pulso indicando que a execução foi concluída.
-    output logic exec_done,
+    output logic exec_done, // Pulso de um ciclo no estado FINISH.
 
     // pino de debug para acompanhar os estados da FSM.
-    output logic [2:0] debug_state
+    output logic [2:0] debug_state // Estado atual para observacao no testbench.
 );
 
     typedef enum logic [2:0] {

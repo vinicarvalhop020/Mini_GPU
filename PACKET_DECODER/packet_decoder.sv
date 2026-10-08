@@ -2,28 +2,28 @@
 
 module packet_decoder (
     // Clk e reset
-    input  logic clk,
-    input  logic rst,
+    input  logic clk, // Clock de armazenamento do pacote.
+    input  logic rst, // Reset assincrono ativo em nivel alto.
 
     // Payload de comunicação com o host
     // TYPE | FIELD_0 | FIELD_1 | FIELD_2 | FIELD_3 | FIELD_4
-    input  logic [41:0] req_payload,
+    input  logic [41:0] req_payload, // {TYPE[1:0], FIELD_0, FIELD_1, FIELD_2, FIELD_3, FIELD_4}.
 
     // Handhsake com o host
-    input  logic req_valid,
-    output logic req_ready,
+    input  logic req_valid, // Host apresenta um novo pacote em req_payload.
+    output logic req_ready, // Decoder esta livre para aceitar o pacote do host.
 
     // Handshake com o AXI
-    output logic decoded_valid,
-    input  logic decoded_ready,
+    output logic decoded_valid, // Pacote armazenado esta valido para o AXI Slave.
+    input  logic decoded_ready, // AXI Slave consumiu os campos decodificados.
 
     // Campos decodificados do pacote
-    output logic [1:0] req_type,
-    output logic [7:0] field_0,
-    output logic [7:0] field_1,
-    output logic [7:0] field_2,
-    output logic [7:0] field_3,
-    output logic [7:0] field_4
+    output logic [1:0] req_type, // MEM_READ=00, MEM_WRITE=01, GPU_COMMAND=10, GPU_START=11.
+    output logic [7:0] field_0,  // Endereco usado pelos pacotes de memoria.
+    output logic [7:0] field_1,  // Dado lane 0 ou opcode em GPU_COMMAND.
+    output logic [7:0] field_2,  // Dado lane 1 ou src_a em GPU_COMMAND.
+    output logic [7:0] field_3,  // Dado lane 2 ou src_b em GPU_COMMAND.
+    output logic [7:0] field_4   // Dado lane 3 ou dst em GPU_COMMAND.
 );
 
     logic [41:0] packet_reg;

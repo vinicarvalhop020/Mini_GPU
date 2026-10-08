@@ -1,37 +1,37 @@
 `timescale 1ns / 1ps
 
 module axi_slave (
-    input  logic        clk,
-    input  logic        rst,
+    input  logic        clk, // Clock
+    input  logic        rst, // Reset
 
     // Handshake com o Packet Decoder
-    input  logic        decoded_valid,
-    output logic        decoded_ready,
-    input  logic [1:0]  req_type,
-    input  logic [7:0]  field_0,
-    input  logic [7:0]  field_1,
-    input  logic [7:0]  field_2,
-    input  logic [7:0]  field_3,
-    input  logic [7:0]  field_4,
+    input  logic        decoded_valid, // Packet Decoder possui um pacote valido.
+    output logic        decoded_ready, // AXI Slave aceita os campos do pacote.
+    input  logic [1:0]  req_type,      // Tipo do pacote recebido READ, WRITE, GPU_COMMAND, GPU_START.
+    input  logic [7:0]  field_0,       // Endereco de memoria ou campo reservado.
+    input  logic [7:0]  field_1,       // Lane 0 em MEM_WRITE ou opcode em GPU_COMMAND.
+    input  logic [7:0]  field_2,       // Lane 1 em MEM_WRITE ou src_a em GPU_COMMAND.
+    input  logic [7:0]  field_3,       // Lane 2 em MEM_WRITE ou src_b em GPU_COMMAND.
+    input  logic [7:0]  field_4,       // Lane 3 em MEM_WRITE ou dst em GPU_COMMAND.
 
     // Resposta ao host. rsp_valid e um pulso de um ciclo
-    output logic        rsp_valid,
-    output logic        rsp_error,
-    output logic [31:0] rsp_data,
+    output logic        rsp_valid, // Resposta ao host esta valida por um ciclo.
+    output logic        rsp_error, // Reservado para indicar erro atualmente fica em zero e nao faz nada
+    output logic [31:0] rsp_data,  // Leitura de memoria, STATUS (cmd_busy ou cmd_done) ou zero em operacoes sem dado.
 
     // Porta A da memoria vetorial
-    output logic [7:0]  mem_a_addr,
-    output logic [31:0] mem_a_wdata,
-    output logic        mem_a_we,
-    output logic        mem_a_re,
-    input  logic [31:0] mem_a_rdata,
+    output logic [7:0]  mem_a_addr,  // Endereco para a porta A da memoria vetorial.
+    output logic [31:0] mem_a_wdata, // vetor de 32 bits a escrever pela porta A.
+    output logic        mem_a_we,    // Habilita escrita pela porta A.
+    output logic        mem_a_re,    // Solicita leitura sincrona pela porta A.
+    input  logic [31:0] mem_a_rdata, // Dado retornado pela porta A.
 
     // Handshake com o Scheduler
-    output logic [31:0] cmd_fields,
-    output logic        cmd_valid,
-    input  logic        cmd_ready,
-    input  logic        cmd_busy,
-    input  logic        cmd_done
+    output logic [31:0] cmd_fields, // Comando {OPCODE, SRC_A, SRC_B, DST} para o Scheduler.
+    output logic        cmd_valid,  // Solicita que o Scheduler aceite cmd_fields.
+    input  logic        cmd_ready,  // Scheduler esta pronto para receber um novo comando.
+    input  logic        cmd_busy,   // Bit BUSY usado na resposta de STATUS.
+    input  logic        cmd_done    // Bit DONE que libera a resposta de GPU_START, a fsm concluiu a execucao e levanta esse pino.
 );
 
     typedef enum logic [3:0] {

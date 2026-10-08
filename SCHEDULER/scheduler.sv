@@ -1,18 +1,18 @@
 `timescale 1ns / 1ps
 
 module scheduler (
-    input  logic        clk,
-    input  logic        rst,
-    input  logic        cmd_valid,
-    output logic        cmd_ready,
-    input  logic [31:0] cmd_fields,
-    output logic        exec_valid,
-    input  logic        exec_ready,
-    output logic [31:0] exec_fields,
-    input  logic        exec_done,
-    output logic        busy,
-    output logic        done,
-    output logic [1:0]  debug_state
+    input  logic        clk,         // Clock do Scheduler.
+    input  logic        rst,         // Reset assincrono ativo em nivel alto.
+    input  logic        cmd_valid,   // AXI Slave apresenta um novo comando em cmd_fields.
+    output logic        cmd_ready,   // Scheduler pode aceitar um novo comando em IDLE ou DONE.
+    input  logic [31:0] cmd_fields,  // Comando no formato {OPCODE, SRC_A, SRC_B, DST}.
+    output logic        exec_valid,  // Comando armazenado esta valido para a FSM.
+    input  logic        exec_ready,  // FSM esta em IDLE e pode iniciar a execucao.
+    output logic [31:0] exec_fields, // Comando repassado para a FSM.
+    input  logic        exec_done,   // Pulso da FSM informando o fim da execucao.
+    output logic        busy,        // GPU possui um comando em despacho ou execucao.
+    output logic        done,        // GPU concluiu o ultimo comando; persiste ate o proximo.
+    output logic [1:0]  debug_state  // Estado: IDLE=0, DISPATCH=1, EXECUTE=2, DONE=3.
 );
 
     typedef enum logic [1:0] {

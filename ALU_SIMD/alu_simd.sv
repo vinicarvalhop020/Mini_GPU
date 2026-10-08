@@ -1,10 +1,10 @@
 `timescale 1ns / 1ps
 
 module alu_simd #(parameter int LANES = 4)(
-    input  logic [LANES*8-1:0] vector_a,
-    input  logic [LANES*8-1:0] vector_b,
-    input  logic [7:0]         alu_opcode,
-    output logic [LANES*8-1:0] result
+    input  logic [LANES*8-1:0] vector_a,   // Vetor de entrada A
+    input  logic [LANES*8-1:0] vector_b,   // Vetor de entrada B
+    input  logic [7:0]         alu_opcode, // Opcode SIMD recebido da FSM
+    output logic [LANES*8-1:0] result      // Resultado da operacoes executadas em paralelo.
 );
 
     localparam logic [7:0] ADD = 8'h01,

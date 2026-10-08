@@ -2,16 +2,16 @@
 
 // Top-level da mini GPU SIMD.
 module gpu_simd (
-    input  logic        clk,
-    input  logic        rst,
+    input  logic        clk, // Clock global da GPU.
+    input  logic        rst, // Reset assincrono ativo em nivel alto.
 
     // Interface com o host.
-    input  logic [41:0] req_payload,
-    input  logic        req_valid,
-    output logic        req_ready,
-    output logic [31:0] rsp_data,
-    output logic        rsp_valid,
-    output logic        rsp_error
+    input  logic [41:0] req_payload, // {TYPE, FIELD_0, FIELD_1, FIELD_2, FIELD_3, FIELD_4} do host.
+    input  logic        req_valid,   // Host apresenta uma nova requisicao.
+    output logic        req_ready,   // GPU pode aceitar req_payload.
+    output logic [31:0] rsp_data,    // Dado de MEM_READ ou STATUS de GPU_START.
+    output logic        rsp_valid,   // rsp_data esta valido por um ciclo.
+    output logic        rsp_error    // Reservado para erros de protocolo; atualmente zero.
 );
 
     // Packet Decoder
