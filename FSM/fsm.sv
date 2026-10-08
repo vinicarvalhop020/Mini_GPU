@@ -118,6 +118,7 @@ module fsm(
                 alu_opcode = opcode;
             end
             WRITE_RESULT: begin
+                alu_opcode = opcode;
                 mem_b_we = 1'b1;
                 mem_b_addr = dst;
             end
