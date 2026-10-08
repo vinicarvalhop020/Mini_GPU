@@ -27,6 +27,7 @@ module fsm(
     // Pulso indicando que a execução foi concluída.
     output logic exec_done,
 
+    // pino de debug para acompanhar os estados da FSM.
     output logic [2:0] debug_state
 );
 
