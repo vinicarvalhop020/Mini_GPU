@@ -189,6 +189,18 @@ module gpu_simd_matrix_mul_tb;
         @(negedge clk);
         rst = 1'b0;
 
+        $display("[TB] Matriz A:");
+        for (i = 0; i < 4; i = i + 1)
+            $display("[TB] A[%0d] = %0d %0d %0d %0d", i,
+                     matrix_a[i][0], matrix_a[i][1],
+                     matrix_a[i][2], matrix_a[i][3]);
+
+        $display("[TB] Matriz B:");
+        for (i = 0; i < 4; i = i + 1)
+            $display("[TB] B[%0d] = %0d %0d %0d %0d", i,
+                     matrix_b[i][0], matrix_b[i][1],
+                     matrix_b[i][2], matrix_b[i][3]);
+
         $display("[TB] Gravando matrizes A e B na memoria vetorial...");
         for (k = 0; k < 4; k = k + 1)
             mem_write_vector(B_BASE + k, matrix_b[k][0], matrix_b[k][1],
