@@ -7,6 +7,18 @@ Execute os comandos a partir da raiz do projeto `GPU`.
 O arquivo `UVM/gpu/files.f` ja lista o RTL, a interface, o pacote UVM e o
 top-level. Execute um teste por simulacao usando `+UVM_TESTNAME`.
 
+## Assertions
+
+As assertions sao opcionais e permanecem fora do RTL. Para habilita-las,
+adicione `-define ASSERTIONS` ao comando:
+
+```bash
+xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=gpu_smoke_test -run -exit
+```
+
+Os checkers iniciais verificam o protocolo de host, regras do Scheduler e
+regras da FSM. Veja `UVM/gpu/assertions/README.md` para o mapeamento.
+
 ### Smoke test - MEM_WRITE
 
 ```bash

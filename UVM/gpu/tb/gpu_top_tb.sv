@@ -22,6 +22,19 @@ module gpu_top_tb;
         .rsp_error  (host_if.rsp_error)
     );
 
+`ifdef ASSERTIONS
+    // Checker externo: observa somente o protocolo visivel ao host.
+    gpu_host_protocol_sva u_host_protocol_sva (
+        .clk         (host_if.clk),
+        .rst         (host_if.rst),
+        .req_payload (host_if.req_payload),
+        .req_valid   (host_if.req_valid),
+        .req_ready   (host_if.req_ready),
+        .rsp_valid   (host_if.rsp_valid),
+        .rsp_error   (host_if.rsp_error)
+    );
+`endif
+
     always #5 clk = ~clk;
 
     // Reset pertence ao top-level, nao ao driver UVM.
