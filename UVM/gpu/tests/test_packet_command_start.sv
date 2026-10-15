@@ -8,14 +8,10 @@ class test_packet_command_start extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_operation_sequence sequence;
+        gpu_documented_add_sequence sequence;
         bit command_seen;
 
-        sequence = gpu_operation_sequence::type_id::create("sequence");
-        sequence.opcode = 8'h03;
-        sequence.src_a  = 8'h12;
-        sequence.src_b  = 8'h34;
-        sequence.dst    = 8'h56;
+        sequence = gpu_documented_add_sequence::type_id::create("sequence");
         command_seen = 1'b0;
 
         phase.raise_objection(this);
@@ -25,7 +21,7 @@ class test_packet_command_start extends gpu_documented_base_test;
                 for (int unsigned cycle = 0; cycle < 100; cycle++) begin
                     @(internal_vif.monitor_cb);
                     if (internal_vif.monitor_cb.cmd_valid) begin
-                        expect(internal_vif.monitor_cb.cmd_fields == 32'h03_12_34_56,
+                        expect(internal_vif.monitor_cb.cmd_fields == 32'h01_00_01_10,
                                "GPU_START nao entregou os campos corretos ao Scheduler");
                         command_seen = 1'b1;
                         break;

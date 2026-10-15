@@ -8,14 +8,10 @@ class test_gpu_reset extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_operation_sequence sequence;
+        gpu_documented_add_sequence sequence;
         bit read_a_seen;
 
-        sequence = gpu_operation_sequence::type_id::create("sequence");
-        sequence.opcode = 8'h01;
-        sequence.src_a  = 8'h00;
-        sequence.src_b  = 8'h01;
-        sequence.dst    = 8'h10;
+        sequence = gpu_documented_add_sequence::type_id::create("sequence");
 
         phase.raise_objection(this);
         fork

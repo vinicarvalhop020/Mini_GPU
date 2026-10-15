@@ -8,12 +8,10 @@ class test_packet_mem_write extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_mem_write_sequence sequence;
+        gpu_documented_mem_access_sequence sequence;
         bit write_seen;
 
-        sequence = gpu_mem_write_sequence::type_id::create("sequence");
-        sequence.address     = 8'h12;
-        sequence.vector_data = 32'hAA_BB_CC_DD;
+        sequence = gpu_documented_mem_access_sequence::type_id::create("sequence");
         write_seen = 1'b0;
 
         phase.raise_objection(this);
@@ -23,9 +21,9 @@ class test_packet_mem_write extends gpu_documented_base_test;
                 for (int unsigned cycle = 0; cycle < 30; cycle++) begin
                     @(internal_vif.monitor_cb);
                     if (internal_vif.monitor_cb.mem_a_we) begin
-                        expect(internal_vif.monitor_cb.mem_a_addr == 8'h12,
+                        expect(internal_vif.monitor_cb.mem_a_addr == 8'h00,
                                "MEM_WRITE apresentou endereco incorreto na porta A");
-                        expect(internal_vif.monitor_cb.mem_a_wdata == 32'hAA_BB_CC_DD,
+                        expect(internal_vif.monitor_cb.mem_a_wdata == 32'h01_02_03_04,
                                "MEM_WRITE apresentou dado incorreto na porta A");
                         write_seen = 1'b1;
                         break;

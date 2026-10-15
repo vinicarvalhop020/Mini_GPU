@@ -8,12 +8,10 @@ class test_packet_field_extraction extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_mem_write_sequence sequence;
+        gpu_documented_mem_access_sequence sequence;
         bit fields_checked;
 
-        sequence = gpu_mem_write_sequence::type_id::create("sequence");
-        sequence.address     = 8'hAA;
-        sequence.vector_data = 32'hBB_CC_DD_EE;
+        sequence = gpu_documented_mem_access_sequence::type_id::create("sequence");
         fields_checked = 1'b0;
 
         phase.raise_objection(this);
@@ -25,12 +23,12 @@ class test_packet_field_extraction extends gpu_documented_base_test;
                     if (internal_vif.monitor_cb.decoded_valid) begin
                         expect(internal_vif.monitor_cb.req_type == GPU_MEM_WRITE,
                                "TYPE nao foi extraido como MEM_WRITE");
-                        expect(internal_vif.monitor_cb.field_0 == 8'hAA,
+                        expect(internal_vif.monitor_cb.field_0 == 8'h00,
                                "FIELD_0 nao foi extraido corretamente");
-                        expect(internal_vif.monitor_cb.field_1 == 8'hBB &&
-                               internal_vif.monitor_cb.field_2 == 8'hCC &&
-                               internal_vif.monitor_cb.field_3 == 8'hDD &&
-                               internal_vif.monitor_cb.field_4 == 8'hEE,
+                        expect(internal_vif.monitor_cb.field_1 == 8'h01 &&
+                               internal_vif.monitor_cb.field_2 == 8'h02 &&
+                               internal_vif.monitor_cb.field_3 == 8'h03 &&
+                               internal_vif.monitor_cb.field_4 == 8'h04,
                                "FIELD_1..FIELD_4 nao foram extraidos corretamente");
                         fields_checked = 1'b1;
                         break;

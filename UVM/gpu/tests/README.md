@@ -20,6 +20,7 @@ dirigindo a GPU exclusivamente pelo protocolo do host.
 | `test_fsm_sequence` | UVM: `test_fsm_sequence` e `FSM/fsm_tb.sv` |
 | `test_gpu_add_end_to_end` | UVM: `test_gpu_add_end_to_end` |
 | `test_gpu_all_ops` | UVM: `test_gpu_all_ops` |
+| `gpu_matrix_mul_test` | UVM: `gpu_matrix_mul_test` |
 | `test_gpu_back_to_back` | UVM: `test_gpu_back_to_back` |
 | `test_gpu_address_corner_cases` | UVM: `test_gpu_address_corner_cases` |
 | `test_gpu_random` | UVM: `test_gpu_random` |

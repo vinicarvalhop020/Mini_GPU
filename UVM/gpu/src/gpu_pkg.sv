@@ -15,12 +15,7 @@ package gpu_pkg;
     `include "gpu_agent.sv"
     `include "gpu_env.sv"
 
-    // Cenarios de estimulo.
-    `include "gpu_mem_write_sequence.sv"
-    `include "gpu_mem_read_sequence.sv"
-    `include "gpu_command_sequence.sv"
-    `include "gpu_start_sequence.sv"
-    `include "gpu_operation_sequence.sv"
+    // Cenario complementar de multiplicacao de matrizes 4x4.
     `include "gpu_matrix_mul_sequence.sv"
 
     // Sequences rastreaveis do plano de verificacao.
@@ -34,11 +29,6 @@ package gpu_pkg;
 
     // Testes UVM.
     `include "gpu_base_test.sv"
-    `include "gpu_smoke_test.sv"
-    `include "gpu_mem_read_test.sv"
-    `include "gpu_command_test.sv"
-    `include "gpu_start_test.sv"
-    `include "gpu_operation_test.sv"
     `include "gpu_matrix_mul_test.sv"
 
     // Testes rastreaveis do plano de verificacao.

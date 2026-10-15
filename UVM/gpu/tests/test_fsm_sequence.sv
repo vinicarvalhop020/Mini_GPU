@@ -8,16 +8,12 @@ class test_fsm_sequence extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_operation_sequence sequence;
+        gpu_documented_add_sequence sequence;
         logic [2:0] expected_states [0:6];
         int unsigned next_state;
         bit sequence_seen;
 
-        sequence = gpu_operation_sequence::type_id::create("sequence");
-        sequence.opcode = 8'h03;
-        sequence.src_a  = 8'h12;
-        sequence.src_b  = 8'h34;
-        sequence.dst    = 8'h56;
+        sequence = gpu_documented_add_sequence::type_id::create("sequence");
 
         expected_states[0] = 3'b001; // READ_A
         expected_states[1] = 3'b010; // LOAD_A

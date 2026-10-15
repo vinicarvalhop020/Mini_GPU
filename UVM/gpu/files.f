@@ -1,8 +1,6 @@
 +incdir+UVM/gpu/src
 +incdir+UVM/gpu/sequences
-+incdir+UVM/gpu/sequences/sequences_documented
 +incdir+UVM/gpu/tests
-+incdir+UVM/gpu/tests/tests_documented
 +incdir+UVM/gpu/assertions
 
 ALU_UNIT/alu_unit.sv

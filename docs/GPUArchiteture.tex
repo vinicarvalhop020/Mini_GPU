@@ -52,7 +52,7 @@
   \rowcolor{azulclaro}\multicolumn{5}{l}{\textbf{#1}}\\
 }
 
-\title{\textbf{Desenvolvimento do Plano de Verificação Versão 1.0}\\[0.3em]
+\title{\textbf{Desenvolvimento do Plano de Verificação Versão 1.1}\\[0.3em]
        \large Mini GPU SIMD Simplificada}
 \author{Vinícius Carvalho Pimpim\\Projeto Fase 2 - CI Digital}
 \date{}
@@ -888,18 +888,6 @@ Alta
 \\
 
 
-\path{test_packet_undercommand}
-&
-Mantém \signal{decoded_ready=0}, varia a entrada e verifica que
-\signal{decoded_valid} e os campos permanecem estáveis, sem aceitar
-um segundo pacote.
-&
-\req{PKT_03_OUTPUT}, \req{PKT_04_UNDERCOMMAND}
-&
-Alta
-\\
-
-
 \path{test_packet_mem_write}
 &
 Envia um pacote \signal{MEM_WRITE} e verifica
@@ -969,79 +957,6 @@ Alta
 \\
 
 
-\path{test_memory_port_b}
-&
-Realiza leituras e escritas diretamente pela porta B e verifica
-a latência da memória.
-&
-\req{MEM_02_PORT_B},
-\req{MEM_04_SYNC_READ}
-&
-Alta
-\\
-
-
-\path{test_memory_dual_port}
-&
-Acessa endereços diferentes simultaneamente pelas duas portas e
-verifica a independência dos resultados.
-&
-\req{MEM_03_DUAL_PORT}
-&
-Média
-\\
-
-
-\path{test_operand_registers}
-&
-Apresenta valores distintos em \signal{mem_b_rdata}, ativa
-separadamente \signal{load_a} e \signal{load_b} e verifica a
-manutenção dos valores.
-&
-\req{REG_01_LOAD_A},
-\req{REG_02_LOAD_B},
-\req{REG_03_HOLD}
-&
-Alta
-\\
-
-
-\path{test_alu_ops}
-&
-Aplica vetores conhecidos para adição, subtração, multiplicação
-e divisão e compara cada lane com o modelo de referência.
-&
-\req{ALU_01_SOMA},
-\req{ALU_02_SUB},
-\req{ALU_03_MULT},
-\req{ALU_04_DIV}
-&
-Alta
-\\
-
-
-\path{test_alu_simd_parallel}
-&
-Utiliza valores diferentes nas quatro lanes e verifica que todas
-executam o mesmo opcode de forma independente.
-&
-\req{ALU_05_SIMD}
-&
-Alta
-\\
-
-
-\path{test_alu_corner_cases}
-&
-Verifica zero, \signal{8'hFF}, overflow, underflow,
-multiplicação máxima e divisão por zero.
-&
-\req{ALU_01_SOMA} a \req{ALU_05_SIMD}
-&
-Alta
-\\
-
-
 \path{test_scheduler_handshake}
 &
 Verifica o protocolo \signal{valid/ready}, o armazenamento do
@@ -1093,6 +1008,19 @@ cada opcode suportado.
 Alta
 \\
 
+\path{gpu_matrix_mul_test}
+&
+Executa a multiplica\c{c}\~ao de duas matrizes 4x4 por meio de opera\c{c}\~oes SIMD
+\signal{MUL} e \signal{ADD}, gravando e lendo a matriz resultante pela
+mem\'oria vetorial.
+&
+\req{GPU_02_END_TO_END},
+\req{ALU_01_SOMA},
+\req{ALU_03_MULT},
+\req{ALU_05_SIMD}
+&
+Alta
+\\
 
 \path{test_gpu_back_to_back}
 &
@@ -1162,6 +1090,20 @@ Alta
   \item Implementação do testbench para o módulo
 \end{itemize}
 
+\clearpage
+\section{Hist\'orico de vers\~oes}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{2.5cm} X}
+    \toprule
+    \textbf{Vers\~ao} & \textbf{Modifica\c{c}\~ao} \\
+    \midrule
+    1.1 & Testes de m\'odulos internos removidos do plano de verifica\c{c}\~ao UVM. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Hist\'orico de vers\~oes do plano de verifica\c{c}\~ao.}
+\end{table}
 \end{document}
 
 
