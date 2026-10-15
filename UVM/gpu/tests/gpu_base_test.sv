@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Base reutilizavel dos testes da GPU: cria e configura o ambiente uma vez.
+// Base reutilizavel dos testes da GPU
 class gpu_base_test extends uvm_test;
     `uvm_component_utils(gpu_base_test)
 

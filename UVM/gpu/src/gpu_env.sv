@@ -29,7 +29,7 @@ class gpu_env extends uvm_env;
     virtual function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
 
-        // O monitor publica cada requisicao/resposta para o modelo de referencia.
+        // O monitor publica cada requisicao/resposta para o scoreboard.
         agent.agent_ap.connect(scoreboard.analysis_export);
     endfunction
 

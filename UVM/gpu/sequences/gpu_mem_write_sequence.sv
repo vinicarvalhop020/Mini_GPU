@@ -1,7 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Sequence inicial, direcionada, usada somente para comprovar o fluxo UVM.
 class gpu_mem_write_sequence extends uvm_sequence #(gpu_item);
     `uvm_object_utils(gpu_mem_write_sequence)
 

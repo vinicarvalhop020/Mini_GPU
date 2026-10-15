@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Programa um comando no Scheduler; a execucao so ocorrera apos GPU_START.
+// Programa apenas um commando ao Scheduler da GPU
 class gpu_command_sequence extends uvm_sequence #(gpu_item);
     `uvm_object_utils(gpu_command_sequence)
 

@@ -1,9 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Programa de host direcionado para calcular C = A x B, com matrizes 4x4.
-// A GPU usa vetores de quatro lanes, portanto cada linha de B e de C ocupa
-// uma palavra da memoria vetorial; cada escalar de A e gravado em broadcast.
+// Faz a sequencia de multiplicacao de matrizes 4x4 na GPU.
 class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
     `uvm_object_utils(gpu_matrix_mul_sequence)
 

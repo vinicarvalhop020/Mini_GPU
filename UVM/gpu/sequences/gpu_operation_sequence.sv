@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Cenario composto: programa uma operacao SIMD e solicita sua execucao.
+// Faz a sequencia de operacao SIMD na GPU
 class gpu_operation_sequence extends uvm_sequence #(gpu_item);
     `uvm_object_utils(gpu_operation_sequence)
 

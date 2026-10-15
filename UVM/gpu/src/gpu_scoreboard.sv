@@ -1,8 +1,11 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Modelo de referencia funcional da GPU, alimentado pelo monitor.
-// Ele nao gera estimulos: somente acompanha e confere as transacoes aceitas.
+// O scoreboard recebe as transacoes publicadas pelo monitor e confere os resultados esperados
+// A ideia do scoreboard pode ser comparada com a do GPU RTL.
+// Ele opera como uma sombra do GPU rtl escrevendo e lendo em uma memoria local.
+// GPU RTL:         recebe pacote → altera memória real → responde
+// Scoreboard:      recebe pacote → altera memória esperada → compara resposta
 class gpu_scoreboard extends uvm_component;
     `uvm_component_utils(gpu_scoreboard)
 
@@ -13,13 +16,14 @@ class gpu_scoreboard extends uvm_component;
     localparam logic [7:0] OP_MUL = 8'h03;
     localparam logic [7:0] OP_DIV = 8'h04;
 
-    // Modelo da memoria vetorial de 256 palavras de 32 bits.
+    // Memoria local que para o scoreboard armazena os valores esperados
     logic [31:0] expected_memory [0:255];
 
-    // Ultimo comando programado pelo host.
+    // variavel para salvar o ultimo comando esperado
     logic [31:0] expected_command;
     bit          command_is_valid;
 
+    // Contadores para transacoes verificadas, leituras verificadas e divergencias encontradas
     int unsigned checked_transactions;
     int unsigned checked_reads;
     int unsigned mismatches;
@@ -32,14 +36,15 @@ class gpu_scoreboard extends uvm_component;
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
 
+        // Inicializa a memoria esperada e os contadores com valores padrao
         foreach (expected_memory[address])
-            expected_memory[address] = 32'b0;
+            expected_memory[address] = 32'b0; // zera a memoria esperada
 
-        expected_command     = 32'b0;
-        command_is_valid     = 1'b0;
-        checked_transactions = 0;
-        checked_reads        = 0;
-        mismatches           = 0;
+        expected_command     = 32'b0; // zera o ultimo comando esperado
+        command_is_valid     = 1'b0;  // indica que nao ha comando valido
+        checked_transactions = 0;     // zera o contador de transacoes verificadas
+        checked_reads        = 0;     // zera o contador de leituras verificadas
+        mismatches           = 0;     // zera o contador de divergencias encontradas
     endfunction
 
     // Reproduz uma operacao SIMD de quatro lanes de 8 bits.
@@ -48,13 +53,15 @@ class gpu_scoreboard extends uvm_component;
         input logic [31:0] vector_b,
         input logic [7:0]  opcode
     );
-        logic [31:0] result;
-        logic [7:0]  lane_a;
-        logic [7:0]  lane_b;
+        logic [31:0] result; // resultado da operacao SIMD
+        logic [7:0]  lane_a; // valor da lane (32 bits em que cada numero ocupa 8 bits) do vetor A
+        logic [7:0]  lane_b; // valor da lane do vetor B
 
-        result = 32'b0;
+        result = 32'b0; // zera o resultado da operacao SIMD
 
         for (int lane = 0; lane < 4; lane++) begin
+            // reproduz a operacao SIMD para a lane atual
+            // cada loop faz o calculo de 8 bits
             lane_a = vector_a[lane*8 +: 8];
             lane_b = vector_b[lane*8 +: 8];
 
@@ -72,6 +79,7 @@ class gpu_scoreboard extends uvm_component;
     endfunction
 
     function void compare_response(
+        // Compara a resposta do GPU com os dados esperados
         input gpu_item      transaction,
         input logic [31:0] expected_data,
         input string        operation

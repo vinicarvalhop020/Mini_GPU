@@ -1,8 +1,5 @@
 `timescale 1ns/1ps
 
-// Interface de verificacao da porta de host do modulo gpu_simd.
-// Ela representa somente o contrato externo do DUT; sinais internos da GPU
-// permanecem encapsulados no RTL nesta primeira etapa.
 interface gpu_host_if (
     input logic clk
 );
@@ -11,7 +8,7 @@ interface gpu_host_if (
     logic        rst;
 
     // Requisicao do host para a GPU.
-    // Formato: {TYPE[1:0], FIELD_0, FIELD_1, FIELD_2, FIELD_3, FIELD_4}.
+    // {TYPE[1:0], FIELD_0, FIELD_1, FIELD_2, FIELD_3, FIELD_4}.
     logic [41:0] req_payload;
     logic        req_valid;
     logic        req_ready;
@@ -21,8 +18,7 @@ interface gpu_host_if (
     logic        rsp_valid;
     logic        rsp_error;
 
-    // Clocking block usado pelo driver. O driver controla apenas a requisicao
-    // e observa a resposta; o reset sera gerado pelo top-level do testbench.
+    // Clocking block do driver
     clocking driver_cb @(posedge clk);
         default input #1step output #1step;
 
@@ -35,8 +31,7 @@ interface gpu_host_if (
         input  rsp_error;
     endclocking
 
-    // Clocking block do monitor: todos os sinais sao amostrados depois da
-    // borda ativa, sem dirigir qualquer pino do DUT.
+    // Clocking block do monitor
     clocking monitor_cb @(posedge clk);
         default input #1step;
 
@@ -49,7 +44,7 @@ interface gpu_host_if (
         input rsp_error;
     endclocking
 
-    // Usado pela instancia da GPU no top-level UVM.
+    // Modport usado pela instancia da GPU no top-level
     modport DUT (
         input  clk,
         input  rst,
@@ -61,7 +56,7 @@ interface gpu_host_if (
         output rsp_error
     );
 
-    // Modports reservados para as classes UVM que serao criadas em seguida.
+    // Modports reservado para o driver e o monitor
     modport DRIVER  (clocking driver_cb,  input clk);
     modport MONITOR (clocking monitor_cb, input clk);
 

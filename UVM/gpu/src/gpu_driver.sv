@@ -28,13 +28,13 @@ class gpu_driver extends uvm_driver #(gpu_item);
     endtask
 
     virtual task drive_transaction(gpu_item item);
-        // O driver nunca muda rst; apenas espera o top-level liberar a GPU.
+        // O driver nunca muda rst; apenas espera o top-level liberar a GPU
         while (vif.driver_cb.rst)
             @(vif.driver_cb);
 
         // Apresenta o pacote ao DUT.
         @(vif.driver_cb);
-        vif.driver_cb.req_payload <= item.pack_request();
+        vif.driver_cb.req_payload <= item.pack_request(); // funcao do gpu_item que empacota a requisicao
         vif.driver_cb.req_valid   <= 1'b1;
 
         // Mantem valid e payload estaveis ate a GPU aceitar a requisicao.
@@ -42,14 +42,15 @@ class gpu_driver extends uvm_driver #(gpu_item);
             @(vif.driver_cb);
         while (!vif.driver_cb.req_ready);
 
-        // O handshake ocorreu nesta borda; a proxima transferencia pode parar.
+        // O host desativa req_valid apos a requisicao ser aceita pelo DUT
         vif.driver_cb.req_valid <= 1'b0;
 
-        // Este protocolo nao possui rsp_ready: a GPU gera rsp_valid por um ciclo.
+        // Espera a resposta do DUT ser validada. (rsp_valid ativo por um ciclo)
         do
             @(vif.driver_cb);
         while (!vif.driver_cb.rsp_valid);
 
+        // captura os dados da resposta da GPU
         item.rsp_data          = vif.driver_cb.rsp_data;
         item.rsp_error         = vif.driver_cb.rsp_error;
         item.response_received = 1'b1;

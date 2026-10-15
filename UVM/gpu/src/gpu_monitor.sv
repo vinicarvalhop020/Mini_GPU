@@ -1,7 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Observa o protocolo de host da GPU e publica transacoes completas.
 class gpu_monitor extends uvm_monitor;
     `uvm_component_utils(gpu_monitor)
 
@@ -10,7 +9,7 @@ class gpu_monitor extends uvm_monitor;
 
     // Como a GPU aceita uma requisicao por vez, basta guardar um item pendente
     // entre o handshake de requisicao e a resposta rsp_valid.
-    gpu_item pending_request;
+    gpu_item pending_request; 
 
     function new(string name, uvm_component parent);
         super.new(name, parent);
@@ -34,13 +33,15 @@ class gpu_monitor extends uvm_monitor;
                 continue;
             end
 
-            // Um pacote foi realmente aceito pelo DUT.
+            // um pacote de requisicao foi aceito pelo DUT
+            // O monitor vai observar a requisicao aceita e criar um item correspondente
             if (vif.monitor_cb.req_valid && vif.monitor_cb.req_ready) begin
                 if (pending_request != null)
                     `uvm_error("GPU_MON",
                                "Nova requisicao aceita antes da resposta anterior")
 
-                pending_request = gpu_item::type_id::create("observed_request");
+                pending_request = gpu_item::type_id::create("observed_request"); // cria um novo item para a requisicao observada
+                // salva os campos do pacote de requisicao no item pendente
                 pending_request.packet_type =
                     gpu_packet_type_e'(vif.monitor_cb.req_payload[41:40]);
                 pending_request.field_0 = vif.monitor_cb.req_payload[39:32];
@@ -56,6 +57,7 @@ class gpu_monitor extends uvm_monitor;
             end
 
             // A resposta conclui a transacao pendente e a envia aos assinantes.
+            // rsp_valid indica que a resposta do DUT esta disponivel
             if (vif.monitor_cb.rsp_valid) begin
                 if (pending_request == null) begin
                     `uvm_error("GPU_MON", "rsp_valid sem requisicao pendente")
@@ -64,7 +66,7 @@ class gpu_monitor extends uvm_monitor;
                     pending_request.rsp_error         = vif.monitor_cb.rsp_error;
                     pending_request.response_received = 1'b1;
 
-                    item_collected_port.write(pending_request);
+                    item_collected_port.write(pending_request); // envia o item coletado para os assinantes
 
                     `uvm_info("GPU_MON",
                               $sformatf("Resposta observada: %s",

@@ -4,7 +4,6 @@
 import uvm_pkg::*;
 import gpu_pkg::*;
 
-// Parte estatica do ambiente: conecta a interface de host ao RTL e inicia UVM.
 module gpu_top_tb;
 
     logic clk;
@@ -23,7 +22,7 @@ module gpu_top_tb;
     );
 
 `ifdef ASSERTIONS
-    // Checker externo: observa somente o protocolo visivel ao host.
+    // Se assertions estiverem habilitadas, instancia o checker de protocolo
     gpu_host_protocol_sva u_host_protocol_sva (
         .clk         (host_if.clk),
         .rst         (host_if.rst),
@@ -49,7 +48,6 @@ module gpu_top_tb;
     end
 
     initial begin
-        // Driver e monitor recebem a mesma interface virtual por config_db.
         uvm_config_db#(virtual gpu_host_if)::set(
             null, "uvm_test_top.env.agent.*", "vif", host_if
         );
