@@ -6,6 +6,7 @@ class gpu_env extends uvm_env;
     `uvm_component_utils(gpu_env)
 
     gpu_agent agent;
+    gpu_scoreboard scoreboard;
     gpu_env_config cfg;
 
     function new(string name, uvm_component parent);
@@ -22,6 +23,14 @@ class gpu_env extends uvm_env;
                                                cfg.agent_cfg);
 
         agent = gpu_agent::type_id::create("agent", this);
+        scoreboard = gpu_scoreboard::type_id::create("scoreboard", this);
+    endfunction
+
+    virtual function void connect_phase(uvm_phase phase);
+        super.connect_phase(phase);
+
+        // O monitor publica cada requisicao/resposta para o modelo de referencia.
+        agent.agent_ap.connect(scoreboard.analysis_export);
     endfunction
 
 endclass

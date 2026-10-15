@@ -127,8 +127,7 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
             end
         end
 
-        // Leitura final. A comparacao com o resultado esperado sera tarefa
-        // do scoreboard quando ele for introduzido.
+        // Leitura final. O scoreboard compara cada resposta com C esperada.
         for (int i = 0; i < 4; i++) begin
             send_packet(GPU_MEM_READ, C_BASE + i, 8'h00, 8'h00,
                         8'h00, 8'h00, response_data);

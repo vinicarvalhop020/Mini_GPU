@@ -64,7 +64,13 @@ opcoes de execucao, apenas um nome de teste por vez:
 +UVM_TESTNAME=gpu_smoke_test
 ```
 
-## Observacao
+## Scoreboard
 
-Esta etapa ainda nao inclui coverage nem scoreboard. Os testes exercitam o
-fluxo UVM e registram as transacoes observadas pelo driver e monitor.
+O ambiente inclui `gpu_scoreboard`. Ele recebe as transacoes completas do
+monitor, mantem uma memoria vetorial de referencia e reproduz ADD, SUB, MUL e
+DIV em quatro lanes. Cada `MEM_READ` compara automaticamente a resposta da
+GPU com o valor esperado. Portanto, o teste de matriz tambem valida os valores
+finais de `C`, nao apenas o envio dos pacotes.
+
+Esta etapa ainda nao inclui coverage. Os testes exercitam o fluxo UVM e o
+scoreboard aponta divergencias como erros UVM.
