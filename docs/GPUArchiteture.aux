@@ -1,0 +1,75 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Especificação}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Linguagem utilizada}{1}{section.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Uso de SystemVerilog no projeto.}}{1}{table.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Parâmetros da arquitetura}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Parâmetros principais da mini GPU.}}{2}{table.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Arquitetura}{3}{section.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Arquitetura funcional da mini GPU SIMD.}}{3}{figure.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Descrição dos blocos}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Packet Decoder}{3}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}AXI4-Lite Slave Decoder}{3}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Memória vetorial dual-port}{3}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Scheduler de comando}{4}{subsubsection.3.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.5}FSM de execução}{4}{subsubsection.3.1.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Estados da FSM de execução.}}{4}{table.3}\protected@file@percent }
+\newlabel{tab:fsm}{{3}{4}{Estados da FSM de execução}{table.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.6}Registradores vetoriais A e B}{4}{subsubsection.3.1.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.7}ALU SIMD com quatro lanes de 8 bits}{4}{subsubsection.3.1.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Interfaces dos blocos}{5}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Packet Decoder}{5}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Interface do Packet Decoder.}}{5}{table.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}AXI4-Lite Slave Decoder}{5}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Interface do AXI4-Lite Slave Decoder.}}{5}{table.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Scheduler}{6}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Interface do Scheduler.}}{6}{table.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}FSM de execução}{6}{subsection.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Interface da FSM de execução.}}{6}{table.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Memória vetorial dual-port}{7}{subsection.4.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Interface da memória vetorial dual-port.}}{7}{table.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Registradores vetoriais A e B}{7}{subsection.4.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Interface dos registradores vetoriais.}}{7}{table.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}ALU SIMD}{7}{subsection.4.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Interface da ALU SIMD com quatro lanes.}}{7}{table.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Mapa de endereços AXI}{8}{section.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Mapa de endereços do periférico.}}{8}{table.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Estrutura de comandos}{9}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Formato geral do pacote}{9}{subsection.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Formato geral do pacote interno de 42 bits.}}{9}{table.12}\protected@file@percent }
+\newlabel{tab:packet-format}{{12}{9}{Formato geral do pacote interno de 42 bits}{table.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Tipos de requisição aceitos.}}{9}{table.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Comando de operação da GPU}{9}{subsection.6.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Formato de \texttt  {GPU_COMMAND}.}}{9}{table.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Escrita de vetor}{9}{subsection.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Formato de \texttt  {MEM_WRITE}.}}{9}{table.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Leitura de vetor}{10}{subsection.6.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Formato da requisição \texttt  {MEM_READ}.}}{10}{table.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Início da operação}{10}{subsection.6.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces Formato de \texttt  {GPU_START}.}}{10}{table.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}ISA}{10}{section.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces Conjunto inicial de instruções.}}{10}{table.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Lista de funcionalidades}{11}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Modulo completo}{11}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Packet Decoder}{11}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}AXI4-Lite Slave Decoder}{11}{subsection.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Scheduler}{12}{subsection.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.5}Memória vetorial dual-port}{12}{subsection.8.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.6}FSM de execução}{12}{subsection.8.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.7}Registradores vetoriais A e B}{13}{subsection.8.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.8}ALU SIMD com quatro lanes de 8 bits}{13}{subsection.8.8}\protected@file@percent }
+\gdef \LT@i {\LT@entry 
+    {1}{119.81102pt}\LT@entry 
+    {1}{245.00298pt}\LT@entry 
+    {1}{205.16928pt}\LT@entry 
+    {1}{45.83368pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Lista de testes}{14}{section.9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {19}{Lista consolidada de testes e rastreabilidade com as funcionalidades.}}{14}{table.19}\protected@file@percent }
+\newlabel{tab:testes}{{19}{14}{Lista consolidada de testes e rastreabilidade com as funcionalidades}{table.19}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Critérios iniciais de conclusão}{16}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Próxima versão}{16}{section.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}Hist\'orico de vers\~oes}{17}{section.12}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {20}{\ignorespaces Hist\'orico de vers\~oes do plano de verifica\c {c}\~ao.}}{17}{table.20}\protected@file@percent }
+\gdef \@abspage@last{17}

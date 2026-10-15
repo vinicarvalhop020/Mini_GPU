@@ -25,6 +25,8 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.55em}
 \renewcommand{\arraystretch}{1.25}
+\renewcommand{\tablename}{Tabela}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 \definecolor{azul}{HTML}{1F4E78}
 \definecolor{azulclaro}{HTML}{D9EAF7}
@@ -1099,7 +1101,7 @@ Alta
     \toprule
     \textbf{Vers\~ao} & \textbf{Modifica\c{c}\~ao} \\
     \midrule
-    1.1 & Testes de m\'odulos internos removidos do plano de verifica\c{c}\~ao UVM. \\
+    1.1 & Testes de m\'odulos internos removidos e teste GPU MUL adicionado ao plano de verifica\c{c}\~ao UVM. \\
     \bottomrule
   \end{tabularx}
   \caption{Hist\'orico de vers\~oes do plano de verifica\c{c}\~ao.}
