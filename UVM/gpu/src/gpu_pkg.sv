@@ -19,20 +19,19 @@ package gpu_pkg;
     `include "gpu_matrix_mul_sequence.sv"
 
     // Sequences rastreaveis do plano de verificacao.
-    `include "gpu_documented_base_sequence.sv"
-    `include "gpu_documented_add_sequence.sv"
-    `include "gpu_documented_mem_access_sequence.sv"
-    `include "gpu_documented_all_ops_sequence.sv"
-    `include "gpu_documented_back_to_back_sequence.sv"
-    `include "gpu_documented_address_corners_sequence.sv"
-    `include "gpu_documented_random_sequence.sv"
+    `include "gpu_base_sequence.sv"
+    `include "gpu_add_sequence.sv"
+    `include "gpu_mem_access_sequence.sv"
+    `include "gpu_all_ops_sequence.sv"
+    `include "gpu_back_to_back_sequence.sv"
+    `include "gpu_address_corners_sequence.sv"
+    `include "gpu_random_sequence.sv"
 
     // Testes UVM.
     `include "gpu_base_test.sv"
     `include "gpu_matrix_mul_test.sv"
 
     // Testes rastreaveis do plano de verificacao.
-    `include "gpu_documented_base_test.sv"
     `include "test_packet_field_extraction.sv"
     `include "test_packet_mem_write.sv"
     `include "test_packet_mem_read.sv"

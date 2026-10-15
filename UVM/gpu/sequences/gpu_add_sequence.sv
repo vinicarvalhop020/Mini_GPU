@@ -2,10 +2,10 @@
 import uvm_pkg::*;
 
 // [GPU_02_END_TO_END]: programa completo de soma vetorial.
-class gpu_documented_add_sequence extends gpu_documented_base_sequence;
-    `uvm_object_utils(gpu_documented_add_sequence)
+class gpu_add_sequence extends gpu_base_sequence;
+    `uvm_object_utils(gpu_add_sequence)
 
-    function new(string name = "gpu_documented_add_sequence");
+    function new(string name = "gpu_add_sequence");
         super.new(name);
     endfunction
 

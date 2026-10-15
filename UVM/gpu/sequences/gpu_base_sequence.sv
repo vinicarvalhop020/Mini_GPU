@@ -2,10 +2,10 @@
 import uvm_pkg::*;
 
 // Operacoes de host reutilizadas pelos cenarios rastreaveis do documento.
-class gpu_documented_base_sequence extends uvm_sequence #(gpu_item);
-    `uvm_object_utils(gpu_documented_base_sequence)
+class gpu_base_sequence extends uvm_sequence #(gpu_item);
+    `uvm_object_utils(gpu_base_sequence)
 
-    function new(string name = "gpu_documented_base_sequence");
+    function new(string name = "gpu_base_sequence");
         super.new(name);
     endfunction
 

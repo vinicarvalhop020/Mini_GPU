@@ -2,10 +2,10 @@
 import uvm_pkg::*;
 
 // Operacoes consecutivas devem preservar todos os destinos ja calculados.
-class gpu_documented_back_to_back_sequence extends gpu_documented_base_sequence;
-    `uvm_object_utils(gpu_documented_back_to_back_sequence)
+class gpu_back_to_back_sequence extends gpu_base_sequence;
+    `uvm_object_utils(gpu_back_to_back_sequence)
 
-    function new(string name = "gpu_documented_back_to_back_sequence");
+    function new(string name = "gpu_back_to_back_sequence");
         super.new(name);
     endfunction
 

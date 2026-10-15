@@ -33,4 +33,26 @@ class gpu_base_test extends uvm_test;
         env = gpu_env::type_id::create("env", this);
     endfunction
 
+    // Helpers compartilhados por todos os testes da GPU.
+    function void expect(input bit condition, input string message);
+        if (!condition)
+            `uvm_error("GPU_TEST", message)
+    endfunction
+
+    task automatic wait_for_fsm_state(
+        input  logic [2:0] expected_state,
+        input  int unsigned maximum_cycles,
+        output bit           found
+    );
+        found = 1'b0;
+
+        for (int unsigned cycle = 0; cycle < maximum_cycles; cycle++) begin
+            @(internal_vif.monitor_cb);
+            if (internal_vif.monitor_cb.fsm_state == expected_state) begin
+                found = 1'b1;
+                break;
+            end
+        end
+    endtask
+
 endclass

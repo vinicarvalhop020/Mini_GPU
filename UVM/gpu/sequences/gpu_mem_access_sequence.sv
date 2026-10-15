@@ -2,10 +2,10 @@
 import uvm_pkg::*;
 
 // [AXI_02], [AXI_03] e [MEM_01]: acessos em enderecos de borda da porta A.
-class gpu_documented_mem_access_sequence extends gpu_documented_base_sequence;
-    `uvm_object_utils(gpu_documented_mem_access_sequence)
+class gpu_mem_access_sequence extends gpu_base_sequence;
+    `uvm_object_utils(gpu_mem_access_sequence)
 
-    function new(string name = "gpu_documented_mem_access_sequence");
+    function new(string name = "gpu_mem_access_sequence");
         super.new(name);
     endfunction
 

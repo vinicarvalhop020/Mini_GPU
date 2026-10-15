@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_fsm_sequence extends gpu_documented_base_test;
+
+// [FSM_01 a FSM_07] Verifica a sequencia de estados e os pulsos de controle da FSM.
+class test_fsm_sequence extends gpu_base_test;
     `uvm_component_utils(test_fsm_sequence)
 
     function new(string name, uvm_component parent);
@@ -8,12 +10,12 @@ class test_fsm_sequence extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_add_sequence sequence;
+        gpu_add_sequence sequence;
         logic [2:0] expected_states [0:6];
         int unsigned next_state;
         bit sequence_seen;
 
-        sequence = gpu_documented_add_sequence::type_id::create("sequence");
+        sequence = gpu_add_sequence::type_id::create("sequence");
 
         expected_states[0] = 3'b001; // READ_A
         expected_states[1] = 3'b010; // LOAD_A

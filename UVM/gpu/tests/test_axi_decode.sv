@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_axi_decode extends gpu_documented_base_test;
+
+// [AXI_01] Exercita tipos de pacote e verifica a selecao de memoria e caminho de comando.
+class test_axi_decode extends gpu_base_test;
     `uvm_component_utils(test_axi_decode)
 
     function new(string name, uvm_component parent);
@@ -8,12 +10,12 @@ class test_axi_decode extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_all_ops_sequence sequence;
+        gpu_all_ops_sequence sequence;
         bit saw_mem_write;
         bit saw_mem_read;
         bit saw_command;
 
-        sequence = gpu_documented_all_ops_sequence::type_id::create("sequence");
+        sequence = gpu_all_ops_sequence::type_id::create("sequence");
         saw_mem_write = 1'b0;
         saw_mem_read  = 1'b0;
         saw_command   = 1'b0;

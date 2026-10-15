@@ -2,10 +2,10 @@
 import uvm_pkg::*;
 
 // Enderecos 0x00/0xFF e alias entre fonte e destino.
-class gpu_documented_address_corners_sequence extends gpu_documented_base_sequence;
-    `uvm_object_utils(gpu_documented_address_corners_sequence)
+class gpu_address_corners_sequence extends gpu_base_sequence;
+    `uvm_object_utils(gpu_address_corners_sequence)
 
-    function new(string name = "gpu_documented_address_corners_sequence");
+    function new(string name = "gpu_address_corners_sequence");
         super.new(name);
     endfunction
 

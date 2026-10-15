@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_scheduler_handshake extends gpu_documented_base_test;
+
+// [SCH_01 a SCH_04] Verifica valid/ready, BUSY, DONE e os estados do Scheduler.
+class test_scheduler_handshake extends gpu_base_test;
     `uvm_component_utils(test_scheduler_handshake)
 
     function new(string name, uvm_component parent);
@@ -8,12 +10,12 @@ class test_scheduler_handshake extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_add_sequence sequence;
+        gpu_add_sequence sequence;
         bit saw_dispatch;
         bit saw_execute;
         bit saw_done;
 
-        sequence = gpu_documented_add_sequence::type_id::create("sequence");
+        sequence = gpu_add_sequence::type_id::create("sequence");
         saw_dispatch = 1'b0;
         saw_execute  = 1'b0;
         saw_done     = 1'b0;

@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_gpu_all_ops extends gpu_documented_base_test;
+
+// [GPU_02, ALU_01 a ALU_04] Executa uma operacao completa para cada opcode suportado.
+class test_gpu_all_ops extends gpu_base_test;
     `uvm_component_utils(test_gpu_all_ops)
 
     function new(string name, uvm_component parent);
@@ -8,9 +10,9 @@ class test_gpu_all_ops extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_all_ops_sequence sequence;
+        gpu_all_ops_sequence sequence;
 
-        sequence = gpu_documented_all_ops_sequence::type_id::create("sequence");
+        sequence = gpu_all_ops_sequence::type_id::create("sequence");
         phase.raise_objection(this);
         sequence.start(env.agent.sequencer);
         phase.drop_objection(this);

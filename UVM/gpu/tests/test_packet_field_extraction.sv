@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_packet_field_extraction extends gpu_documented_base_test;
+
+// [PKT_01/PKT_02] Verifica a extracao de TYPE e FIELD_0 a FIELD_4 de um pacote.
+class test_packet_field_extraction extends gpu_base_test;
     `uvm_component_utils(test_packet_field_extraction)
 
     function new(string name, uvm_component parent);
@@ -8,10 +10,10 @@ class test_packet_field_extraction extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_mem_access_sequence sequence;
+        gpu_mem_access_sequence sequence;
         bit fields_checked;
 
-        sequence = gpu_documented_mem_access_sequence::type_id::create("sequence");
+        sequence = gpu_mem_access_sequence::type_id::create("sequence");
         fields_checked = 1'b0;
 
         phase.raise_objection(this);

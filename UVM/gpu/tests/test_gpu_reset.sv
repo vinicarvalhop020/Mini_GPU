@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_gpu_reset extends gpu_documented_base_test;
+
+// [GPU_01_RESET] Aplica reset ocioso e durante uma operacao e verifica o retorno ao estado inicial.
+class test_gpu_reset extends gpu_base_test;
     `uvm_component_utils(test_gpu_reset)
 
     function new(string name, uvm_component parent);
@@ -8,10 +10,10 @@ class test_gpu_reset extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_add_sequence sequence;
+        gpu_add_sequence sequence;
         bit read_a_seen;
 
-        sequence = gpu_documented_add_sequence::type_id::create("sequence");
+        sequence = gpu_add_sequence::type_id::create("sequence");
 
         phase.raise_objection(this);
         fork

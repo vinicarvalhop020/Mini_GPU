@@ -2,12 +2,12 @@
 import uvm_pkg::*;
 
 // [GPU_RANDOM]: gera programas validos aleatorios; o scoreboard decide o acerto.
-class gpu_documented_random_sequence extends gpu_documented_base_sequence;
-    `uvm_object_utils(gpu_documented_random_sequence)
+class gpu_random_sequence extends gpu_base_sequence;
+    `uvm_object_utils(gpu_random_sequence)
 
     int unsigned iterations;
 
-    function new(string name = "gpu_documented_random_sequence");
+    function new(string name = "gpu_random_sequence");
         super.new(name);
         iterations = 20;
     endfunction

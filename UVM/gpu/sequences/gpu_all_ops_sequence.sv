@@ -2,15 +2,15 @@
 import uvm_pkg::*;
 
 // [ALU_01] a [ALU_05]: exercita toda a ISA pelo protocolo de host.
-class gpu_documented_all_ops_sequence extends gpu_documented_base_sequence;
-    `uvm_object_utils(gpu_documented_all_ops_sequence)
+class gpu_all_ops_sequence extends gpu_base_sequence;
+    `uvm_object_utils(gpu_all_ops_sequence)
 
     localparam logic [7:0] OP_ADD = 8'h01;
     localparam logic [7:0] OP_SUB = 8'h02;
     localparam logic [7:0] OP_MUL = 8'h03;
     localparam logic [7:0] OP_DIV = 8'h04;
 
-    function new(string name = "gpu_documented_all_ops_sequence");
+    function new(string name = "gpu_all_ops_sequence");
         super.new(name);
     endfunction
 

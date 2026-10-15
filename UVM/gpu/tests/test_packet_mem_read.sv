@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_packet_mem_read extends gpu_documented_base_test;
+
+// [AXI_03] Envia MEM_READ e verifica a leitura da memoria e a resposta ao host.
+class test_packet_mem_read extends gpu_base_test;
     `uvm_component_utils(test_packet_mem_read)
 
     function new(string name, uvm_component parent);
@@ -8,10 +10,10 @@ class test_packet_mem_read extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_mem_access_sequence sequence;
+        gpu_mem_access_sequence sequence;
         bit read_seen;
 
-        sequence = gpu_documented_mem_access_sequence::type_id::create("sequence");
+        sequence = gpu_mem_access_sequence::type_id::create("sequence");
         read_seen = 1'b0;
 
         phase.raise_objection(this);

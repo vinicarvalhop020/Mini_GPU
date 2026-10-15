@@ -1,6 +1,8 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-class test_packet_command_start extends gpu_documented_base_test;
+
+// [AXI_04/AXI_05] Envia GPU_COMMAND seguido de GPU_START e observa o comando entregue ao Scheduler.
+class test_packet_command_start extends gpu_base_test;
     `uvm_component_utils(test_packet_command_start)
 
     function new(string name, uvm_component parent);
@@ -8,10 +10,10 @@ class test_packet_command_start extends gpu_documented_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_documented_add_sequence sequence;
+        gpu_add_sequence sequence;
         bit command_seen;
 
-        sequence = gpu_documented_add_sequence::type_id::create("sequence");
+        sequence = gpu_add_sequence::type_id::create("sequence");
         command_seen = 1'b0;
 
         phase.raise_objection(this);
