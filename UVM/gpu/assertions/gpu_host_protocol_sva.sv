@@ -1,6 +1,6 @@
 `ifdef ASSERTIONS
 
-// Verifica o protocolo host <-> GPU na borda externa do projeto.
+// Verifica a conformidade do host com a GPU SIMD
 module gpu_host_protocol_sva (
     input logic        clk,
     input logic        rst,
@@ -11,7 +11,8 @@ module gpu_host_protocol_sva (
     input logic        rsp_error
 );
 
-    // Enquanto a GPU ainda nao aceita a requisicao, o host deve mante-la.
+    // Host apresenta uma nova requisição mas gpu nao esta pronta ainda para aceitá-la, 
+    // o host deve manter a requisicao e seu payload estavel até que a GPU possa aceitar
     property p_request_stable_while_waiting;
         @(posedge clk) disable iff (rst)
             (req_valid && !req_ready) |=> (req_valid && $stable(req_payload));
@@ -20,7 +21,7 @@ module gpu_host_protocol_sva (
     a_request_stable_while_waiting: assert property (p_request_stable_while_waiting)
         else $error("[SVA][HOST] Requisicao mudou enquanto req_ready estava baixo.");
 
-    // Nesta versao da interface, uma resposta ocupa somente um ciclo.
+    // gpu informa que rsp_valid esta ativo apenas por um ciclo
     property p_response_is_one_cycle;
         @(posedge clk) disable iff (rst)
             rsp_valid |=> !rsp_valid;
@@ -29,7 +30,8 @@ module gpu_host_protocol_sva (
     a_response_is_one_cycle: assert property (p_response_is_one_cycle)
         else $error("[SVA][HOST] rsp_valid permaneceu alto por mais de um ciclo.");
 
-    // O AXI simplificado ainda nao implementa respostas de erro.
+    // rsp_error nao deve ser ativado, atualmente ele nao possui suporte a erros implementado
+    // mas ja esta definido para possivel uso futuro
     property p_no_response_error;
         @(posedge clk) disable iff (rst)
             !rsp_error;

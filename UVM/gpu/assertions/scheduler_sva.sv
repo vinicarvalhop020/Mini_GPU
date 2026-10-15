@@ -1,6 +1,6 @@
 `ifdef ASSERTIONS
 
-// Verifica regras observaveis do Scheduler sem alterar seu RTL.
+
 module scheduler_sva (
     input logic       clk,
     input logic       rst,
@@ -14,7 +14,7 @@ module scheduler_sva (
     localparam logic [1:0] DISPATCH = 2'b01;
     localparam logic [1:0] EXECUTE  = 2'b10;
 
-    // DONE deve permanecer ativo ate um novo comando ser aceito.
+    // Se done = 1 agora e nenhum novo comando for aceito, done deve permanecer ativo
     property p_done_persists_until_command;
         @(posedge clk) disable iff (rst)
             (done && !(cmd_valid && cmd_ready)) |=> done;
@@ -23,7 +23,7 @@ module scheduler_sva (
     a_done_persists_until_command: assert property (p_done_persists_until_command)
         else $error("[SVA][SCHEDULER] done foi limpo sem novo comando aceito.");
 
-    // Ao aceitar um novo comando em DONE, a proxima etapa inicia o despacho.
+    // se done = 1 e um novo commando for aceito o scheduler deve entrar em busy e done deve ir para 0
     property p_new_command_restarts_scheduler;
         @(posedge clk) disable iff (rst)
             (done && cmd_valid && cmd_ready) |=> (busy && !done);
@@ -32,7 +32,7 @@ module scheduler_sva (
     a_new_command_restarts_scheduler: assert property (p_new_command_restarts_scheduler)
         else $error("[SVA][SCHEDULER] Novo comando nao reiniciou o Scheduler.");
 
-    // busy so representa os estados ativos da maquina.
+    // se o modulo esta em busy os estados ativos devem ser DISPATCH ou EXECUTE
     property p_busy_matches_active_states;
         @(posedge clk) disable iff (rst)
             busy |-> (debug_state inside {DISPATCH, EXECUTE});

@@ -1,6 +1,5 @@
 `ifdef ASSERTIONS
 
-// Verifica regras basicas da FSM de execucao SIMD.
 module fsm_sva (
     input logic       clk,
     input logic       rst,
@@ -18,6 +17,7 @@ module fsm_sva (
     localparam logic [2:0] WRITE_RESULT = 3'b110;
     localparam logic [2:0] FINISH       = 3'b111;
 
+    // exec_done só deve estar ativo quando o estado é FINISH
     property p_done_only_in_finish;
         @(posedge clk) disable iff (rst)
             exec_done |-> (debug_state == FINISH);
@@ -26,6 +26,7 @@ module fsm_sva (
     a_done_only_in_finish: assert property (p_done_only_in_finish)
         else $error("[SVA][FSM] exec_done ativo fora de FINISH.");
 
+    // quando o estado é FINISH exec_done deve ser ativado
     property p_finish_asserts_done;
         @(posedge clk) disable iff (rst)
             (debug_state == FINISH) |-> exec_done;
@@ -34,6 +35,7 @@ module fsm_sva (
     a_finish_asserts_done: assert property (p_finish_asserts_done)
         else $error("[SVA][FSM] FINISH sem exec_done.");
 
+    // verifica que a fsm muda do estado FINISH para o estado IDLE
     property p_finish_returns_to_idle;
         @(posedge clk) disable iff (rst)
             (debug_state == FINISH) |=> (debug_state == IDLE);
@@ -42,6 +44,7 @@ module fsm_sva (
     a_finish_returns_to_idle: assert property (p_finish_returns_to_idle)
         else $error("[SVA][FSM] FINISH nao retornou para IDLE.");
 
+    // escrita na memoria so deve ocorrer no estado WRITE_RESULT
     property p_write_only_in_write_result;
         @(posedge clk) disable iff (rst)
             mem_b_we |-> (debug_state == WRITE_RESULT);
@@ -50,6 +53,7 @@ module fsm_sva (
     a_write_only_in_write_result: assert property (p_write_only_in_write_result)
         else $error("[SVA][FSM] Escrita da memoria fora de WRITE_RESULT.");
 
+    // leitura na memoria so deve ocorrer nos estados READ_A ou READ_B
     property p_read_only_in_read_states;
         @(posedge clk) disable iff (rst)
             mem_b_re |-> (debug_state inside {READ_A, READ_B});
@@ -58,6 +62,7 @@ module fsm_sva (
     a_read_only_in_read_states: assert property (p_read_only_in_read_states)
         else $error("[SVA][FSM] Leitura da memoria fora de READ_A/READ_B.");
 
+    // load_a e load_b nao devem ser ativados simultaneamente
     property p_register_loads_are_exclusive;
         @(posedge clk) disable iff (rst)
             !(load_a && load_b);
@@ -66,6 +71,7 @@ module fsm_sva (
     a_register_loads_are_exclusive: assert property (p_register_loads_are_exclusive)
         else $error("[SVA][FSM] load_a e load_b ativos no mesmo ciclo.");
 
+    // a porta B da memoria nao deve ler e escrever ao mesmo tempo
     property p_memory_port_b_is_not_reading_and_writing;
         @(posedge clk) disable iff (rst)
             !(mem_b_we && mem_b_re);

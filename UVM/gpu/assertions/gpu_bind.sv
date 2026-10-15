@@ -1,6 +1,6 @@
 `ifdef ASSERTIONS
 
-// Conecta assertions internas sem acrescentar portas nem logica ao RTL.
+// conecta as assertions aos respectivos modulos sem adicionar portas ou logica extra
 bind scheduler scheduler_sva u_scheduler_sva (
     .clk         (clk),
     .rst         (rst),
