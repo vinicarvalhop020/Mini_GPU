@@ -19,6 +19,25 @@ xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=gpu_sm
 Os checkers iniciais verificam o protocolo de host, regras do Scheduler e
 regras da FSM. Veja `UVM/gpu/assertions/README.md` para o mapeamento.
 
+## Suite documentada
+
+Os testes rastreaveis do plano de verificacao ficam em
+`UVM/gpu/tests/tests_documented`. Para executar qualquer teste UVM dessa
+suite, substitua `<teste>` pelo nome listado no README da pasta:
+
+```bash
+xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=<teste> -run -exit
+```
+
+Exemplo:
+
+```bash
+xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_all_ops -run -exit
+```
+
+A interface interna usada pelos testes de protocolo, Scheduler e FSM e ligada
+com `bind`: ela observa sinais internos, mas nao altera o RTL.
+
 ### Smoke test - MEM_WRITE
 
 ```bash

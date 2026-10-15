@@ -74,7 +74,19 @@ module scheduler_tb;
         check(debug_state == EXECUTE && !exec_valid && busy,
               "FSM aceitou o comando");
 
+        // Um segundo comando nao pode ser aceito enquanto a execucao esta ativa.
         @(negedge clk);
+        cmd_fields = 32'h02_40_50_60;
+        cmd_valid  = 1'b1;
+        @(posedge clk);
+        #1;
+        check(debug_state == EXECUTE && !cmd_ready,
+              "Scheduler rejeita comando enquanto esta ocupado");
+        check(exec_fields == CMD_1,
+              "comando em execucao nao foi sobrescrito");
+
+        @(negedge clk);
+        cmd_valid = 1'b0;
         exec_ready = 1'b0;
         exec_done = 1'b1;
         @(posedge clk);

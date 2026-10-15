@@ -23,6 +23,15 @@ package gpu_pkg;
     `include "gpu_operation_sequence.sv"
     `include "gpu_matrix_mul_sequence.sv"
 
+    // Sequences rastreaveis do plano de verificacao.
+    `include "gpu_documented_base_sequence.sv"
+    `include "gpu_documented_add_sequence.sv"
+    `include "gpu_documented_mem_access_sequence.sv"
+    `include "gpu_documented_all_ops_sequence.sv"
+    `include "gpu_documented_back_to_back_sequence.sv"
+    `include "gpu_documented_address_corners_sequence.sv"
+    `include "gpu_documented_random_sequence.sv"
+
     // Testes UVM.
     `include "gpu_base_test.sv"
     `include "gpu_smoke_test.sv"
@@ -31,5 +40,22 @@ package gpu_pkg;
     `include "gpu_start_test.sv"
     `include "gpu_operation_test.sv"
     `include "gpu_matrix_mul_test.sv"
+
+    // Testes rastreaveis do plano de verificacao.
+    `include "gpu_documented_base_test.sv"
+    `include "test_packet_field_extraction.sv"
+    `include "test_packet_mem_write.sv"
+    `include "test_packet_mem_read.sv"
+    `include "test_packet_command_start.sv"
+    `include "test_axi_decode.sv"
+    `include "test_axi_memory_access.sv"
+    `include "test_gpu_reset.sv"
+    `include "test_scheduler_handshake.sv"
+    `include "test_fsm_sequence.sv"
+    `include "test_gpu_add_end_to_end.sv"
+    `include "test_gpu_all_ops.sv"
+    `include "test_gpu_back_to_back.sv"
+    `include "test_gpu_address_corner_cases.sv"
+    `include "test_gpu_random.sv"
 
 endpackage

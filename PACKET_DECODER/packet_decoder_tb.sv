@@ -71,6 +71,17 @@ module packet_decoder_tb;
         check(field_3 == 8'hDD, "FIELD_3 fatiado corretamente");
         check(field_4 == 8'hEE, "FIELD_4 fatiado corretamente");
 
+        // Enquanto o AXI nao aceita o pacote, uma nova entrada do host deve
+        // ser ignorada e os campos decodificados precisam permanecer estaveis.
+        @(negedge clk);
+        req_payload = {2'b01, 8'h11, 8'h22, 8'h33, 8'h44, 8'h55};
+        @(posedge clk);
+        #1;
+        check(decoded_valid && !req_ready, "decoder permanece ocupado");
+        check(req_type == 2'b10 && field_0 == 8'hAA && field_1 == 8'hBB &&
+              field_2 == 8'hCC && field_3 == 8'hDD && field_4 == 8'hEE,
+              "campos permanecem estaveis durante undercommand");
+
         // Decoder AXI aceita o pacote e libera o Host para a proxima requisicao.
         @(negedge clk);
         req_valid = 1'b0;

@@ -40,7 +40,14 @@ class gpu_driver extends uvm_driver #(gpu_item);
         // Mantem valid e payload estaveis ate a GPU aceitar a requisicao.
         do
             @(vif.driver_cb);
-        while (!vif.driver_cb.req_ready);
+        while (!vif.driver_cb.req_ready && !vif.driver_cb.rst);
+
+        // Um reset pode cancelar uma transacao que ainda aguardava aceite.
+        if (vif.driver_cb.rst) begin
+            vif.driver_cb.req_valid <= 1'b0;
+            `uvm_warning("GPU_DRV", "Requisicao cancelada por reset")
+            return;
+        end
 
         // O host desativa req_valid apos a requisicao ser aceita pelo DUT
         vif.driver_cb.req_valid <= 1'b0;
@@ -48,7 +55,13 @@ class gpu_driver extends uvm_driver #(gpu_item);
         // Espera a resposta do DUT ser validada. (rsp_valid ativo por um ciclo)
         do
             @(vif.driver_cb);
-        while (!vif.driver_cb.rsp_valid);
+        while (!vif.driver_cb.rsp_valid && !vif.driver_cb.rst);
+
+        // Uma execucao interrompida por reset nao possui resposta associada.
+        if (vif.driver_cb.rst) begin
+            `uvm_warning("GPU_DRV", "Resposta cancelada por reset")
+            return;
+        end
 
         // captura os dados da resposta da GPU
         item.rsp_data          = vif.driver_cb.rsp_data;

@@ -51,6 +51,12 @@ module gpu_top_tb;
         uvm_config_db#(virtual gpu_host_if)::set(
             null, "uvm_test_top.env.agent.*", "vif", host_if
         );
+        uvm_config_db#(virtual gpu_host_if)::set(
+            null, "uvm_test_top", "host_vif", host_if
+        );
+        uvm_config_db#(virtual gpu_internal_if)::set(
+            null, "uvm_test_top", "internal_vif", dut.u_internal_probe
+        );
 
         // O teste e escolhido por +UVM_TESTNAME=<nome_do_teste>.
         run_test();
