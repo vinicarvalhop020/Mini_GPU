@@ -9,7 +9,7 @@ module gpu_simd (
     input  logic [41:0] req_payload, // {TYPE, FIELD_0, FIELD_1, FIELD_2, FIELD_3, FIELD_4} do host.
     input  logic        req_valid,   // Host apresenta uma nova requisicao.
     output logic        req_ready,   // GPU pode aceitar req_payload.
-    output logic [31:0] rsp_data,    // Dado de MEM_READ ou STATUS de GPU_START.
+    output logic [63:0] rsp_data,    // MEM_READ com quatro lanes de 16 bits ou STATUS.
     output logic        rsp_valid,   // rsp_data esta valido por um ciclo.
     output logic        rsp_error    // Reservado para erros de protocolo; atualmente zero.
 );
@@ -26,8 +26,8 @@ module gpu_simd (
 
     // AXI Slave
     logic [7:0]  mem_a_addr;
-    logic [31:0] mem_a_wdata;
-    logic [31:0] mem_a_rdata;
+    logic [63:0] mem_a_wdata;
+    logic [63:0] mem_a_rdata;
     logic        mem_a_we;
     logic        mem_a_re;
 
@@ -46,7 +46,7 @@ module gpu_simd (
 
     // FSM -> Memoria vetorial
     logic [7:0]  mem_b_addr;
-    logic [31:0] mem_b_rdata;
+    logic [63:0] mem_b_rdata;
     logic        mem_b_we;
     logic        mem_b_re;
 
@@ -54,9 +54,9 @@ module gpu_simd (
     logic        load_a;
     logic        load_b;
     logic [7:0]  alu_opcode;
-    logic [31:0] vector_a;
-    logic [31:0] vector_b;
-    logic [31:0] alu_result;
+    logic [63:0] vector_a;
+    logic [63:0] vector_b;
+    logic [63:0] alu_result;
 
     // Sinais de debugging
     logic [1:0] scheduler_debug_state;

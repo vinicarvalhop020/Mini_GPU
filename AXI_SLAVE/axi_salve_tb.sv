@@ -15,19 +15,19 @@ module axi_slave_tb;
     logic [7:0]  field_0, field_1, field_2, field_3, field_4;
     logic        rsp_valid;
     logic        rsp_error;
-    logic [31:0] rsp_data;
+    logic [63:0] rsp_data;
     logic [7:0]  mem_a_addr;
-    logic [31:0] mem_a_wdata;
+    logic [63:0] mem_a_wdata;
     logic        mem_a_we;
     logic        mem_a_re;
-    logic [31:0] mem_a_rdata;
+    logic [63:0] mem_a_rdata;
     logic [31:0] cmd_fields;
     logic        cmd_valid;
     logic        cmd_ready;
     logic        cmd_busy;
     logic        cmd_done;
 
-    logic [31:0] mem [0:255];
+    logic [63:0] mem [0:255];
 
     axi_slave uut (
         .clk(clk), .rst(rst),
@@ -87,7 +87,7 @@ module axi_slave_tb;
     endtask
 
     task automatic wait_response(
-        input logic [31:0] expected_data,
+        input logic [63:0] expected_data,
         input string       test_name
     );
         int cycles;
@@ -122,18 +122,19 @@ module axi_slave_tb;
         #1;
         check(decoded_ready, "AXI pronto apos reset");
 
-        // MEM_WRITE: escreve AABBCCDD no endereco 12.
+        // MEM_WRITE: cada byte do host ocupa uma lane de 16 bits.
         send_packet(MEM_WRITE, 8'h12, 8'hAA, 8'hBB, 8'hCC, 8'hDD);
-        wait_response(32'h0000_0000, "resposta de MEM_WRITE");
-        check(mem[8'h12] == 32'hAABB_CCDD, "MEM_WRITE gravou o vetor correto");
+        wait_response(64'h0000_0000_0000_0000, "resposta de MEM_WRITE");
+        check(mem[8'h12] == 64'h00AA_00BB_00CC_00DD,
+              "MEM_WRITE expandiu o vetor corretamente");
 
         // MEM_READ: devolve o vetor escrito anteriormente.
         send_packet(MEM_READ, 8'h12, 8'h00, 8'h00, 8'h00, 8'h00);
-        wait_response(32'hAABB_CCDD, "resposta de MEM_READ");
+        wait_response(64'h00AA_00BB_00CC_00DD, "resposta de MEM_READ");
 
         // GPU_COMMAND: configura opcode=03, src_a=12, src_b=34 e dst=56.
         send_packet(GPU_COMMAND, 8'h00, 8'h03, 8'h12, 8'h34, 8'h56);
-        wait_response(32'h0000_0000, "resposta de GPU_COMMAND");
+        wait_response(64'h0000_0000_0000_0000, "resposta de GPU_COMMAND");
 
         // GPU_START: aguarda o Scheduler aceitar o comando e finalizar.
         send_packet(GPU_START, 8'h00, 8'h00, 8'h00, 8'h00, 8'h00);
@@ -153,7 +154,7 @@ module axi_slave_tb;
         @(negedge clk);
         cmd_done = 1'b0;
 
-        wait_response(32'h0000_0002, "resposta de GPU_START");
+        wait_response(64'h0000_0000_0000_0002, "resposta de GPU_START");
 
         $display("axi_slave_tb: todos os testes passaram.");
         $finish;

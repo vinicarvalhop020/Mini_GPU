@@ -17,14 +17,14 @@ module axi_slave (
     // Resposta ao host. rsp_valid e um pulso de um ciclo
     output logic        rsp_valid, // Resposta ao host esta valida por um ciclo.
     output logic        rsp_error, // Reservado para indicar erro atualmente fica em zero e nao faz nada
-    output logic [31:0] rsp_data,  // Leitura de memoria, STATUS (cmd_busy ou cmd_done) ou zero em operacoes sem dado.
+    output logic [63:0] rsp_data,  // Palavra de memoria com quatro lanes de 16 bits, STATUS ou zero.
 
     // Porta A da memoria vetorial
     output logic [7:0]  mem_a_addr,  // Endereco para a porta A da memoria vetorial.
-    output logic [31:0] mem_a_wdata, // vetor de 32 bits a escrever pela porta A.
+    output logic [63:0] mem_a_wdata, // Quatro lanes de 16 bits a escrever pela porta A.
     output logic        mem_a_we,    // Habilita escrita pela porta A.
     output logic        mem_a_re,    // Solicita leitura sincrona pela porta A.
-    input  logic [31:0] mem_a_rdata, // Dado retornado pela porta A.
+    input  logic [63:0] mem_a_rdata, // Dado de 64 bits retornado pela porta A.
 
     // Handshake com o Scheduler
     output logic [31:0] cmd_fields, // Comando {OPCODE, SRC_A, SRC_B, DST} para o Scheduler.
@@ -62,7 +62,7 @@ module axi_slave (
     logic [7:0]  local_field_3;
     logic [7:0]  local_field_4;
     logic [31:0] command_reg;
-    logic [31:0] rsp_data_reg;
+    logic [63:0] rsp_data_reg;
 
     // loop de mudança de estado da FSM
     always_ff @(posedge clk or posedge rst) begin
@@ -82,7 +82,7 @@ module axi_slave (
             local_field_3  <= 8'b0;
             local_field_4  <= 8'b0;
             command_reg    <= 32'b0;
-            rsp_data_reg   <= 32'b0;
+            rsp_data_reg   <= 64'b0;
         end else begin
             if ((state == IDLE) && decoded_valid && decoded_ready) begin
                 local_req_type <= req_type;
@@ -97,16 +97,16 @@ module axi_slave (
                 // captura os campos do comando GPU
                 command_reg  <= {local_field_1, local_field_2,
                                  local_field_3, local_field_4};
-                rsp_data_reg <= 32'b0;
+                rsp_data_reg <= 64'b0;
             end
 
             if (state == MEM_WRITE) begin
-                rsp_data_reg <= 32'b0;
+                rsp_data_reg <= 64'b0;
             end
 
             if ((state == WAIT_DONE) && cmd_done) begin
                 // captura o status do comando GPU
-                rsp_data_reg <= {30'b0, cmd_done, cmd_busy};
+                rsp_data_reg <= {62'b0, cmd_done, cmd_busy};
             end
         end
     end
@@ -159,7 +159,7 @@ module axi_slave (
         rsp_data      = rsp_data_reg;
 
         mem_a_addr    = 8'b0;
-        mem_a_wdata   = 32'b0;
+        mem_a_wdata   = 64'b0;
         mem_a_we      = 1'b0;
         mem_a_re      = 1'b0;
 
@@ -173,8 +173,10 @@ module axi_slave (
 
             MEM_WRITE: begin
                 mem_a_addr  = local_field_0;
-                mem_a_wdata = {local_field_1, local_field_2,
-                               local_field_3, local_field_4};
+                // O host fornece quatro bytes. Cada um e zero-estendido para
+                // formar uma lane de 16 bits na memoria vetorial.
+                mem_a_wdata = {8'h00, local_field_1, 8'h00, local_field_2,
+                               8'h00, local_field_3, 8'h00, local_field_4};
                 mem_a_we    = 1'b1;
             end
 
