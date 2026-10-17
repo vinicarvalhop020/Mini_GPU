@@ -3,7 +3,7 @@
 module dualport_memory_tb;
 
     localparam int ADDR_WIDTH = 8;
-    localparam int DATA_WIDTH = 32;
+    localparam int DATA_WIDTH = 64;
 
     logic                  clk;
     logic [ADDR_WIDTH-1:0] a_addr;
@@ -98,21 +98,26 @@ module dualport_memory_tb;
         a_we = 1'b0; b_we = 1'b0;
         a_re = 1'b0; b_re = 1'b0;
 
-        write_a(8'h00, 32'hDEAD_BEEF);
-        read_a(8'h00, 32'hDEAD_BEEF, "escrita e leitura na porta A");
-        write_b(8'hFF, 32'hCAFE_BABE);
-        read_b(8'hFF, 32'hCAFE_BABE, "escrita e leitura na porta B");
-        write_a(8'h42, 32'h1234_5678);
-        read_b(8'h42, 32'h1234_5678, "leitura pela porta B de escrita pela A");
+        write_a(8'h00, 64'hDEAD_BEEF_1234_5678);
+        read_a(8'h00, 64'hDEAD_BEEF_1234_5678,
+               "escrita e leitura na porta A");
+        write_b(8'hFF, 64'hCAFE_BABE_4321_8765);
+        read_b(8'hFF, 64'hCAFE_BABE_4321_8765,
+               "escrita e leitura na porta B");
+        write_a(8'h42, 64'h0001_0002_0003_0004);
+        read_b(8'h42, 64'h0001_0002_0003_0004,
+               "leitura pela porta B de escrita pela A");
 
         @(negedge clk);
-        a_addr = 8'h10; a_wdata = 32'hAAAA_1111; a_we = 1'b1;
-        b_addr = 8'hE0; b_wdata = 32'hBBBB_2222; b_we = 1'b1;
+        a_addr = 8'h10; a_wdata = 64'hAAAA_1111_2222_3333; a_we = 1'b1;
+        b_addr = 8'hE0; b_wdata = 64'hBBBB_2222_3333_4444; b_we = 1'b1;
         @(negedge clk);
         a_we = 1'b0; b_we = 1'b0;
 
-        read_a(8'h10, 32'hAAAA_1111, "escrita simultanea da porta A");
-        read_b(8'hE0, 32'hBBBB_2222, "escrita simultanea da porta B");
+        read_a(8'h10, 64'hAAAA_1111_2222_3333,
+               "escrita simultanea da porta A");
+        read_b(8'hE0, 64'hBBBB_2222_3333_4444,
+               "escrita simultanea da porta B");
 
         $display("dualport_memory_tb: todos os testes passaram.");
         $finish;

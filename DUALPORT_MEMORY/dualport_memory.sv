@@ -2,7 +2,8 @@
 
 module dualport_memory #(
     parameter int ADDR_WIDTH = 8,
-    parameter int DATA_WIDTH = 32
+    // Uma palavra armazena quatro lanes de 16 bits.
+    parameter int DATA_WIDTH = 64
 ) (
     input  logic                  clk,     // Clock das duas portas sincrona.
     input  logic [ADDR_WIDTH-1:0] a_addr,  // Endereco da porta A, usada pelo AXI Slave/host.
