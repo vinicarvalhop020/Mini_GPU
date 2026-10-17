@@ -9,15 +9,15 @@ class test_gpu_reset extends gpu_base_test;
         super.new(name, parent);
     endfunction
 
-    task automatic check_reset_state(input string context);
+    task automatic check_reset_state(input string reset_point);
         @(internal_vif.monitor_cb);
         check_condition(internal_vif.monitor_cb.fsm_state == 3'b000,
-                        {context, ": FSM nao retornou a IDLE"});
+                        {reset_point, ": FSM nao retornou a IDLE"});
         check_condition(internal_vif.monitor_cb.scheduler_state == 2'b00,
-                        {context, ": Scheduler nao retornou a IDLE"});
+                        {reset_point, ": Scheduler nao retornou a IDLE"});
         check_condition(!internal_vif.monitor_cb.cmd_busy &&
                         !internal_vif.monitor_cb.cmd_done,
-                        {context, ": BUSY ou DONE nao foi limpo"});
+                        {reset_point, ": BUSY ou DONE nao foi limpo"});
     endtask
 
     virtual task run_phase(uvm_phase phase);
