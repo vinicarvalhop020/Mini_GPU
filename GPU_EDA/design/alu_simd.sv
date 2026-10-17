@@ -1,10 +1,13 @@
 `timescale 1ns / 1ps
 
-module alu_simd #(parameter int LANES = 4)(
-    input  logic [LANES*8-1:0] vector_a,   // Vetor de entrada A
-    input  logic [LANES*8-1:0] vector_b,   // Vetor de entrada B
+module alu_simd #(
+    parameter int LANES = 4,
+    parameter int LANE_WIDTH = 16
+)(
+    input  logic [LANES*LANE_WIDTH-1:0] vector_a,   // Vetor de entrada A
+    input  logic [LANES*LANE_WIDTH-1:0] vector_b,   // Vetor de entrada B
     input  logic [7:0]         alu_opcode, // Opcode SIMD recebido da FSM
-    output logic [LANES*8-1:0] result      // Resultado da operacoes executadas em paralelo.
+    output logic [LANES*LANE_WIDTH-1:0] result // Quatro resultados de 16 bits.
 );
 
     localparam logic [7:0] ADD = 8'h01,
@@ -18,15 +21,15 @@ module alu_simd #(parameter int LANES = 4)(
                            ALU_DIV = 4'h4;
 
     logic [3:0] lane_control;
-    logic [LANES*8-1:0] lane_result;
+    logic [LANES*LANE_WIDTH-1:0] lane_result;
 
     generate
         for (genvar i = 0; i < LANES; i++) begin : gen_alu_lanes
             alu_unit alu_lane (
-                .a(vector_a[i*8 +: 8]),
-                .b(vector_b[i*8 +: 8]),
+                .a(vector_a[i*LANE_WIDTH +: LANE_WIDTH]),
+                .b(vector_b[i*LANE_WIDTH +: LANE_WIDTH]),
                 .alu_control(lane_control),
-                .result(lane_result[i*8 +: 8]),
+                .result(lane_result[i*LANE_WIDTH +: LANE_WIDTH]),
                 .zero()
             );
         end

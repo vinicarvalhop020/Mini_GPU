@@ -8,10 +8,10 @@ module alu_simd_tb;
                            MUL = 8'h03,
                            DIV = 8'h04;
 
-    logic [31:0] vector_a;
-    logic [31:0] vector_b;
+    logic [63:0] vector_a;
+    logic [63:0] vector_b;
     logic [7:0]  alu_opcode;
-    logic [31:0] result;
+    logic [63:0] result;
 
     alu_simd #(.LANES(LANES)) uut (
         .vector_a(vector_a),
@@ -21,10 +21,10 @@ module alu_simd_tb;
     );
 
     task automatic test_simd(
-        input logic [31:0] a_in,
-        input logic [31:0] b_in,
+        input logic [63:0] a_in,
+        input logic [63:0] b_in,
         input logic [7:0]  opcode_in,
-        input logic [31:0] expected_result,
+        input logic [63:0] expected_result,
         input string       test_name
     );
         begin
@@ -40,16 +40,20 @@ module alu_simd_tb;
     endtask
 
     initial begin
-        test_simd(32'hFA01_10FF, 32'h0702_F001, ADD, 32'h0103_0000,
-                  "ADD com overflow em duas lanes");
-        test_simd(32'h1000_04FF, 32'h0301_1001, SUB, 32'h0DFF_F4FE,
-                  "SUB com underflow");
-        test_simd(32'h1002_FF08, 32'h1080_0220, MUL, 32'h0000_FE00,
-                  "MUL com truncamento");
-        test_simd(32'h6409_FF12, 32'h0402_0003, DIV, 32'h1904_0006,
+        test_simd(64'h00FF_0001_FFFF_0000, 64'h0001_0002_0001_0001,
+                  ADD, 64'h0100_0003_0000_0001,
+                  "ADD em quatro lanes de 16 bits");
+        test_simd(64'h0001_0000_0004_0100, 64'h0002_0001_0001_0001,
+                  SUB, 64'hFFFF_FFFF_0003_00FF,
+                  "SUB com underflow em duas lanes");
+        test_simd(64'h00FF_0002_0001_0000, 64'h00FF_0003_0002_0001,
+                  MUL, 64'hFE01_0006_0002_0000,
+                  "MUL 8 x 8 com resultado de 16 bits");
+        test_simd(64'hFE01_0009_00FF_0012, 64'h00FF_0002_0003_0000,
+                  DIV, 64'h00FF_0004_0055_0000,
                   "DIV com divisor zero em uma lane");
-        test_simd(32'hFFFF_FFFF, 32'h0102_0304, 8'h00, 32'h0000_0000,
-                  "opcode invalido");
+        test_simd(64'hFFFF_FFFF_FFFF_FFFF, 64'h0001_0002_0003_0004,
+                  8'h00, 64'h0000_0000_0000_0000, "opcode invalido");
 
         $display("alu_simd_tb: todos os testes passaram.");
         $finish;
