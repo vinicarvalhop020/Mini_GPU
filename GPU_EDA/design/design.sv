@@ -35,10 +35,12 @@
 `include "gpu_back_to_back_sequence.sv"
 `include "gpu_matrix_mul_sequence.sv"
 `include "gpu_mem_access_sequence.sv"
+`include "gpu_mul_8bit_sequence.sv"
 `include "gpu_random_sequence.sv"
 
 `include "gpu_base_test.sv"
 `include "gpu_matrix_mul_test.sv"
+`include "test_gpu_mul_8bit.sv"
 `include "test_axi_decode.sv"
 `include "test_fsm_sequence.sv"
 `include "test_gpu_add_end_to_end.sv"

@@ -21,13 +21,13 @@ module gpu_simd_matrix_mul_tb;
     logic [41:0] req_payload;
     logic        req_valid;
     logic        req_ready;
-    logic [31:0] rsp_data;
+    logic [63:0] rsp_data;
     logic        rsp_valid;
     logic        rsp_error;
 
     logic [7:0] matrix_a [0:3][0:3];
     logic [7:0] matrix_b [0:3][0:3];
-    logic [7:0] matrix_c [0:3][0:3];
+    logic [15:0] matrix_c [0:3][0:3];
 
     gpu_simd dut (
         .clk        (clk),
@@ -62,7 +62,7 @@ module gpu_simd_matrix_mul_tb;
         input  logic [7:0] field_2,
         input  logic [7:0] field_3,
         input  logic [7:0] field_4,
-        output logic [31:0] response_data,
+        output logic [63:0] response_data,
         input  string operation_name
     );
         integer cycles;
@@ -100,18 +100,18 @@ module gpu_simd_matrix_mul_tb;
         input logic [7:0] lane_2,
         input logic [7:0] lane_3
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
         begin
             send_packet_and_wait_response(MEM_WRITE, address, lane_0, lane_1,
                                           lane_2, lane_3, response_data,
                                           "MEM_WRITE");
-            check(response_data == 32'b0, "MEM_WRITE retornou dado inesperado");
+            check(response_data == 64'b0, "MEM_WRITE retornou dado inesperado");
         end
     endtask
 
     task automatic mem_read_vector(
         input  logic [7:0] address,
-        output logic [31:0] vector_data
+        output logic [63:0] vector_data
     );
         begin
             send_packet_and_wait_response(MEM_READ, address, 8'b0, 8'b0,
@@ -127,18 +127,18 @@ module gpu_simd_matrix_mul_tb;
         input logic [7:0] src_b,
         input logic [7:0] dst
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
         begin
             send_packet_and_wait_response(GPU_COMMAND, 8'b0, opcode, src_a,
                                           src_b, dst, response_data,
                                           "GPU_COMMAND");
-            check(response_data == 32'b0,
+            check(response_data == 64'b0,
                   "GPU_COMMAND retornou dado inesperado");
 
             send_packet_and_wait_response(GPU_START, 8'b0, 8'b0, 8'b0,
                                           8'b0, 8'b0, response_data,
                                           "GPU_START");
-            check(response_data == 32'h0000_0002,
+            check(response_data == 64'h0000_0000_0000_0002,
                   "GPU_START nao retornou STATUS DONE");
         end
     endtask
@@ -147,7 +147,7 @@ module gpu_simd_matrix_mul_tb;
     integer j;
     integer k;
     integer sum;
-    logic [31:0] result_vector;
+    logic [63:0] result_vector;
 
     initial begin
         clk         = 1'b0;
@@ -181,7 +181,7 @@ module gpu_simd_matrix_mul_tb;
                 sum = 0;
                 for (k = 0; k < 4; k = k + 1)
                     sum = sum + matrix_a[i][k] * matrix_b[k][j];
-                matrix_c[i][j] = sum[7:0];
+                matrix_c[i][j] = sum[15:0];
             end
         end
 
@@ -217,12 +217,12 @@ module gpu_simd_matrix_mul_tb;
         // Confere o caminho host -> decoder -> AXI -> porta A da memoria
         // antes de iniciar os comandos da GPU.
         mem_read_vector(B_BASE, result_vector);
-        check(result_vector == {matrix_b[0][0], matrix_b[0][1],
-                                matrix_b[0][2], matrix_b[0][3]},
+        check(result_vector == {8'h00, matrix_b[0][0], 8'h00, matrix_b[0][1],
+                                8'h00, matrix_b[0][2], 8'h00, matrix_b[0][3]},
               "B[0] nao foi gravada corretamente na memoria vetorial");
         mem_read_vector(A_BASE, result_vector);
-        check(result_vector == {matrix_a[0][0], matrix_a[0][0],
-                                matrix_a[0][0], matrix_a[0][0]},
+        check(result_vector == {8'h00, matrix_a[0][0], 8'h00, matrix_a[0][0],
+                                8'h00, matrix_a[0][0], 8'h00, matrix_a[0][0]},
               "A[0][0] broadcast nao foi gravado corretamente");
 
         $display("[TB] Executando C = A x B com operacoes SIMD...");
@@ -248,8 +248,8 @@ module gpu_simd_matrix_mul_tb;
                             {matrix_c[i][0], matrix_c[i][1],
                              matrix_c[i][2], matrix_c[i][3]}));
             $display("[TB] C[%0d] = %0d %0d %0d %0d", i,
-                     result_vector[31:24], result_vector[23:16],
-                     result_vector[15:8], result_vector[7:0]);
+                     result_vector[63:48], result_vector[47:32],
+                     result_vector[31:16], result_vector[15:0]);
         end
 
         $display("[TB] PASSOU: multiplicacao de matrizes 4x4 concluida.");

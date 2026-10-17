@@ -19,16 +19,19 @@ module gpu_simd_tb;
     localparam logic [7:0] DST_SUB = 8'h11;
     localparam logic [7:0] DST_MUL = 8'h12;
     localparam logic [7:0] DST_DIV = 8'h13;
+    localparam logic [7:0] VEC_MAX_A = 8'h02;
+    localparam logic [7:0] VEC_MAX_B = 8'h03;
+    localparam logic [7:0] DST_MUL_8 = 8'h14;
 
     logic        clk;
     logic        rst;
     logic [41:0] req_payload;
     logic        req_valid;
     logic        req_ready;
-    logic [31:0] rsp_data;
+    logic [63:0] rsp_data;
     logic        rsp_valid;
     logic        rsp_error;
-    logic [31:0] result_vector;
+    logic [63:0] result_vector;
 
     gpu_simd dut (
         .clk        (clk),
@@ -63,7 +66,7 @@ module gpu_simd_tb;
         input  logic [7:0] field_2,
         input  logic [7:0] field_3,
         input  logic [7:0] field_4,
-        output logic [31:0] response_data,
+        output logic [63:0] response_data,
         input  string operation_name
     );
         integer cycles;
@@ -97,7 +100,7 @@ module gpu_simd_tb;
         input logic [7:0] address,
         input logic [31:0] vector_data
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
         begin
             send_packet_and_wait_response(MEM_WRITE, address,
                                           vector_data[31:24],
@@ -105,14 +108,14 @@ module gpu_simd_tb;
                                           vector_data[15:8],
                                           vector_data[7:0],
                                           response_data, "MEM_WRITE");
-            check(response_data == 32'b0,
+            check(response_data == 64'b0,
                   "MEM_WRITE retornou dado inesperado");
         end
     endtask
 
     task automatic mem_read_vector(
         input  logic [7:0] address,
-        output logic [31:0] vector_data
+        output logic [63:0] vector_data
     );
         begin
             send_packet_and_wait_response(MEM_READ, address, 8'b0, 8'b0,
@@ -128,31 +131,33 @@ module gpu_simd_tb;
         input logic [7:0] src_b,
         input logic [7:0] dst
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
         begin
             send_packet_and_wait_response(GPU_COMMAND, 8'b0, opcode, src_a,
                                           src_b, dst, response_data,
                                           "GPU_COMMAND");
-            check(response_data == 32'b0,
+            check(response_data == 64'b0,
                   "GPU_COMMAND retornou dado inesperado");
 
             send_packet_and_wait_response(GPU_START, 8'b0, 8'b0, 8'b0,
                                           8'b0, 8'b0, response_data,
                                           "GPU_START");
             // Bit 1 = DONE e bit 0 = BUSY. Ao responder, a GPU terminou.
-            check(response_data == 32'h0000_0002,
+            check(response_data == 64'h0000_0000_0000_0002,
                   "GPU_START nao retornou STATUS DONE");
         end
     endtask
 
     task automatic run_and_check(
         input logic [7:0] opcode,
+        input logic [7:0] src_a,
+        input logic [7:0] src_b,
         input logic [7:0] dst,
-        input logic [31:0] expected,
+        input logic [63:0] expected,
         input string operation_name
     );
         begin
-            gpu_operation(opcode, VEC_A, VEC_B, dst);
+            gpu_operation(opcode, src_a, src_b, dst);
             mem_read_vector(dst, result_vector);
             check(result_vector == expected,
                   $sformatf("%s: recebeu %h, esperava %h",
@@ -178,20 +183,32 @@ module gpu_simd_tb;
 
         // Confere a carga antes de testar a unidade de execucao.
         mem_read_vector(VEC_A, result_vector);
-        check(result_vector == 32'h0A_14_1E_28,
+        check(result_vector == 64'h000A_0014_001E_0028,
               "vetor A nao foi gravado corretamente");
         mem_read_vector(VEC_B, result_vector);
-        check(result_vector == 32'h02_05_00_08,
+        check(result_vector == 64'h0002_0005_0000_0008,
               "vetor B nao foi gravado corretamente");
 
-        run_and_check(OP_ADD, DST_ADD, 32'h0C_19_1E_30, "ADD");
-        run_and_check(OP_SUB, DST_SUB, 32'h08_0F_1E_20, "SUB");
-        run_and_check(OP_MUL, DST_MUL, 32'h14_64_00_40, "MUL");
-        run_and_check(OP_DIV, DST_DIV, 32'h05_04_00_05, "DIV (inclui zero)");
+        run_and_check(OP_ADD, VEC_A, VEC_B, DST_ADD,
+                      64'h000C_0019_001E_0030, "ADD");
+        run_and_check(OP_SUB, VEC_A, VEC_B, DST_SUB,
+                      64'h0008_000F_001E_0020, "SUB");
+        run_and_check(OP_MUL, VEC_A, VEC_B, DST_MUL,
+                      64'h0014_0064_0000_0140, "MUL");
+        run_and_check(OP_DIV, VEC_A, VEC_B, DST_DIV,
+                      64'h0005_0004_0000_0005, "DIV (inclui zero)");
 
         // Reutiliza o mesmo endereco para confirmar que o destino e sobrescrito.
-        run_and_check(OP_MUL, DST_ADD, 32'h14_64_00_40,
+        run_and_check(OP_MUL, VEC_A, VEC_B, DST_ADD,
+                      64'h0014_0064_0000_0140,
                       "MUL sobrescrevendo DST_ADD");
+
+        // Requisito de largura: quatro produtos 255 x 255 sem truncamento.
+        mem_write_vector(VEC_MAX_A, 32'hFFFF_FFFF);
+        mem_write_vector(VEC_MAX_B, 32'hFFFF_FFFF);
+        run_and_check(OP_MUL, VEC_MAX_A, VEC_MAX_B, DST_MUL_8,
+                      64'hFE01_FE01_FE01_FE01,
+                      "MUL 8 bits: 255 x 255");
 
         $display("[TB] PASSOU: todos os comandos SIMD foram validados.");
         $finish;

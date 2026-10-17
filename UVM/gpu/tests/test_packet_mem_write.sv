@@ -25,7 +25,8 @@ class test_packet_mem_write extends gpu_base_test;
                     if (internal_vif.monitor_cb.mem_a_we) begin
                         check_condition(internal_vif.monitor_cb.mem_a_addr == 8'h00,
                                "MEM_WRITE apresentou endereco incorreto na porta A");
-                        check_condition(internal_vif.monitor_cb.mem_a_wdata == 32'h01_02_03_04,
+                        check_condition(internal_vif.monitor_cb.mem_a_wdata ==
+                                        64'h0001_0002_0003_0004,
                                "MEM_WRITE apresentou dado incorreto na porta A");
                         write_seen = 1'b1;
                         break;
