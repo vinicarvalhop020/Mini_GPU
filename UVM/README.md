@@ -89,6 +89,9 @@ scoreboard aponta divergencias como erros UVM.
 ## Erros encontrados: (Versão 1.0)
 
 | Nome do teste | O que achou | Solução |
-| `test_gpu_add_end_to_end` | A primeira requisição era enviada durante a inicialização, quando `rst` ainda podia valer `X`.<br><br>O driver cancelava a escrita do vetor no endereço `0x00`, desalinhando as respostas seguintes. | O driver agora aguarda `rst === 1'b0` antes de dirigir uma requisição.<br><br>Assim, `X` é tratado como reset ainda não liberado. É necessário executar o teste novamente para confirmar o fluxo completo. |
+
+| `test_gpu_add_end_to_end` | A primeira requisição era enviada durante a inicialização, quando `rst` ainda podia valer `X`.<br><br>O driver cancelava a escrita do vetor no endereço `0x00`, desalinhando as respostas seguintes. | O driver agora aguarda `rst === 1'b0` antes de dirigir uma requisição.<br><br>Assim, `X` é tratado como reset ainda não liberado. |
+
+| `gpu_matrix_mul_test` | A randomização das matrizes evidenciou que uma lane de resultado com 8 bits não representa o produto completo de dois valores de 8 bits.<br><br>Exemplo: `255 × 255 = 65025`, que precisa de 16 bits. | Em implementação: manter entradas do host em 8 bits e ampliar memória, registradores, ALU SIMD e `rsp_data` para 16 bits por lane (`64` bits por vetor). |
 
 
