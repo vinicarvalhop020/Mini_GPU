@@ -13,30 +13,20 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
     localparam logic [7:0] TEMP   = 8'h20;
     localparam logic [7:0] C_BASE = 8'h30;
 
-    logic [7:0] matrix_a [0:3][0:3];
-    logic [7:0] matrix_b [0:3][0:3];
+    // Cada nova execucao gera matrizes de entrada diferentes.
+    rand logic [7:0] matrix_a [0:3][0:3];
+    rand logic [7:0] matrix_b [0:3][0:3];
     logic [31:0] matrix_c [0:3];
+
+    // Quatro produtos de 7 x 7 somados ocupam, no maximo, 196. Assim cada
+    // lane de 8 bits do resultado SIMD nao sofre overflow.
+    constraint matrix_elements_c {
+        foreach (matrix_a[i, j]) matrix_a[i][j] inside {[0:7]};
+        foreach (matrix_b[i, j]) matrix_b[i][j] inside {[0:7]};
+    }
 
     function new(string name = "gpu_matrix_mul_sequence");
         super.new(name);
-
-        matrix_a[0][0] = 1; matrix_a[0][1] = 2;
-        matrix_a[0][2] = 3; matrix_a[0][3] = 4;
-        matrix_a[1][0] = 0; matrix_a[1][1] = 1;
-        matrix_a[1][2] = 2; matrix_a[1][3] = 3;
-        matrix_a[2][0] = 4; matrix_a[2][1] = 3;
-        matrix_a[2][2] = 2; matrix_a[2][3] = 1;
-        matrix_a[3][0] = 1; matrix_a[3][1] = 0;
-        matrix_a[3][2] = 1; matrix_a[3][3] = 0;
-
-        matrix_b[0][0] = 1; matrix_b[0][1] = 2;
-        matrix_b[0][2] = 0; matrix_b[0][3] = 1;
-        matrix_b[1][0] = 0; matrix_b[1][1] = 1;
-        matrix_b[1][2] = 2; matrix_b[1][3] = 0;
-        matrix_b[2][0] = 1; matrix_b[2][1] = 0;
-        matrix_b[2][2] = 1; matrix_b[2][3] = 2;
-        matrix_b[3][0] = 2; matrix_b[3][1] = 1;
-        matrix_b[3][2] = 0; matrix_b[3][3] = 1;
     endfunction
 
     // Envia um pacote e retorna a resposta preenchida pelo driver.
@@ -92,6 +82,19 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
 
     virtual task body();
         logic [31:0] response_data;
+
+        if (!randomize())
+            `uvm_fatal("GPU_MATRIX", "Nao foi possivel randomizar A e B")
+
+        for (int i = 0; i < 4; i++) begin
+            `uvm_info("GPU_MATRIX",
+                      $sformatf("A[%0d] = %0d %0d %0d %0d | B[%0d] = %0d %0d %0d %0d",
+                                i, matrix_a[i][0], matrix_a[i][1],
+                                matrix_a[i][2], matrix_a[i][3],
+                                i, matrix_b[i][0], matrix_b[i][1],
+                                matrix_b[i][2], matrix_b[i][3]),
+                      UVM_LOW)
+        end
 
         `uvm_info("GPU_MATRIX", "Gravando A e B na memoria vetorial", UVM_LOW)
 
