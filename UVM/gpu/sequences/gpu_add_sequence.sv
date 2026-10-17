@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [GPU_02_END_TO_END]: programa completo de soma vetorial.
+// programa completo de soma vetorial.
 class gpu_add_sequence extends gpu_base_sequence;
     `uvm_object_utils(gpu_add_sequence)
 

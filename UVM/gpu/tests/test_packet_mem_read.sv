@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [AXI_03] Envia MEM_READ e verifica a leitura da memoria e a resposta ao host.
+// Envia MEM_READ e verifica a leitura da memoria e a resposta ao host.
 class test_packet_mem_read extends gpu_base_test;
     `uvm_component_utils(test_packet_mem_read)
 

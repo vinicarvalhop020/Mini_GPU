@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [AXI_01] Exercita tipos de pacote e verifica a selecao de memoria e caminho de comando.
+// Exercita tipos de pacote e verifica a selecao de memoria e caminho de comando.
 class test_axi_decode extends gpu_base_test;
     `uvm_component_utils(test_axi_decode)
 

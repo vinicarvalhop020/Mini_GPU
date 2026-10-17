@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [GPU_02] Executa uma soma vetorial completa pelo protocolo do host.
+// Executa uma soma vetorial completa pelo protocolo do host.
 class test_gpu_add_end_to_end extends gpu_base_test;
     `uvm_component_utils(test_gpu_add_end_to_end)
 

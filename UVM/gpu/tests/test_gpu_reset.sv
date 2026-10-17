@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [GPU_01_RESET] Aplica reset ocioso e durante uma operacao e verifica o retorno ao estado inicial.
+// Aplica reset ocioso e durante uma operacao e verifica o retorno ao estado inicial.
 class test_gpu_reset extends gpu_base_test;
     `uvm_component_utils(test_gpu_reset)
 

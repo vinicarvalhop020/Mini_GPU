@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [ALU_01] a [ALU_05]: exercita toda a ISA pelo protocolo de host.
+// exercita toda a ISA pelo protocolo de host.
 class gpu_all_ops_sequence extends gpu_base_sequence;
     `uvm_object_utils(gpu_all_ops_sequence)
 

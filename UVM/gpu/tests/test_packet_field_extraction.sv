@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [PKT_01/PKT_02] Verifica a extracao de TYPE e FIELD_0 a FIELD_4 de um pacote.
+// Verifica a extracao de TYPE e FIELD_0 a FIELD_4 de um pacote.
 class test_packet_field_extraction extends gpu_base_test;
     `uvm_component_utils(test_packet_field_extraction)
 

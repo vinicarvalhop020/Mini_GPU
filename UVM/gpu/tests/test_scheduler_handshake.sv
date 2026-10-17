@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [SCH_01 a SCH_04] Verifica valid/ready, BUSY, DONE e os estados do Scheduler.
+// Verifica valid/ready, BUSY, DONE e os estados do Scheduler.
 class test_scheduler_handshake extends gpu_base_test;
     `uvm_component_utils(test_scheduler_handshake)
 

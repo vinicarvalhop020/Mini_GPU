@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [AXI_02] Envia MEM_WRITE e verifica endereco, dado, escrita na memoria e resposta ao host.
+// Envia MEM_WRITE e verifica endereco, dado, escrita na memoria e resposta ao host.
 class test_packet_mem_write extends gpu_base_test;
     `uvm_component_utils(test_packet_mem_write)
 

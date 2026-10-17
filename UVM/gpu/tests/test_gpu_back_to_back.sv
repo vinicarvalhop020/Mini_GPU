@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [PKT_04, AXI_06, SCH_03] Executa operacoes consecutivas sem sobrescrever resultados.
+// Executa operacoes consecutivas sem sobrescrever resultados.
 class test_gpu_back_to_back extends gpu_base_test;
     `uvm_component_utils(test_gpu_back_to_back)
 

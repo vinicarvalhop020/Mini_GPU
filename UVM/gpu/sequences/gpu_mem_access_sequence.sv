@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [AXI_02], [AXI_03] e [MEM_01]: acessos em enderecos de borda da porta A.
+// acessos em enderecos de borda da porta A.
 class gpu_mem_access_sequence extends gpu_base_sequence;
     `uvm_object_utils(gpu_mem_access_sequence)
 

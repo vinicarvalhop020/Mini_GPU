@@ -1,8 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [GPU_02, ALU_01, ALU_03, ALU_05] Executa C = A x B com operacoes SIMD MUL e ADD.
-
 // Executa o programa de host para C = A x B. A verificacao dos valores sera
 // adicionada posteriormente pelo scoreboard.
 class gpu_matrix_mul_test extends gpu_base_test;

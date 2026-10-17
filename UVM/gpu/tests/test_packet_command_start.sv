@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [AXI_04/AXI_05] Envia GPU_COMMAND seguido de GPU_START e observa o comando entregue ao Scheduler.
+// Envia GPU_COMMAND seguido de GPU_START e observa o comando entregue ao Scheduler.
 class test_packet_command_start extends gpu_base_test;
     `uvm_component_utils(test_packet_command_start)
 

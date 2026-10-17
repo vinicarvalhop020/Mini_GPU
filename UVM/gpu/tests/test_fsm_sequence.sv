@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [FSM_01 a FSM_07] Verifica a sequencia de estados e os pulsos de controle da FSM.
+// Verifica a sequencia de estados e os pulsos de controle da FSM.
 class test_fsm_sequence extends gpu_base_test;
     `uvm_component_utils(test_fsm_sequence)
 

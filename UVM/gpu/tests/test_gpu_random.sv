@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [Plano] Gera vetores, opcodes e enderecos aleatorios e compara as respostas com o modelo de referencia.
+// Gera vetores, opcodes e enderecos aleatorios e compara as respostas com o modelo de referencia.
 class test_gpu_random extends gpu_base_test;
     `uvm_component_utils(test_gpu_random)
 

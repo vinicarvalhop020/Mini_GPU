@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [GPU_RANDOM]: gera programas validos aleatorios; o scoreboard decide o acerto.
+// gera programas validos aleatorios; o scoreboard decide o acerto.
 class gpu_random_sequence extends gpu_base_sequence;
     `uvm_object_utils(gpu_random_sequence)
 

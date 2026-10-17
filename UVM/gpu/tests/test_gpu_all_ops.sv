@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// [GPU_02, ALU_01 a ALU_04] Executa uma operacao completa para cada opcode suportado.
+// Executa uma operacao completa para cada opcode suportado.
 class test_gpu_all_ops extends gpu_base_test;
     `uvm_component_utils(test_gpu_all_ops)
 
