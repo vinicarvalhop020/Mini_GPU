@@ -54,7 +54,7 @@
   \rowcolor{azulclaro}\multicolumn{5}{l}{\textbf{#1}}\\
 }
 
-\title{\textbf{Desenvolvimento do Plano de Verificação Versão 1.1}\\[0.3em]
+\title{\textbf{Desenvolvimento do Plano de Verificação Versão 1.2}\\[0.3em]
        \large Mini GPU SIMD Simplificada}
 \author{Vinícius Carvalho Pimpim\\Projeto Fase 2 - CI Digital}
 \date{}
@@ -71,9 +71,11 @@ computação paralela, uma mesma operação é aplicada simultaneamente a difere
 elementos de dados. O objetivo do projeto é desenvolver um módulo capaz de acelerar
 cálculos vetoriais simples por meio de quatro unidades aritméticas operando em paralelo.
 
-A versão inicial processa dois vetores de quatro posições, com elementos de 8 bits. Cada
-posição da memória vetorial armazena uma palavra de 32 bits, composta pelas quatro
-\textit{lanes}. O conjunto inicial de operações inclui adição, subtração, multiplicação
+A GPU recebe dois vetores de quatro posições, com elementos de entrada sem sinal de
+8 bits. Para preservar o resultado de uma multiplicação, cada posição da memória
+vetorial armazena uma palavra de 64 bits, composta por quatro \textit{lanes} de 16 bits.
+Nas escritas do host, os quatro valores de 8 bits são estendidos com zeros antes de
+serem gravados. O conjunto inicial de operações inclui adição, subtração, multiplicação
 e divisão.
 
 \section{Linguagem utilizada}
@@ -126,12 +128,12 @@ que enviará diretamente os pacotes de requisição de 42 bits.
     Parâmetro & Valor \\
     \midrule
     Interface de requisição do host & Pacote de 42 bits com protocolo \\
-    Interface de resposta ao host & Dados de 32 bits Resposta de um comando \\
-    Barramento interno & AXI4-Lite, dados de 32 bits \\
+    Interface de resposta ao host & Dados de 64 bits e resposta de um comando \\
+    Barramento interno & AXI4-Lite simplificado, dados vetoriais de 64 bits \\
     Número de \textit{lanes} & 4 \\
-    Largura de cada elemento & 8 bits, sem sinal \\
-    Palavra vetorial & 32 bits \\
-    Memória vetorial & 256 palavras de 32 bits \\
+    Largura de cada elemento & Entrada do host: 8 bits; \textit{lane} interna e resultado: 16 bits, sem sinal \\
+    Palavra vetorial & 64 bits \\
+    Memória vetorial & 256 palavras de 64 bits \\
     Endereço interno da memória & 8 bits \\
     Pacote interno de requisição & 42 bits: \signal{TYPE[1:0]} + \signal{PAYLOAD[39:0]} \\
     Número de comandos simultâneos & 1 \\
@@ -161,7 +163,7 @@ que enviará diretamente os pacotes de requisição de 42 bits.
   \node[block, below=of scheduler] (fsm) {FSM de execução};
   \node[data, below right=1.2cm and 2.3cm of axis] (mem) {Memória vetorial\\dual-port};
   \node[data, below=of mem] (regs) {Registradores\\vetoriais A e B};
-  \node[data, below=of regs] (alu) {ALU SIMD\\4 lanes de 8 bits};
+  \node[data, below=of regs] (alu) {ALU SIMD\\4 lanes de 16 bits};
 
   \draw[arrow] (host) -- node[right]{pacote de 42 bits} (packet);
   \draw[arrow] (packet) -- node[right]{\signal{TYPE} e \signal{FIELD_0...FIELD_4}} (axis);
@@ -199,7 +201,7 @@ memória vetorial.
 
 Memória com duas interfaces independentes de leitura e escrita. A porta A é
 controlada pelo AXI4-Lite Slave Decoder, e a porta B é controlada pela FSM. Cada endereço
-armazena um vetor completo de 32 bits.
+armazena um vetor completo de 64 bits, formado por quatro \textit{lanes} de 16 bits.
 
 \subsubsection{Scheduler de comando}
 
@@ -236,14 +238,16 @@ Tabela~\ref{tab:fsm}.
 
 \subsubsection{Registradores vetoriais A e B}
 
-Armazenam os dois vetores lidos da porta B da memória. O barramento de 32 bits
+Armazenam os dois vetores lidos da porta B da memória. O barramento de 64 bits
 proveniente da memória alimenta os dois registradores, e a FSM seleciona o destino
 por meio de \signal{load_a} e \signal{load_b}.
 
-\subsubsection{ALU SIMD com quatro lanes de 8 bits}
+\subsubsection{ALU SIMD com quatro lanes de 16 bits}
 
-Composta por quatro ALUs simples de 8 bits. As quatro unidades recebem o mesmo
-opcode e operam simultaneamente sobre posições independentes dos vetores A e B.
+Composta por quatro ALUs simples de 16 bits. As quatro unidades recebem o mesmo
+opcode e operam simultaneamente sobre posições independentes dos vetores A e B. Os
+operandos enviados pelo host são originalmente de 8 bits e são estendidos com zeros na
+escrita da memória; assim, uma multiplicação de 8 bits preserva seu resultado de 16 bits.
 
 \clearpage
 \section{Interfaces dos blocos}
@@ -325,13 +329,13 @@ responsável apenas pelos sinais de controle.
 
     \signal{rsp_*}
       & Output
-      & 32, 1 e 1
+      & 64, 1 e 1
       & \signal{rsp_data}, \signal{rsp_valid} e \signal{rsp_error}. \\
 
     \signal{mem_a_addr/wdata}
       & Output
-      & 8 e 32
-      & Endereço e vetor enviados à porta A. \\
+      & 8 e 64
+      & Endereço e vetor de quatro \textit{lanes} de 16 bits enviados à porta A. \\
 
     \signal{mem_a_we/re}
       & Output
@@ -340,7 +344,7 @@ responsável apenas pelos sinais de controle.
 
     \signal{mem_a_rdata}
       & Input
-      & 32
+      & 64
       & Vetor lido pela porta A. \\
 
     \signal{cmd_fields}
@@ -495,7 +499,7 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
 
     \signal{a_wdata/b_wdata}
       & Input
-      & 32 cada
+      & 64 cada
       & Dados de escrita das portas. \\
 
     \signal{a_we/b_we}
@@ -510,7 +514,7 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
 
     \signal{a_rdata/b_rdata}
       & Output
-      & 32 cada
+      & 64 cada
       & Dados lidos nas duas portas. \\
     \bottomrule
   \end{tabularx}
@@ -535,7 +539,7 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
 
     \signal{mem_b_rdata}
       & Input
-      & 32
+      & 64
       & Vetor retornado diretamente pela porta B da memória. \\
 
     \signal{load_a/load_b}
@@ -545,7 +549,7 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
 
     \signal{vector_a/vector_b}
       & Output
-      & 32 cada
+      & 64 cada
       & Operandos enviados à ALU SIMD. \\
     \bottomrule
   \end{tabularx}
@@ -565,8 +569,8 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
     \midrule
     \signal{vector_a/vector_b}
       & Input
-      & 32 cada
-      & Dois vetores com quatro elementos de 8 bits. \\
+      & 64 cada
+      & Dois vetores com quatro \textit{lanes} de 16 bits. \\
 
     \signal{opcode}
       & Input
@@ -575,8 +579,8 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
 
     \signal{result}
       & Output
-      & 32
-      & Resultado formado por quatro elementos de 8 bits. \\
+      & 64
+      & Resultado formado por quatro \textit{lanes} de 16 bits. \\
     \bottomrule
   \end{tabularx}
 \end{table}
@@ -596,7 +600,7 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
     \signal{0x000} & \signal{CONTROL} & Bit 0: solicitação de início da execução. \\
     \signal{0x004} & \signal{STATUS} & Bit 0: \signal{BUSY}; bit 1: \signal{DONE}. \\
     \signal{0x008} & \signal{COMMAND} & Opcode, \signal{SRC_A}, \signal{SRC_B} e \signal{DST}. \\
-    \signal{0x100--0x4FC} & Memória vetorial & 256 palavras de 32 bits. \\
+    \signal{0x100--0x4FC} & Memória vetorial & 256 palavras de 64 bits. \\
     \bottomrule
   \end{tabularx}
 \end{table}
@@ -671,6 +675,11 @@ pela tradução para o mapa interno de endereços.
   \end{tabular}
 \end{table}
 
+Os campos \signal{LANE_0} a \signal{LANE_3} do pacote continuam tendo 8 bits, pois
+representam os valores de entrada do host. No \signal{MEM_WRITE}, o AXI4-Lite Slave
+Decoder estende cada campo com zeros e grava as quatro \textit{lanes} de 16 bits na
+palavra vetorial de 64 bits.
+
 \subsection{Leitura de vetor}
 
 \begin{table}[H]
@@ -685,7 +694,7 @@ pela tradução para o mapa interno de endereços.
   \end{tabular}
 \end{table}
 
-A resposta de leitura é retornada em \signal{rsp_data[31:0]}, acompanhada por
+A resposta de leitura é retornada em \signal{rsp_data[63:0]}, acompanhada por
 \signal{rsp_valid}. Caso o AXI retorne uma resposta de erro, o adaptador também
 ativa \signal{rsp_error}.
 
@@ -720,7 +729,7 @@ operação e o Scheduler produzir \signal{DONE}.
     \midrule
     \signal{ADD} & \signal{0000 0001} & Soma os elementos correspondentes dos dois vetores. \\
     \signal{SUB} & \signal{0000 0010} & Subtrai os elementos correspondentes dos dois vetores. \\
-    \signal{MUL} & \signal{0000 0011} & Multiplica os elementos correspondentes e mantém os 8 bits menos significativos. \\
+    \signal{MUL} & \signal{0000 0011} & Multiplica os elementos correspondentes. Para operandos de entrada de 8 bits, preserva o produto de 16 bits. \\
     \signal{DIV} & \signal{0000 0100} & Realiza divisão inteira. \\
     \bottomrule
   \end{tabularx}
@@ -751,7 +760,7 @@ operação e o Scheduler produzir \signal{DONE}.
 
 \begin{description}[style=nextline]
   \item[\req{AXI_01_DECODE}] O bloco deve interpretar \signal{req_type} e os cinco campos recebidos diretamente do Packet Decoder, direcionando a requisição para \signal{CONTROL}, \signal{STATUS}, \signal{COMMAND} ou para a porta A da memória vetorial.
-  \item[\req{AXI_02_MEM_WRITE}] Para \signal{MEM_WRITE}, o bloco deve usar \signal{FIELD_0} como endereço da memória e formar a palavra vetorial com \signal{FIELD_1} a \signal{FIELD_4}.
+  \item[\req{AXI_02_MEM_WRITE}] Para \signal{MEM_WRITE}, o bloco deve usar \signal{FIELD_0} como endereço da memória e formar uma palavra vetorial de 64 bits, estendendo com zeros os quatro campos de entrada de 8 bits \signal{FIELD_1} a \signal{FIELD_4}.
   \item[\req{AXI_03_MEM_READ}] Para \signal{MEM_READ}, o bloco deve ler pela porta A o endereço indicado por \signal{FIELD_0} e retornar a palavra em \signal{rsp_data}.
   \item[\req{AXI_04_COMMAND}] Para \signal{GPU_COMMAND}, o bloco deve armazenar corretamente \signal{OPCODE}, \signal{SRC_A}, \signal{SRC_B} e \signal{DST}.
   \item[\req{AXI_05_CONTROL_STATUS}] Para \signal{GPU_START}, o bloco deve solicitar a execução e acompanhar os sinais \signal{BUSY} e \signal{DONE} do Scheduler.
@@ -796,12 +805,12 @@ operação e o Scheduler produzir \signal{DONE}.
   \item[\req{REG_03_HOLD}] Quando \signal{load_a=0} e \signal{load_b=0}, os dois registradores devem manter seus valores.
 \end{description}
 
-\subsection{ALU SIMD com quatro lanes de 8 bits}
+\subsection{ALU SIMD com quatro lanes de 16 bits}
 
 \begin{description}[style=nextline]
   \item[\req{ALU_01_SOMA}] A ALU SIMD deve executar a adição elemento a elemento entre dois vetores.
   \item[\req{ALU_02_SUB}] A ALU SIMD deve executar a subtração elemento a elemento entre dois vetores.
-  \item[\req{ALU_03_MULT}] A ALU SIMD deve executar a multiplicação elemento a elemento, com overflow truncado para 8 bits.
+  \item[\req{ALU_03_MULT}] A ALU SIMD deve executar a multiplicação elemento a elemento e preservar, em cada \textit{lane} de 16 bits, o produto de dois operandos de entrada de 8 bits.
   \item[\req{ALU_04_DIV}] A ALU SIMD deve executar a divisão inteira elemento a elemento, produzindo zero quando o divisor de uma lane for zero.
   \item[\req{ALU_05_SIMD}] As quatro lanes devem receber o mesmo opcode e produzir resultados independentes, sem dependência entre as posições do vetor.
 \end{description}
@@ -1010,6 +1019,22 @@ cada opcode suportado.
 Alta
 \\
 
+\path{test_gpu_mul_8bit}
+&
+Escreve o valor máximo de 8 bits (\signal{8'hFF}) nas quatro \textit{lanes}
+de dois vetores, executa \signal{MUL} e verifica o produto
+\signal{16'hFE01} em cada \textit{lane} da resposta de 64 bits.
+&
+\req{GPU_02_END_TO_END},
+\req{AXI_02_MEM_WRITE},
+\req{AXI_03_MEM_READ},
+\req{ALU_03_MULT},
+\req{ALU_05_SIMD}
+&
+Alta
+\\
+
+
 \path{gpu_matrix_mul_test}
 &
 Executa a multiplica\c{c}\~ao de duas matrizes 4x4 por meio de opera\c{c}\~oes SIMD
@@ -1102,6 +1127,7 @@ Alta
     \textbf{Vers\~ao} & \textbf{Modifica\c{c}\~ao} \\
     \midrule
     1.1 & Testes de m\'odulos internos removidos e teste GPU MUL adicionado ao plano de verifica\c{c}\~ao UVM. \\
+    1.2 & Caminho vetorial ampliado de 32 para 64 bits, com quatro \textit{lanes} internas de 16 bits e entradas do host mantidas em 8 bits. Adicionado o teste \path{test_gpu_mul_8bit}, que valida \signal{8'hFF * 8'hFF = 16'hFE01} em todas as \textit{lanes}. \\
     \bottomrule
   \end{tabularx}
   \caption{Hist\'orico de vers\~oes do plano de verifica\c{c}\~ao.}

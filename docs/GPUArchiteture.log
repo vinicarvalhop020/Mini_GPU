@@ -1,7 +1,6 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.15)  15 OCT 2026 14:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.15)  17 OCT 2026 11:18
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **./GPUArchiteture.tex
 (GPUArchiteture.tex
@@ -879,20 +878,21 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 65.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 65.
-
-(C:\Users\vinip\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd) [1
+ [1
 
 {C:/Users/vinip/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/vini
-p/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}] [2] [3
+p/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
+(C:\Users\vinip\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd) [2]
+[3
 
 ] [4]
-Underfull \hbox (badness 10000) in paragraph at lines 361--361
+Underfull \hbox (badness 10000) in paragraph at lines 365--365
 []|\T1/lmtt/m/n/10.95 rsp_data\T1/lmr/m/n/10.95 (+20) , \T1/lmtt/m/n/10.95 rsp_
 valid \T1/lmr/m/n/10.95 (+20) e
  []
 
 
-Underfull \hbox (badness 2698) in paragraph at lines 412--412
+Underfull \hbox (badness 2698) in paragraph at lines 416--416
 []|\T1/lmr/m/n/10.95 (+20) Handshake de en-trada do co-
  []
 
@@ -900,39 +900,44 @@ Underfull \hbox (badness 2698) in paragraph at lines 412--412
 
 {C:/Users/vinip/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/
 Users/vinip/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}]
-[6] [7] [8
+[6]
+Underfull \hbox (badness 1635) in paragraph at lines 585--585
+[]|\T1/lmr/m/n/10.95 (+20) Resultado for-mado por qua-tro
+ []
+
+[7] [8
 
 ] [9
 
 ] [10]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 736.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 745.
  [11
 
 ]
-Overfull \hbox (4.12877pt too wide) in paragraph at lines 765--766
+Overfull \hbox (4.12877pt too wide) in paragraph at lines 774--775
 \T1/lmr/m/n/12 (-20) O Sched-uler deve aceitar um co-mando so-mente quando ocor
 -rer \T1/lmtt/m/n/12 cmd_valid e cmd_ready\T1/lmr/m/n/12 (-20) . 
  []
 
 [12] [13]
-Overfull \hbox (12.21506pt too wide) in paragraph at lines 838--840
+Overfull \hbox (12.21506pt too wide) in paragraph at lines 847--849
  []|\T1/lmr/bx/n/10 (-20) Prioridade| 
  []
 
 
-Overfull \hbox (12.21506pt too wide) in paragraph at lines 854--856
+Overfull \hbox (12.21506pt too wide) in paragraph at lines 863--865
  []|\T1/lmr/bx/n/10 (-20) Prioridade| 
  []
 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 870.
+(Font)              <5> on input line 879.
 [14
 
 
 ] [15]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-080.
+105.
  (C:\Users\vinip\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [16
@@ -947,14 +952,14 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `GPUArchiteture.out' has not changed.
-(rerunfilecheck)             Checksum: 466F27D52C00FB8B0985BECED5CBFB5F;6655.
+(rerunfilecheck)             Checksum: 72F914640DB4E55FECEF904E4974789E;6665.
  ) 
 Here is how much of TeX's memory you used:
- 23839 strings out of 467871
- 448847 string characters out of 5418375
- 883681 words of memory out of 5000000
- 52060 multiletter control sequences out of 15000+600000
- 716357 words of font info for 175 fonts, out of 8000000 for 9000
+ 23847 strings out of 467871
+ 449060 string characters out of 5418375
+ 884681 words of memory out of 5000000
+ 52062 multiletter control sequences out of 15000+600000
+ 721010 words of font info for 179 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  89i,12n,95p,1013b,867s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/vinip/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
@@ -969,9 +974,9 @@ b><C:/Users/vinip/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb
 ><C:/Users/vinip/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb
 ><C:/Users/vinip/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb
 >
-Output written on GPUArchiteture.pdf (17 pages, 336347 bytes).
+Output written on GPUArchiteture.pdf (17 pages, 339677 bytes).
 PDF statistics:
  352 PDF objects out of 1000 (max. 8388607)
  80 named destinations out of 1000 (max. 500000)
- 51541 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 53589 words of extra memory for PDF output out of 61914 (max. 10000000)
 
