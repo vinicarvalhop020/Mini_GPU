@@ -14,7 +14,7 @@ interface gpu_internal_if (
     input logic [7:0]  field_3,
     input logic [7:0]  field_4,
     input logic [7:0]  mem_a_addr,
-    input logic [31:0] mem_a_wdata,
+    input logic [63:0] mem_a_wdata,
     input logic        mem_a_we,
     input logic        mem_a_re,
     input logic [31:0] cmd_fields,
@@ -34,10 +34,10 @@ interface gpu_internal_if (
     input logic        load_a,
     input logic        load_b,
     input logic [7:0]  alu_opcode,
-    input logic [31:0] mem_b_rdata,
-    input logic [31:0] vector_a,
-    input logic [31:0] vector_b,
-    input logic [31:0] alu_result
+    input logic [63:0] mem_b_rdata,
+    input logic [63:0] vector_a,
+    input logic [63:0] vector_b,
+    input logic [63:0] alu_result
 );
 
     clocking monitor_cb @(posedge clk);
