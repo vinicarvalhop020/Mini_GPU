@@ -29,7 +29,7 @@ class test_packet_mem_read extends gpu_base_test;
                 end
             end
         join
-        expect(read_seen, "MEM_READ nao ativou mem_a_re");
+        check_condition(read_seen, "MEM_READ nao ativou mem_a_re");
         phase.drop_objection(this);
     endtask
 endclass

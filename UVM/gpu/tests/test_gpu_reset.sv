@@ -20,7 +20,7 @@ class test_gpu_reset extends gpu_base_test;
             sequence.start(env.agent.sequencer);
             begin
                 wait_for_fsm_state(3'b001, 100, read_a_seen);
-                expect(read_a_seen, "Reset: FSM nao iniciou a operacao");
+                check_condition(read_a_seen, "Reset: FSM nao iniciou a operacao");
 
                 if (read_a_seen) begin
                     @(negedge host_vif.clk);
@@ -29,11 +29,11 @@ class test_gpu_reset extends gpu_base_test;
                     host_vif.rst = 1'b0;
 
                     @(internal_vif.monitor_cb);
-                    expect(internal_vif.monitor_cb.fsm_state == 3'b000,
+                    check_condition(internal_vif.monitor_cb.fsm_state == 3'b000,
                            "Reset nao retornou a FSM para IDLE");
-                    expect(internal_vif.monitor_cb.scheduler_state == 2'b00,
+                    check_condition(internal_vif.monitor_cb.scheduler_state == 2'b00,
                            "Reset nao retornou o Scheduler para IDLE");
-                    expect(!internal_vif.monitor_cb.cmd_busy &&
+                    check_condition(!internal_vif.monitor_cb.cmd_busy &&
                            !internal_vif.monitor_cb.cmd_done,
                            "Reset nao limpou BUSY e DONE");
                 end

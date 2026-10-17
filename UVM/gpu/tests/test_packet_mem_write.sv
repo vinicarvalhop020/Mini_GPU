@@ -23,9 +23,9 @@ class test_packet_mem_write extends gpu_base_test;
                 for (int unsigned cycle = 0; cycle < 30; cycle++) begin
                     @(internal_vif.monitor_cb);
                     if (internal_vif.monitor_cb.mem_a_we) begin
-                        expect(internal_vif.monitor_cb.mem_a_addr == 8'h00,
+                        check_condition(internal_vif.monitor_cb.mem_a_addr == 8'h00,
                                "MEM_WRITE apresentou endereco incorreto na porta A");
-                        expect(internal_vif.monitor_cb.mem_a_wdata == 32'h01_02_03_04,
+                        check_condition(internal_vif.monitor_cb.mem_a_wdata == 32'h01_02_03_04,
                                "MEM_WRITE apresentou dado incorreto na porta A");
                         write_seen = 1'b1;
                         break;
@@ -33,7 +33,7 @@ class test_packet_mem_write extends gpu_base_test;
                 end
             end
         join
-        expect(write_seen, "MEM_WRITE nao ativou mem_a_we");
+        check_condition(write_seen, "MEM_WRITE nao ativou mem_a_we");
         phase.drop_objection(this);
     endtask
 endclass

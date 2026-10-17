@@ -34,7 +34,7 @@ class gpu_base_test extends uvm_test;
     endfunction
 
     // Helpers compartilhados por todos os testes da GPU.
-    function void expect(input bit condition, input string message);
+    function void check_condition(input bit condition, input string message);
         if (!condition)
             `uvm_error("GPU_TEST", message)
     endfunction

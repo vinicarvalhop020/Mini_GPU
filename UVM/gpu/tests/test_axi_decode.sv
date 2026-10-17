@@ -34,9 +34,9 @@ class test_axi_decode extends gpu_base_test;
                 end
             end
         join
-        expect(saw_mem_write, "AXI nao selecionou MEM_WRITE");
-        expect(saw_mem_read,  "AXI nao selecionou MEM_READ");
-        expect(saw_command,   "AXI nao selecionou GPU_START/COMMAND");
+        check_condition(saw_mem_write, "AXI nao selecionou MEM_WRITE");
+        check_condition(saw_mem_read,  "AXI nao selecionou MEM_READ");
+        check_condition(saw_command,   "AXI nao selecionou GPU_START/COMMAND");
         phase.drop_objection(this);
     endtask
 endclass

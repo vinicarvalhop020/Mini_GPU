@@ -44,7 +44,7 @@ class test_fsm_sequence extends gpu_base_test;
                 end
             end
         join
-        expect(sequence_seen, "FSM nao percorreu READ_A ate FINISH na ordem esperada");
+        check_condition(sequence_seen, "FSM nao percorreu READ_A ate FINISH na ordem esperada");
         phase.drop_objection(this);
     endtask
 endclass

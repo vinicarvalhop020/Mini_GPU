@@ -37,9 +37,9 @@ class test_scheduler_handshake extends gpu_base_test;
                 end
             end
         join
-        expect(saw_dispatch, "Scheduler nao entrou em DISPATCH com BUSY=1");
-        expect(saw_execute,  "Scheduler nao entrou em EXECUTE com BUSY=1");
-        expect(saw_done,     "Scheduler nao entrou em DONE com DONE=1");
+        check_condition(saw_dispatch, "Scheduler nao entrou em DISPATCH com BUSY=1");
+        check_condition(saw_execute,  "Scheduler nao entrou em EXECUTE com BUSY=1");
+        check_condition(saw_done,     "Scheduler nao entrou em DONE com DONE=1");
         phase.drop_objection(this);
     endtask
 endclass

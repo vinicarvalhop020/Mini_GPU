@@ -23,11 +23,11 @@ class test_packet_field_extraction extends gpu_base_test;
                 for (int unsigned cycle = 0; cycle < 20; cycle++) begin
                     @(internal_vif.monitor_cb);
                     if (internal_vif.monitor_cb.decoded_valid) begin
-                        expect(internal_vif.monitor_cb.req_type == GPU_MEM_WRITE,
+                        check_condition(internal_vif.monitor_cb.req_type == GPU_MEM_WRITE,
                                "TYPE nao foi extraido como MEM_WRITE");
-                        expect(internal_vif.monitor_cb.field_0 == 8'h00,
+                        check_condition(internal_vif.monitor_cb.field_0 == 8'h00,
                                "FIELD_0 nao foi extraido corretamente");
-                        expect(internal_vif.monitor_cb.field_1 == 8'h01 &&
+                        check_condition(internal_vif.monitor_cb.field_1 == 8'h01 &&
                                internal_vif.monitor_cb.field_2 == 8'h02 &&
                                internal_vif.monitor_cb.field_3 == 8'h03 &&
                                internal_vif.monitor_cb.field_4 == 8'h04,
@@ -38,7 +38,7 @@ class test_packet_field_extraction extends gpu_base_test;
                 end
             end
         join
-        expect(fields_checked, "Packet Decoder nao apresentou campos decodificados");
+        check_condition(fields_checked, "Packet Decoder nao apresentou campos decodificados");
         phase.drop_objection(this);
     endtask
 endclass

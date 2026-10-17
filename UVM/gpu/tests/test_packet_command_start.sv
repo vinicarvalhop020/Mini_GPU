@@ -23,7 +23,7 @@ class test_packet_command_start extends gpu_base_test;
                 for (int unsigned cycle = 0; cycle < 100; cycle++) begin
                     @(internal_vif.monitor_cb);
                     if (internal_vif.monitor_cb.cmd_valid) begin
-                        expect(internal_vif.monitor_cb.cmd_fields == 32'h01_00_01_10,
+                        check_condition(internal_vif.monitor_cb.cmd_fields == 32'h01_00_01_10,
                                "GPU_START nao entregou os campos corretos ao Scheduler");
                         command_seen = 1'b1;
                         break;
@@ -31,7 +31,7 @@ class test_packet_command_start extends gpu_base_test;
                 end
             end
         join
-        expect(command_seen, "GPU_START nao ativou cmd_valid");
+        check_condition(command_seen, "GPU_START nao ativou cmd_valid");
         phase.drop_objection(this);
     endtask
 endclass
