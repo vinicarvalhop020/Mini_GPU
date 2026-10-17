@@ -20,6 +20,7 @@ package gpu_pkg;
 
     // Sequences rastreaveis do plano de verificacao.
     `include "gpu_base_sequence.sv"
+    `include "gpu_reset_sequence.sv"
     `include "gpu_mul_8bit_sequence.sv"
     `include "gpu_add_sequence.sv"
     `include "gpu_mem_access_sequence.sv"
