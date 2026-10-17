@@ -10,7 +10,7 @@ class gpu_address_corners_sequence extends gpu_base_sequence;
     endfunction
 
     virtual task body();
-        logic [31:0] read_data;
+        logic [63:0] read_data;
 
         write_vector(8'h00, 32'h01_02_03_04);
         write_vector(8'hFF, 32'h10_20_30_40);

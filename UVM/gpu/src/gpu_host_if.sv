@@ -14,7 +14,7 @@ interface gpu_host_if (
     logic        req_ready;
 
     // Resposta da GPU para o host.
-    logic [31:0] rsp_data;
+    logic [63:0] rsp_data;
     logic        rsp_valid;
     logic        rsp_error;
 

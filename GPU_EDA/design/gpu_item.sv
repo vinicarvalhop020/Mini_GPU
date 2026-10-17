@@ -22,7 +22,7 @@ class gpu_item extends uvm_sequence_item;
     rand logic [7:0]       field_4;
 
     // Campos preenchidos apos a resposta ser observada pelo driver ou monitor.
-    logic [31:0] rsp_data;
+    logic [63:0] rsp_data;
     logic        rsp_error;
     bit          response_received;
 
@@ -39,7 +39,7 @@ class gpu_item extends uvm_sequence_item;
 
     function string convert2string();
         return $sformatf(
-            "type=%s fields=%02h_%02h_%02h_%02h_%02h rsp=%08h err=%0b received=%0b",
+            "type=%s fields=%02h_%02h_%02h_%02h_%02h rsp=%016h err=%0b received=%0b",
             packet_type.name(), field_0, field_1, field_2, field_3, field_4,
             rsp_data, rsp_error, response_received
         );

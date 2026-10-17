@@ -15,7 +15,7 @@ class gpu_all_ops_sequence extends gpu_base_sequence;
     endfunction
 
     virtual task body();
-        logic [31:0] read_data;
+        logic [63:0] read_data;
 
         // Inclui overflow, underflow, truncamento de MUL e divisor zero.
         write_vector(8'h00, 32'hFA_01_10_FF);

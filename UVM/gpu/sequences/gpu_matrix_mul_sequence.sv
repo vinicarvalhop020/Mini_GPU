@@ -16,7 +16,7 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
     // Cada nova execucao gera matrizes de entrada diferentes.
     rand logic [7:0] matrix_a [0:3][0:3];
     rand logic [7:0] matrix_b [0:3][0:3];
-    logic [31:0] matrix_c [0:3];
+    logic [63:0] matrix_c [0:3];
 
     // Quatro produtos de 7 x 7 somados ocupam, no maximo, 196. Assim cada
     // lane de 8 bits do resultado SIMD nao sofre overflow.
@@ -37,7 +37,7 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
         input  logic [7:0]       field_2,
         input  logic [7:0]       field_3,
         input  logic [7:0]       field_4,
-        output logic [31:0]      response_data
+        output logic [63:0]      response_data
     );
         gpu_item request;
 
@@ -59,7 +59,7 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
         input logic [7:0]  address,
         input logic [31:0] vector_data
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
 
         send_packet(GPU_MEM_WRITE, address,
                     vector_data[31:24], vector_data[23:16],
@@ -72,7 +72,7 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
         input logic [7:0] src_b,
         input logic [7:0] dst
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
 
         send_packet(GPU_COMMAND, 8'h00, opcode, src_a, src_b, dst,
                     response_data);
@@ -81,7 +81,7 @@ class gpu_matrix_mul_sequence extends uvm_sequence #(gpu_item);
     endtask
 
     virtual task body();
-        logic [31:0] response_data;
+        logic [63:0] response_data;
 
         if (!randomize())
             `uvm_fatal("GPU_MATRIX", "Nao foi possivel randomizar A e B")

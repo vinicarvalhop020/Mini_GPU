@@ -16,7 +16,7 @@ class gpu_base_sequence extends uvm_sequence #(gpu_item);
         input  logic [7:0]       field_2,
         input  logic [7:0]       field_3,
         input  logic [7:0]       field_4,
-        output logic [31:0]      response_data
+        output logic [63:0]      response_data
     );
         gpu_item request;
 
@@ -37,7 +37,7 @@ class gpu_base_sequence extends uvm_sequence #(gpu_item);
         input logic [7:0]  address,
         input logic [31:0] vector_data
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
 
         send_packet(GPU_MEM_WRITE, address,
                     vector_data[31:24], vector_data[23:16],
@@ -46,7 +46,7 @@ class gpu_base_sequence extends uvm_sequence #(gpu_item);
 
     task automatic read_vector(
         input  logic [7:0]  address,
-        output logic [31:0] vector_data
+        output logic [63:0] vector_data
     );
         send_packet(GPU_MEM_READ, address, 8'h00, 8'h00, 8'h00, 8'h00,
                     vector_data);
@@ -58,7 +58,7 @@ class gpu_base_sequence extends uvm_sequence #(gpu_item);
         input logic [7:0] src_b,
         input logic [7:0] dst
     );
-        logic [31:0] response_data;
+        logic [63:0] response_data;
 
         send_packet(GPU_COMMAND, 8'h00, opcode, src_a, src_b, dst,
                     response_data);

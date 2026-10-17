@@ -17,7 +17,7 @@ class gpu_scoreboard extends uvm_component;
     localparam logic [7:0] OP_DIV = 8'h04;
 
     // Memoria local que para o scoreboard armazena os valores esperados
-    logic [31:0] expected_memory [0:255];
+    logic [63:0] expected_memory [0:255];
 
     // variavel para salvar o ultimo comando esperado
     logic [31:0] expected_command;
@@ -38,7 +38,7 @@ class gpu_scoreboard extends uvm_component;
 
         // Inicializa a memoria esperada e os contadores com valores padrao
         foreach (expected_memory[address])
-            expected_memory[address] = 32'b0; // zera a memoria esperada
+            expected_memory[address] = 64'b0; // zera a memoria esperada
 
         expected_command     = 32'b0; // zera o ultimo comando esperado
         command_is_valid     = 1'b0;  // indica que nao ha comando valido
@@ -47,31 +47,30 @@ class gpu_scoreboard extends uvm_component;
         mismatches           = 0;     // zera o contador de divergencias encontradas
     endfunction
 
-    // Reproduz uma operacao SIMD de quatro lanes de 8 bits.
-    function automatic logic [31:0] calculate_simd_result(
-        input logic [31:0] vector_a,
-        input logic [31:0] vector_b,
+    // Reproduz uma operacao SIMD de quatro lanes de 16 bits.
+    function automatic logic [63:0] calculate_simd_result(
+        input logic [63:0] vector_a,
+        input logic [63:0] vector_b,
         input logic [7:0]  opcode
     );
-        logic [31:0] result; // resultado da operacao SIMD
-        logic [7:0]  lane_a; // valor da lane (32 bits em que cada numero ocupa 8 bits) do vetor A
-        logic [7:0]  lane_b; // valor da lane do vetor B
+        logic [63:0] result;
+        logic [15:0] lane_a;
+        logic [15:0] lane_b;
 
-        result = 32'b0; // zera o resultado da operacao SIMD
+        result = 64'b0;
 
         for (int lane = 0; lane < 4; lane++) begin
             // reproduz a operacao SIMD para a lane atual
-            // cada loop faz o calculo de 8 bits
-            lane_a = vector_a[lane*8 +: 8];
-            lane_b = vector_b[lane*8 +: 8];
+            lane_a = vector_a[lane*16 +: 16];
+            lane_b = vector_b[lane*16 +: 16];
 
             case (opcode)
-                OP_ADD: result[lane*8 +: 8] = lane_a + lane_b;
-                OP_SUB: result[lane*8 +: 8] = lane_a - lane_b;
-                OP_MUL: result[lane*8 +: 8] = lane_a * lane_b;
-                OP_DIV: result[lane*8 +: 8] =
-                            (lane_b == 8'h00) ? 8'h00 : lane_a / lane_b;
-                default: result[lane*8 +: 8] = 8'h00;
+                OP_ADD: result[lane*16 +: 16] = lane_a + lane_b;
+                OP_SUB: result[lane*16 +: 16] = lane_a - lane_b;
+                OP_MUL: result[lane*16 +: 16] = lane_a * lane_b;
+                OP_DIV: result[lane*16 +: 16] =
+                            (lane_b == 16'h0000) ? 16'h0000 : lane_a / lane_b;
+                default: result[lane*16 +: 16] = 16'h0000;
             endcase
         end
 
@@ -81,7 +80,7 @@ class gpu_scoreboard extends uvm_component;
     function void compare_response(
         // Compara a resposta do GPU com os dados esperados
         input gpu_item      transaction,
-        input logic [31:0] expected_data,
+        input logic [63:0] expected_data,
         input string        operation
     );
         if (transaction.rsp_error) begin
@@ -93,12 +92,12 @@ class gpu_scoreboard extends uvm_component;
         if (transaction.rsp_data !== expected_data) begin
             mismatches++;
             `uvm_error("GPU_SB",
-                       $sformatf("%s: esperado=%08h recebido=%08h",
+                       $sformatf("%s: esperado=%016h recebido=%016h",
                                  operation, expected_data,
                                  transaction.rsp_data))
         end else begin
             `uvm_info("GPU_SB",
-                      $sformatf("%s conferido: %08h",
+                      $sformatf("%s conferido: %016h",
                                 operation, transaction.rsp_data),
                       UVM_LOW)
         end
@@ -111,17 +110,17 @@ class gpu_scoreboard extends uvm_component;
         logic [7:0]  src_a;
         logic [7:0]  src_b;
         logic [7:0]  dst;
-        logic [31:0] result;
+        logic [63:0] result;
 
         checked_transactions++;
 
         case (transaction.packet_type)
             GPU_MEM_WRITE: begin
                 expected_memory[transaction.field_0] = {
-                    transaction.field_1, transaction.field_2,
-                    transaction.field_3, transaction.field_4
+                    8'h00, transaction.field_1, 8'h00, transaction.field_2,
+                    8'h00, transaction.field_3, 8'h00, transaction.field_4
                 };
-                compare_response(transaction, 32'b0, "MEM_WRITE");
+                compare_response(transaction, 64'b0, "MEM_WRITE");
             end
 
             GPU_MEM_READ: begin
@@ -139,7 +138,7 @@ class gpu_scoreboard extends uvm_component;
                     transaction.field_3, transaction.field_4
                 };
                 command_is_valid = 1'b1;
-                compare_response(transaction, 32'b0, "GPU_COMMAND");
+                compare_response(transaction, 64'b0, "GPU_COMMAND");
             end
 
             GPU_START: begin
@@ -163,7 +162,7 @@ class gpu_scoreboard extends uvm_component;
                 if (transaction.rsp_error || !transaction.rsp_data[1]) begin
                     mismatches++;
                     `uvm_error("GPU_SB",
-                               $sformatf("GPU_START sem DONE: rsp=%08h err=%0b",
+                               $sformatf("GPU_START sem DONE: rsp=%016h err=%0b",
                                          transaction.rsp_data,
                                          transaction.rsp_error))
                 end else begin

@@ -10,7 +10,7 @@ class gpu_back_to_back_sequence extends gpu_base_sequence;
     endfunction
 
     virtual task body();
-        logic [31:0] read_data;
+        logic [63:0] read_data;
 
         write_vector(8'h40, 32'h01_02_03_04);
         write_vector(8'h41, 32'h05_06_07_08);

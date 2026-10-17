@@ -19,7 +19,7 @@ class gpu_random_sequence extends gpu_base_sequence;
         logic [7:0]  opcode;
         logic [31:0] vector_a;
         logic [31:0] vector_b;
-        logic [31:0] read_data;
+        logic [63:0] read_data;
 
         for (int index = 0; index < iterations; index++) begin
             assert(std::randomize(src_a, src_b, dst, opcode, vector_a, vector_b)
