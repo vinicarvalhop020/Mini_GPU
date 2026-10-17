@@ -67,6 +67,8 @@ xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=test_g
 xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_back_to_back -run -exit
 xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_address_corner_cases -run -exit
 xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_random -run -exit
+xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=gpu_matrix_mul_test -run -exit
+xrun -uvm -define ASSERTIONS -access +rw -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_mul_8bit -run -exit
 ```
 
 A interface interna usada pelos testes de protocolo, Scheduler e FSM e ligada

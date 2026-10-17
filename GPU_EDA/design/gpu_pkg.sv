@@ -20,6 +20,7 @@ package gpu_pkg;
 
     // Sequences rastreaveis do plano de verificacao.
     `include "gpu_base_sequence.sv"
+    `include "gpu_mul_8bit_sequence.sv"
     `include "gpu_add_sequence.sv"
     `include "gpu_mem_access_sequence.sv"
     `include "gpu_all_ops_sequence.sv"
@@ -30,6 +31,7 @@ package gpu_pkg;
     // Testes UVM.
     `include "gpu_base_test.sv"
     `include "gpu_matrix_mul_test.sv"
+    `include "test_gpu_mul_8bit.sv"
 
     // Testes rastreaveis do plano de verificacao.
     `include "test_packet_field_extraction.sv"
