@@ -10,12 +10,12 @@ class test_fsm_sequence extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_add_sequence sequence;
+        gpu_add_sequence gpu_seq;
         logic [2:0] expected_states [0:6];
         int unsigned next_state;
         bit sequence_seen;
 
-        sequence = gpu_add_sequence::type_id::create("sequence");
+        gpu_seq = gpu_add_sequence::type_id::create("gpu_seq");
 
         expected_states[0] = 3'b001; // READ_A
         expected_states[1] = 3'b010; // LOAD_A
@@ -29,7 +29,7 @@ class test_fsm_sequence extends gpu_base_test;
 
         phase.raise_objection(this);
         fork
-            sequence.start(env.agent.sequencer);
+            gpu_seq.start(env.agent.sequencer);
             begin
                 for (int unsigned cycle = 0; cycle < 100; cycle++) begin
                     @(internal_vif.monitor_cb);

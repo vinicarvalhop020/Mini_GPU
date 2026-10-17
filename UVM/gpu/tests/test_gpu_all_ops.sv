@@ -10,11 +10,11 @@ class test_gpu_all_ops extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_all_ops_sequence sequence;
+        gpu_all_ops_sequence gpu_seq;
 
-        sequence = gpu_all_ops_sequence::type_id::create("sequence");
+        gpu_seq = gpu_all_ops_sequence::type_id::create("gpu_seq");
         phase.raise_objection(this);
-        sequence.start(env.agent.sequencer);
+        gpu_seq.start(env.agent.sequencer);
         phase.drop_objection(this);
     endtask
 endclass

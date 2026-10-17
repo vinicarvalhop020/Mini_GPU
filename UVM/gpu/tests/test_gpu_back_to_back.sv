@@ -10,11 +10,11 @@ class test_gpu_back_to_back extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_back_to_back_sequence sequence;
+        gpu_back_to_back_sequence gpu_seq;
 
-        sequence = gpu_back_to_back_sequence::type_id::create("sequence");
+        gpu_seq = gpu_back_to_back_sequence::type_id::create("gpu_seq");
         phase.raise_objection(this);
-        sequence.start(env.agent.sequencer);
+        gpu_seq.start(env.agent.sequencer);
         phase.drop_objection(this);
     endtask
 endclass

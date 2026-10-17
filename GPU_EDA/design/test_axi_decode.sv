@@ -10,19 +10,19 @@ class test_axi_decode extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_all_ops_sequence sequence;
+        gpu_all_ops_sequence gpu_seq;
         bit saw_mem_write;
         bit saw_mem_read;
         bit saw_command;
 
-        sequence = gpu_all_ops_sequence::type_id::create("sequence");
+        gpu_seq = gpu_all_ops_sequence::type_id::create("gpu_seq");
         saw_mem_write = 1'b0;
         saw_mem_read  = 1'b0;
         saw_command   = 1'b0;
 
         phase.raise_objection(this);
         fork
-            sequence.start(env.agent.sequencer);
+            gpu_seq.start(env.agent.sequencer);
             begin
                 for (int unsigned cycle = 0; cycle < 500; cycle++) begin
                     @(internal_vif.monitor_cb);

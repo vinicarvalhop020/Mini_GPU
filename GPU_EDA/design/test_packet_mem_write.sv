@@ -10,15 +10,15 @@ class test_packet_mem_write extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_mem_access_sequence sequence;
+        gpu_mem_access_sequence gpu_seq;
         bit write_seen;
 
-        sequence = gpu_mem_access_sequence::type_id::create("sequence");
+        gpu_seq = gpu_mem_access_sequence::type_id::create("gpu_seq");
         write_seen = 1'b0;
 
         phase.raise_objection(this);
         fork
-            sequence.start(env.agent.sequencer);
+            gpu_seq.start(env.agent.sequencer);
             begin
                 for (int unsigned cycle = 0; cycle < 30; cycle++) begin
                     @(internal_vif.monitor_cb);

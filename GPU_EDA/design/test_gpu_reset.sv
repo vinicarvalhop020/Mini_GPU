@@ -10,14 +10,14 @@ class test_gpu_reset extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_add_sequence sequence;
+        gpu_add_sequence gpu_seq;
         bit read_a_seen;
 
-        sequence = gpu_add_sequence::type_id::create("sequence");
+        gpu_seq = gpu_add_sequence::type_id::create("gpu_seq");
 
         phase.raise_objection(this);
         fork
-            sequence.start(env.agent.sequencer);
+            gpu_seq.start(env.agent.sequencer);
             begin
                 wait_for_fsm_state(3'b001, 100, read_a_seen);
                 check_condition(read_a_seen, "Reset: FSM nao iniciou a operacao");

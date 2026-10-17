@@ -10,19 +10,19 @@ class test_scheduler_handshake extends gpu_base_test;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-        gpu_add_sequence sequence;
+        gpu_add_sequence gpu_seq;
         bit saw_dispatch;
         bit saw_execute;
         bit saw_done;
 
-        sequence = gpu_add_sequence::type_id::create("sequence");
+        gpu_seq = gpu_add_sequence::type_id::create("gpu_seq");
         saw_dispatch = 1'b0;
         saw_execute  = 1'b0;
         saw_done     = 1'b0;
 
         phase.raise_objection(this);
         fork
-            sequence.start(env.agent.sequencer);
+            gpu_seq.start(env.agent.sequencer);
             begin
                 for (int unsigned cycle = 0; cycle < 100; cycle++) begin
                     @(internal_vif.monitor_cb);
