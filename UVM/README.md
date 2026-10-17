@@ -82,3 +82,11 @@ finais de `C`, nao apenas o envio dos pacotes.
 
 Esta etapa ainda nao inclui coverage. Os testes exercitam o fluxo UVM e o
 scoreboard aponta divergencias como erros UVM.
+
+
+## Erros encontrados: (Versão 1.0)
+
+| Nome do teste | O que achou | Solução |
+| `test_gpu_add_end_to_end` | A primeira requisição era enviada durante a inicialização, quando `rst` ainda podia valer `X`.<br><br>O driver cancelava a escrita do vetor no endereço `0x00`, desalinhando as respostas seguintes. | O driver agora aguarda `rst === 1'b0` antes de dirigir uma requisição.<br><br>Assim, `X` é tratado como reset ainda não liberado. É necessário executar o teste novamente para confirmar o fluxo completo. |
+
+

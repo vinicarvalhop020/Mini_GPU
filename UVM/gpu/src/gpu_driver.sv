@@ -28,8 +28,9 @@ class gpu_driver extends uvm_driver #(gpu_item);
     endtask
 
     virtual task drive_transaction(gpu_item item);
-        // O driver nunca muda rst; apenas espera o top-level liberar a GPU
-        while (vif.driver_cb.rst)
+        // O driver nunca muda rst. Aguarda rst ser conhecido e desativado:
+        // em t=0 ele pode valer X, que nao deve liberar uma transacao.
+        while (vif.driver_cb.rst !== 1'b0)
             @(vif.driver_cb);
 
         // Apresenta o pacote ao DUT.
@@ -40,10 +41,11 @@ class gpu_driver extends uvm_driver #(gpu_item);
         // Mantem valid e payload estaveis ate a GPU aceitar a requisicao.
         do
             @(vif.driver_cb);
-        while (!vif.driver_cb.req_ready && !vif.driver_cb.rst);
+        while (!vif.driver_cb.req_ready &&
+               (vif.driver_cb.rst === 1'b0));
 
         // Um reset pode cancelar uma transacao que ainda aguardava aceite.
-        if (vif.driver_cb.rst) begin
+        if (vif.driver_cb.rst !== 1'b0) begin
             vif.driver_cb.req_valid <= 1'b0;
             `uvm_warning("GPU_DRV", "Requisicao cancelada por reset")
             return;
@@ -55,10 +57,11 @@ class gpu_driver extends uvm_driver #(gpu_item);
         // Espera a resposta do DUT ser validada. (rsp_valid ativo por um ciclo)
         do
             @(vif.driver_cb);
-        while (!vif.driver_cb.rsp_valid && !vif.driver_cb.rst);
+        while (!vif.driver_cb.rsp_valid &&
+               (vif.driver_cb.rst === 1'b0));
 
         // Uma execucao interrompida por reset nao possui resposta associada.
-        if (vif.driver_cb.rst) begin
+        if (vif.driver_cb.rst !== 1'b0) begin
             `uvm_warning("GPU_DRV", "Resposta cancelada por reset")
             return;
         end

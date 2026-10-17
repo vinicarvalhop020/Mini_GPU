@@ -40,7 +40,6 @@
 `include "gpu_base_test.sv"
 `include "gpu_matrix_mul_test.sv"
 `include "test_axi_decode.sv"
-`include "test_axi_memory_access.sv"
 `include "test_fsm_sequence.sv"
 `include "test_gpu_add_end_to_end.sv"
 `include "test_gpu_address_corner_cases.sv"
@@ -51,6 +50,7 @@
 `include "test_packet_command_start.sv"
 `include "test_packet_field_extraction.sv"
 `include "test_packet_mem_read.sv"
+`include "test_axi_memory_access.sv"
 `include "test_packet_mem_write.sv"
 `include "test_scheduler_handshake.sv"
 
