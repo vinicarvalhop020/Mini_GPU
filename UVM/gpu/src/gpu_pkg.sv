@@ -12,6 +12,7 @@ package gpu_pkg;
     `include "gpu_driver.sv"
     `include "gpu_monitor.sv"
     `include "gpu_scoreboard.sv"
+    `include "gpu_coverage.sv"
     `include "gpu_agent.sv"
     `include "gpu_env.sv"
 

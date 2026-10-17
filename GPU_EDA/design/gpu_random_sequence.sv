@@ -9,7 +9,9 @@ class gpu_random_sequence extends gpu_base_sequence;
 
     function new(string name = "gpu_random_sequence");
         super.new(name);
-        iterations = 20;
+        // Cada iteracao gera MEM_WRITE, MEM_WRITE, GPU_COMMAND, GPU_START e
+        // MEM_READ. Com 1.000 iteracoes, a cobertura recebe 5.000 transacoes.
+        iterations = 1000;
     endfunction
 
     virtual task body();

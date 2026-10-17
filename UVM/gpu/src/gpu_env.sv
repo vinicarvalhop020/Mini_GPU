@@ -7,6 +7,7 @@ class gpu_env extends uvm_env;
 
     gpu_agent agent;
     gpu_scoreboard scoreboard;
+    gpu_coverage coverage;
     gpu_env_config cfg;
 
     function new(string name, uvm_component parent);
@@ -24,13 +25,16 @@ class gpu_env extends uvm_env;
 
         agent = gpu_agent::type_id::create("agent", this);
         scoreboard = gpu_scoreboard::type_id::create("scoreboard", this);
+        coverage = gpu_coverage::type_id::create("coverage", this);
     endfunction
 
     virtual function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
 
-        // O monitor publica cada requisicao/resposta para o scoreboard.
+        // O monitor publica cada requisicao/resposta para o scoreboard e a
+        // cobertura funcional. Os dois observam exatamente a mesma transacao.
         agent.agent_ap.connect(scoreboard.analysis_export);
+        agent.agent_ap.connect(coverage.analysis_export);
     endfunction
 
 endclass

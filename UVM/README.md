@@ -42,7 +42,7 @@ teste selecionavel por `UVM_TESTNAME`.
 | `test_gpu_all_ops` | Uma operacao completa para cada opcode suportado. |
 | `test_gpu_back_to_back` | Operacoes consecutivas sem sobrescrever resultados anteriores. |
 | `test_gpu_address_corner_cases` | Enderecos limites e sobreposicao entre operandos e destino. |
-| `test_gpu_random` | Vetores, opcodes e enderecos aleatorios comparados com o modelo de referencia. |
+| `test_gpu_random` | 1.000 operacoes com vetores, opcodes e enderecos aleatorios; alimenta a cobertura funcional. |
 
 Para executar qualquer teste, substitua `<teste>` por um nome da tabela:
 
@@ -82,8 +82,29 @@ DIV em quatro lanes. Cada `MEM_READ` compara automaticamente a resposta da
 GPU com o valor esperado. Portanto, o teste de matriz tambem valida os valores
 finais de `C`, nao apenas o envio dos pacotes.
 
-Esta etapa ainda nao inclui coverage. Os testes exercitam o fluxo UVM e o
-scoreboard aponta divergencias como erros UVM.
+## Cobertura funcional
+
+O ambiente inclui `gpu_coverage`. Ele recebe as mesmas transacoes completas
+publicadas pelo monitor para o scoreboard, mas apenas registra quais cenarios
+foram exercitados. A cobertura atual mede:
+
+- os quatro tipos de pacote do host;
+- regioes de endereco usadas por `MEM_READ` e `MEM_WRITE`;
+- os quatro opcodes SIMD;
+- regioes de `SRC_A`, `SRC_B` e `DST` de cada comando;
+- o cruzamento entre `opcode` e a regiao de destino;
+- `DONE` em respostas de `GPU_START` e ausencia de `rsp_error`.
+
+Use o teste aleatorio para obter uma amostra ampla. Ele executa 1.000
+operacoes, o equivalente a 5.000 transacoes de host:
+
+```bash
+xrun -uvm -define ASSERTIONS -access +rw -coverage all -covoverwrite -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_random -run -exit
+```
+
+Ao fim da simulacao, o log UVM imprime a porcentagem da instancia
+`gpu_coverage`. A opcao `-coverage all` tambem habilita o banco de cobertura
+do Xcelium para consulta posterior na interface grafica.
 
 
 ## Erros encontrados: (Versão 1.0)
