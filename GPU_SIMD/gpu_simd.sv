@@ -11,7 +11,7 @@ module gpu_simd (
     output logic        req_ready,   // GPU pode aceitar req_payload.
     output logic [63:0] rsp_data,    // MEM_READ com quatro lanes de 16 bits ou STATUS.
     output logic        rsp_valid,   // rsp_data esta valido por um ciclo.
-    output logic        rsp_error    // Reservado para erros de protocolo; atualmente zero.
+    output logic        rsp_error    // Overflow aritmetico ou divisao por zero.
 );
 
     // Packet Decoder
@@ -57,6 +57,19 @@ module gpu_simd (
     logic [63:0] vector_a;
     logic [63:0] vector_b;
     logic [63:0] alu_result;
+    logic        alu_error;
+    logic        exec_error;
+
+    // Guarda o erro calculado durante EXECUTE/WRITE_RESULT ate a resposta
+    // do pacote GPU_START ser montada pelo AXI Slave.
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst)
+            exec_error <= 1'b0;
+        else if (exec_valid && exec_ready)
+            exec_error <= 1'b0;
+        else if (alu_opcode != 8'h00)
+            exec_error <= alu_error;
+    end
 
     // Sinais de debugging
     logic [1:0] scheduler_debug_state;
@@ -103,7 +116,8 @@ module gpu_simd (
         .cmd_valid(cmd_valid),
         .cmd_ready(cmd_ready),
         .cmd_busy(cmd_busy),
-        .cmd_done(cmd_done)
+        .cmd_done(cmd_done),
+        .cmd_error(exec_error)
     );
 
     // Guarda um unico comando e conserva BUSY/DONE para o AXI Slave.
@@ -171,7 +185,8 @@ module gpu_simd (
         .vector_a(vector_a),
         .vector_b(vector_b),
         .alu_opcode(alu_opcode),
-        .result(alu_result)
+        .result(alu_result),
+        .error(alu_error)
     );
 
 endmodule

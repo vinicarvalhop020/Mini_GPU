@@ -7,7 +7,8 @@ module alu_simd #(
     input  logic [LANES*LANE_WIDTH-1:0] vector_a,   // Vetor de entrada A
     input  logic [LANES*LANE_WIDTH-1:0] vector_b,   // Vetor de entrada B
     input  logic [7:0]         alu_opcode, // Opcode SIMD recebido da FSM
-    output logic [LANES*LANE_WIDTH-1:0] result // Quatro resultados de 16 bits.
+    output logic [LANES*LANE_WIDTH-1:0] result, // Quatro resultados de 16 bits.
+    output logic                       error   // Erro em pelo menos uma lane.
 );
 
     localparam logic [7:0] ADD = 8'h01,
@@ -22,6 +23,7 @@ module alu_simd #(
 
     logic [3:0] lane_control;
     logic [LANES*LANE_WIDTH-1:0] lane_result;
+    logic [LANES-1:0] lane_error;
 
     generate
         for (genvar i = 0; i < LANES; i++) begin : gen_alu_lanes
@@ -30,7 +32,8 @@ module alu_simd #(
                 .b(vector_b[i*LANE_WIDTH +: LANE_WIDTH]),
                 .alu_control(lane_control),
                 .result(lane_result[i*LANE_WIDTH +: LANE_WIDTH]),
-                .zero()
+                .zero(),
+                .error(lane_error[i])
             );
         end
     endgenerate
@@ -45,6 +48,7 @@ module alu_simd #(
         endcase
 
         result = lane_result;
+        error  = |lane_error;
     end
 
 endmodule

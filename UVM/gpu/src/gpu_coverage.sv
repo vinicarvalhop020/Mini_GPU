@@ -76,16 +76,15 @@ class gpu_coverage extends uvm_component;
         // Relaciona cada opcode com a regiao de memoria que recebe o resultado.
         opcode_x_dst_region: cross cp_opcode, cp_dst_region;
 
-        // Nos programas validos, START precisa retornar DONE e nenhuma
-        // transacao deve retornar erro. Valores contrarios ficam visiveis no
-        // scoreboard e nas assertions, mas nao reduzem a meta deste covergroup.
+        // START precisa retornar DONE. rsp_error indica overflow aritmetico
+        // ou divisao por zero e tambem deve ser exercitado.
         cp_start_done: coverpoint rsp_data[1] iff (packet_type == GPU_START) {
             bins done = {1'b1};
         }
 
         cp_rsp_error: coverpoint rsp_error {
-            bins no_error = {1'b0};
-            ignore_bins error = {1'b1};
+            bins no_error         = {1'b0};
+            bins arithmetic_error = {1'b1};
         }
     endgroup
 

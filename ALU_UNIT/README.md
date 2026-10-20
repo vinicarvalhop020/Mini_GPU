@@ -1,8 +1,10 @@
 # ALU Unit
 
-ALU escalar de 8 bits usada por cada lane da GPU SIMD.
+ALU escalar signed de 16 bits usada por cada lane da GPU SIMD. Os operandos
+do host são `int8` e entram na memória com extensão de sinal.
 
-Operações: `ADD = 1`, `SUB = 2`, `MUL = 3` e `DIV = 4`. Divisão por zero retorna `0`.
+Operações: `ADD = 1`, `SUB = 2`, `MUL = 3` e `DIV = 4`. A saída `error` é
+ativada em overflow signed ou divisão por zero; neste último caso o resultado é `0`.
 
 ## Teste
 

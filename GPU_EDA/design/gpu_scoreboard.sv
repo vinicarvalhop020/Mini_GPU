@@ -54,8 +54,8 @@ class gpu_scoreboard extends uvm_component;
         input logic [7:0]  opcode
     );
         logic [63:0] result;
-        logic [15:0] lane_a;
-        logic [15:0] lane_b;
+        logic signed [15:0] lane_a;
+        logic signed [15:0] lane_b;
 
         result = 64'b0;
 
@@ -69,12 +69,55 @@ class gpu_scoreboard extends uvm_component;
                 OP_SUB: result[lane*16 +: 16] = lane_a - lane_b;
                 OP_MUL: result[lane*16 +: 16] = lane_a * lane_b;
                 OP_DIV: result[lane*16 +: 16] =
-                            (lane_b == 16'h0000) ? 16'h0000 : lane_a / lane_b;
+                            (lane_b == 16'sd0) ? 16'sd0 : lane_a / lane_b;
                 default: result[lane*16 +: 16] = 16'h0000;
             endcase
         end
 
         return result;
+    endfunction
+
+    // Indica se alguma lane produziu overflow ou tentou dividir por zero.
+    function automatic bit calculate_simd_error(
+        input logic [63:0] vector_a,
+        input logic [63:0] vector_b,
+        input logic [7:0]  opcode
+    );
+        logic signed [15:0] lane_a;
+        logic signed [15:0] lane_b;
+        logic signed [16:0] sum_full;
+        logic signed [16:0] sub_full;
+        logic signed [31:0] product_full;
+
+        calculate_simd_error = 1'b0;
+
+        for (int lane = 0; lane < 4; lane++) begin
+            lane_a = vector_a[lane*16 +: 16];
+            lane_b = vector_b[lane*16 +: 16];
+
+            case (opcode)
+                OP_ADD: begin
+                    sum_full = lane_a + lane_b;
+                    calculate_simd_error |= (lane_a[15] == lane_b[15]) &&
+                                            (sum_full[15] != lane_a[15]);
+                end
+                OP_SUB: begin
+                    sub_full = lane_a - lane_b;
+                    calculate_simd_error |= (lane_a[15] != lane_b[15]) &&
+                                            (sub_full[15] != lane_a[15]);
+                end
+                OP_MUL: begin
+                    product_full = $signed({{16{lane_a[15]}}, lane_a}) *
+                                   $signed({{16{lane_b[15]}}, lane_b});
+                    calculate_simd_error |= (product_full > 32'sd32767) ||
+                                            (product_full < -32'sd32768);
+                end
+                OP_DIV: calculate_simd_error |=
+                    (lane_b == 16'sd0) ||
+                    ((lane_a == 16'sh8000) && (lane_b == -16'sd1));
+                default: calculate_simd_error |= 1'b0;
+            endcase
+        end
     endfunction
 
     function void compare_response(
@@ -111,14 +154,18 @@ class gpu_scoreboard extends uvm_component;
         logic [7:0]  src_b;
         logic [7:0]  dst;
         logic [63:0] result;
+        bit          expected_error;
 
         checked_transactions++;
+        expected_error = 1'b0;
 
         case (transaction.packet_type)
             GPU_MEM_WRITE: begin
                 expected_memory[transaction.field_0] = {
-                    8'h00, transaction.field_1, 8'h00, transaction.field_2,
-                    8'h00, transaction.field_3, 8'h00, transaction.field_4
+                    {{8{transaction.field_1[7]}}, transaction.field_1},
+                    {{8{transaction.field_2[7]}}, transaction.field_2},
+                    {{8{transaction.field_3[7]}}, transaction.field_3},
+                    {{8{transaction.field_4[7]}}, transaction.field_4}
                 };
                 compare_response(transaction, 64'b0, "MEM_WRITE");
             end
@@ -155,15 +202,20 @@ class gpu_scoreboard extends uvm_component;
                     result = calculate_simd_result(expected_memory[src_a],
                                                    expected_memory[src_b],
                                                    opcode);
+                    expected_error = calculate_simd_error(expected_memory[src_a],
+                                                          expected_memory[src_b],
+                                                          opcode);
                     expected_memory[dst] = result;
                 end
 
                 // A resposta de START precisa indicar que a operacao terminou.
-                if (transaction.rsp_error || !transaction.rsp_data[1]) begin
+                if ((transaction.rsp_error !== expected_error) ||
+                    !transaction.rsp_data[1]) begin
                     mismatches++;
                     `uvm_error("GPU_SB",
-                               $sformatf("GPU_START sem DONE: rsp=%016h err=%0b",
+                               $sformatf("GPU_START invalido: rsp=%016h erro esperado=%0b recebido=%0b",
                                          transaction.rsp_data,
+                                         expected_error,
                                          transaction.rsp_error))
                 end else begin
                     `uvm_info("GPU_SB", "GPU_START concluido com DONE=1",

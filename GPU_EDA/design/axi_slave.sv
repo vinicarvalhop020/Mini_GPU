@@ -16,7 +16,7 @@ module axi_slave (
 
     // Resposta ao host. rsp_valid e um pulso de um ciclo
     output logic        rsp_valid, // Resposta ao host esta valida por um ciclo.
-    output logic        rsp_error, // Reservado para indicar erro atualmente fica em zero e nao faz nada
+    output logic        rsp_error, // Overflow aritmetico ou divisao por zero.
     output logic [63:0] rsp_data,  // Palavra de memoria com quatro lanes de 16 bits, STATUS ou zero.
 
     // Porta A da memoria vetorial
@@ -31,7 +31,8 @@ module axi_slave (
     output logic        cmd_valid,  // Solicita que o Scheduler aceite cmd_fields.
     input  logic        cmd_ready,  // Scheduler esta pronto para receber um novo comando.
     input  logic        cmd_busy,   // Bit BUSY usado na resposta de STATUS.
-    input  logic        cmd_done    // Bit DONE que libera a resposta de GPU_START, a fsm concluiu a execucao e levanta esse pino.
+    input  logic        cmd_done,   // Bit DONE que libera a resposta de GPU_START.
+    input  logic        cmd_error   // Erro aritmetico da execucao SIMD.
 );
 
     typedef enum logic [3:0] {
@@ -63,6 +64,7 @@ module axi_slave (
     logic [7:0]  local_field_4;
     logic [31:0] command_reg;
     logic [63:0] rsp_data_reg;
+    logic        rsp_error_reg;
 
     // loop de mudança de estado da FSM
     always_ff @(posedge clk or posedge rst) begin
@@ -83,6 +85,7 @@ module axi_slave (
             local_field_4  <= 8'b0;
             command_reg    <= 32'b0;
             rsp_data_reg   <= 64'b0;
+            rsp_error_reg  <= 1'b0;
         end else begin
             if ((state == IDLE) && decoded_valid && decoded_ready) begin
                 local_req_type <= req_type;
@@ -91,6 +94,7 @@ module axi_slave (
                 local_field_2  <= field_2;
                 local_field_3  <= field_3;
                 local_field_4  <= field_4;
+                rsp_error_reg  <= 1'b0;
             end
 
             if (state == GPU_COMMAND) begin
@@ -107,6 +111,7 @@ module axi_slave (
             if ((state == WAIT_DONE) && cmd_done) begin
                 // captura o status do comando GPU
                 rsp_data_reg <= {62'b0, cmd_done, cmd_busy};
+                rsp_error_reg <= cmd_error;
             end
         end
     end
@@ -173,10 +178,12 @@ module axi_slave (
 
             MEM_WRITE: begin
                 mem_a_addr  = local_field_0;
-                // O host fornece quatro bytes. Cada um e zero-estendido para
-                // formar uma lane de 16 bits na memoria vetorial.
-                mem_a_wdata = {8'h00, local_field_1, 8'h00, local_field_2,
-                               8'h00, local_field_3, 8'h00, local_field_4};
+                // O host fornece quatro int8. Cada byte e estendido com sinal
+                // para formar uma lane int16 na memoria vetorial.
+                mem_a_wdata = {{8{local_field_1[7]}}, local_field_1,
+                               {8{local_field_2[7]}}, local_field_2,
+                               {8{local_field_3[7]}}, local_field_3,
+                               {8{local_field_4[7]}}, local_field_4};
                 mem_a_we    = 1'b1;
             end
 
@@ -200,6 +207,7 @@ module axi_slave (
 
             RESPONSE: begin
                 rsp_valid = 1'b1;
+                rsp_error = rsp_error_reg;
             end
 
             default: begin

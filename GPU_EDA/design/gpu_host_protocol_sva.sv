@@ -30,15 +30,14 @@ module gpu_host_protocol_sva (
     a_response_is_one_cycle: assert property (p_response_is_one_cycle)
         else $error("[SVA][HOST] rsp_valid permaneceu alto por mais de um ciclo.");
 
-    // rsp_error nao deve ser ativado, atualmente ele nao possui suporte a erros implementado
-    // mas ja esta definido para possivel uso futuro
-    property p_no_response_error;
+    // Um erro somente pode acompanhar uma resposta valida da GPU.
+    property p_error_only_with_response;
         @(posedge clk) disable iff (rst)
-            !rsp_error;
+            rsp_error |-> rsp_valid;
     endproperty
 
-    a_no_response_error: assert property (p_no_response_error)
-        else $error("[SVA][HOST] rsp_error foi ativado sem suporte a erro implementado.");
+    a_error_only_with_response: assert property (p_error_only_with_response)
+        else $error("[SVA][HOST] rsp_error foi ativado sem rsp_valid.");
 
 endmodule
 

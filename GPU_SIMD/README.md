@@ -21,7 +21,8 @@ $rtl = @(
 
 ### Teste funcional da GPU
 
-Valida os comandos `ADD`, `SUB`, `MUL` e `DIV`, incluindo divisao por zero, o status `DONE` e a sobrescrita de um vetor destino.
+Valida os comandos signed `ADD`, `SUB`, `MUL` e `DIV`, incluindo divisão por zero,
+o status `DONE`, `rsp_error` e a sobrescrita de um vetor destino.
 
 ```powershell
 iverilog -g2012 -s gpu_simd_tb -o GPU_SIMD\gpu_simd_tb.out $rtl 'GPU_SIMD\gpu_simd_tb.sv'

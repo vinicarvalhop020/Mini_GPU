@@ -26,6 +26,7 @@ module axi_slave_tb;
     logic        cmd_ready;
     logic        cmd_busy;
     logic        cmd_done;
+    logic        cmd_error;
 
     logic [63:0] mem [0:255];
 
@@ -38,13 +39,14 @@ module axi_slave_tb;
         .mem_a_addr(mem_a_addr), .mem_a_wdata(mem_a_wdata),
         .mem_a_we(mem_a_we), .mem_a_re(mem_a_re), .mem_a_rdata(mem_a_rdata),
         .cmd_fields(cmd_fields), .cmd_valid(cmd_valid),
-        .cmd_ready(cmd_ready), .cmd_busy(cmd_busy), .cmd_done(cmd_done)
+        .cmd_ready(cmd_ready), .cmd_busy(cmd_busy), .cmd_done(cmd_done),
+        .cmd_error(cmd_error)
     );
 
     always #5 clk = ~clk;
 
     // Modelo minimo da porta A: leitura sincrona e escrita na borda de clock.
-    always_ff @(posedge clk) begin
+    always @(posedge clk) begin
         if (mem_a_we)
             mem[mem_a_addr] <= mem_a_wdata;
         if (mem_a_re)
@@ -88,6 +90,7 @@ module axi_slave_tb;
 
     task automatic wait_response(
         input logic [63:0] expected_data,
+        input logic        expected_error,
         input string       test_name
     );
         int cycles;
@@ -100,7 +103,7 @@ module axi_slave_tb;
             end
 
             check(rsp_valid, {test_name, ": resposta nao recebida"});
-            check(!rsp_error, {test_name, ": rsp_error inesperado"});
+            check(rsp_error == expected_error, {test_name, ": rsp_error incorreto"});
             check(rsp_data == expected_data, test_name);
         end
     endtask
@@ -115,6 +118,7 @@ module axi_slave_tb;
         cmd_ready = 1'b0;
         cmd_busy = 1'b0;
         cmd_done = 1'b0;
+        cmd_error = 1'b0;
 
         repeat (2) @(posedge clk);
         @(negedge clk);
@@ -124,17 +128,17 @@ module axi_slave_tb;
 
         // MEM_WRITE: cada byte do host ocupa uma lane de 16 bits.
         send_packet(MEM_WRITE, 8'h12, 8'hAA, 8'hBB, 8'hCC, 8'hDD);
-        wait_response(64'h0000_0000_0000_0000, "resposta de MEM_WRITE");
-        check(mem[8'h12] == 64'h00AA_00BB_00CC_00DD,
+        wait_response(64'h0000_0000_0000_0000, 1'b0, "resposta de MEM_WRITE");
+        check(mem[8'h12] == 64'hFFAA_FFBB_FFCC_FFDD,
               "MEM_WRITE expandiu o vetor corretamente");
 
         // MEM_READ: devolve o vetor escrito anteriormente.
         send_packet(MEM_READ, 8'h12, 8'h00, 8'h00, 8'h00, 8'h00);
-        wait_response(64'h00AA_00BB_00CC_00DD, "resposta de MEM_READ");
+        wait_response(64'hFFAA_FFBB_FFCC_FFDD, 1'b0, "resposta de MEM_READ");
 
         // GPU_COMMAND: configura opcode=03, src_a=12, src_b=34 e dst=56.
         send_packet(GPU_COMMAND, 8'h00, 8'h03, 8'h12, 8'h34, 8'h56);
-        wait_response(64'h0000_0000_0000_0000, "resposta de GPU_COMMAND");
+        wait_response(64'h0000_0000_0000_0000, 1'b0, "resposta de GPU_COMMAND");
 
         // GPU_START: aguarda o Scheduler aceitar o comando e finalizar.
         send_packet(GPU_START, 8'h00, 8'h00, 8'h00, 8'h00, 8'h00);
@@ -151,10 +155,12 @@ module axi_slave_tb;
 
         @(negedge clk);
         cmd_done = 1'b1;
+        cmd_error = 1'b1;
         @(negedge clk);
         cmd_done = 1'b0;
+        cmd_error = 1'b0;
 
-        wait_response(64'h0000_0000_0000_0002, "resposta de GPU_START");
+        wait_response(64'h0000_0000_0000_0002, 1'b1, "resposta de GPU_START");
 
         $display("axi_slave_tb: todos os testes passaram.");
         $finish;

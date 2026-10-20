@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-// Confere que uma operacao MUL preserva 255 x 255 em 16 bits por lane.
+// Confere que uma operacao MUL preserva -128 x -128 em 16 bits por lane.
 class test_gpu_mul_8bit extends gpu_base_test;
     `uvm_component_utils(test_gpu_mul_8bit)
 
