@@ -1,0 +1,2 @@
+#e1(20Oct2026:20:50:46): source /tmp/mini_gpu_cov_suite.thKPn2/test_gpu_add_end_to_end/env.d/env.history.20Oct2026_20_50_46
+s1(20Oct2026:20:50:46):  xrun -64bit -uvm -define ASSERTIONS -coverage all -covoverwrite -covworkdir COVERAGE -covtest test_gpu_add_end_to_end -xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/test_gpu_add_end_to_end -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_add_end_to_end -l COVERAGE/test_gpu_add_end_to_end.log 

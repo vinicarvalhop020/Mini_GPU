@@ -1,0 +1,2 @@
+#e1(20Oct2026:20:50:16): source /tmp/mini_gpu_cov_suite.thKPn2/test_packet_mem_write/env.d/env.history.20Oct2026_20_50_16
+s1(20Oct2026:20:50:16):  xrun -64bit -uvm -define ASSERTIONS -coverage all -covoverwrite -covworkdir COVERAGE -covtest test_packet_mem_write -xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/test_packet_mem_write -f UVM/gpu/files.f +UVM_TESTNAME=test_packet_mem_write -l COVERAGE/test_packet_mem_write.log 

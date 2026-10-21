@@ -1,0 +1,48 @@
+IMC(64): 26.03-s030: (c) Copyright 1995-2026 Cadence Design Systems Inc - Simulator version: 26.03-s005 - Coverage engine version: 26.03-s005
+Starting batch mode
+2026-10-20 20:52:00,181 *I,MERGL1: Merging Simulation Coverage ...
+----------------------------
+2026-10-20 20:52:00,182 *I,MERGL1: Preparing target model ...
+2026-10-20 20:52:00,184 *I,MERGL1: Reading model of primary run (COVERAGE/scope/test_gpu_all_ops) as initial model: COVERAGE/scope/icc_5b7d00b0_156e503b.ucm
+2026-10-20 20:52:00,185 *I,MERGL1: Target model generated successfully.
+2026-10-20 20:52:00,185 *I,MERGL1: Projecting Simulation ucd data into the target model ...
+*I,MERGL2:   COVERAGE/scope/test_gpu_all_ops:
+2026-10-20 20:52:00,195 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/gpu_matrix_mul_test:
+2026-10-20 20:52:00,196 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_packet_field_extraction:
+2026-10-20 20:52:00,196 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_packet_mem_write:
+2026-10-20 20:52:00,196 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_packet_mem_read:
+2026-10-20 20:52:00,197 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_packet_command_start:
+2026-10-20 20:52:00,197 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_axi_decode:
+2026-10-20 20:52:00,198 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_axi_memory_access:
+2026-10-20 20:52:00,199 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_gpu_reset:
+2026-10-20 20:52:00,199 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_scheduler_handshake:
+2026-10-20 20:52:00,200 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_fsm_sequence:
+2026-10-20 20:52:00,201 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_gpu_add_end_to_end:
+2026-10-20 20:52:00,201 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_gpu_mul_8bit:
+2026-10-20 20:52:00,201 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_gpu_back_to_back:
+2026-10-20 20:52:00,202 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_gpu_address_corner_cases:
+2026-10-20 20:52:00,203 *I,MERGL3:       Data is projected in to the target model.
+*I,MERGL2:   COVERAGE/scope/test_gpu_random:
+2026-10-20 20:52:00,203 *I,MERGL3:       Data is projected in to the target model.
+2026-10-20 20:52:00,205 *I,MERGL1: Writing output database COVERAGE/scope/merged:
+2026-10-20 20:52:00,212 *I,MERGL2:   Model: COVERAGE/scope/merged/icc_5b7d00b0_156e503b.ucm
+2026-10-20 20:52:00,212 *I,MERGL2:   Data : COVERAGE/scope/merged/icc_5b7d00b0_156e503b.ucd
+2026-10-20 20:52:00,215 *I,MERGL1: No Specman coverage databases found in the runs.
+Total conflicts during target model creation: 0
+Total items not merged                      : 0
+Total runs not considered during target model creation: 0
+Total runs not merged                                 : 0

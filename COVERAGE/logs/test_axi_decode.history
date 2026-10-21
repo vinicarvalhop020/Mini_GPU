@@ -1,0 +1,2 @@
+#e1(20Oct2026:20:50:27): source /tmp/mini_gpu_cov_suite.thKPn2/test_axi_decode/env.d/env.history.20Oct2026_20_50_27
+s1(20Oct2026:20:50:27):  xrun -64bit -uvm -define ASSERTIONS -coverage all -covoverwrite -covworkdir COVERAGE -covtest test_axi_decode -xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/test_axi_decode -f UVM/gpu/files.f +UVM_TESTNAME=test_axi_decode -l COVERAGE/test_axi_decode.log 
