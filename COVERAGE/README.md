@@ -6,6 +6,14 @@ Esta pasta contém os bancos de cobertura gerados pelo Xcelium.
 - `scope/<nome_do_teste>/`: banco individual de cada teste UVM.
 - `logs/`: logs do Xcelium, histórico de cada execução e relatórios do IMC.
 
+## Executar tudo automaticamente
+
+```bash
+./COVERAGE/run_coverage.sh
+```
+
+O script executa todos os testes, chama `merge_coverage.tcl` e abre a GUI do IMC ao final.
+
 ## Executar a campanha completa
 
 Execute os comandos a partir da raiz `Mini_GPU`:
@@ -14,6 +22,7 @@ Execute os comandos a partir da raiz `Mini_GPU`:
 tests=(
   gpu_matrix_mul_test
   test_packet_field_extraction
+  test_host_backpressure
   test_packet_mem_write
   test_packet_mem_read
   test_packet_command_start

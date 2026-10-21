@@ -1,5 +1,5 @@
 xrun(64): 26.03-s005: (c) Copyright 1995-2026 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	26.03-s005: Started on Oct 20, 2026 at 20:50:54 -03
+TOOL:	xrun(64)	26.03-s005: Started on Oct 20, 2026 at 21:18:15 -03
 xrun
 	-64bit
 	-uvm
@@ -8,7 +8,7 @@ xrun
 	-covoverwrite
 	-covworkdir COVERAGE
 	-covtest test_gpu_mul_8bit
-	-xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/test_gpu_mul_8bit
+	-xmlibdirname /tmp/mini_gpu_cov.s5d60b/test_gpu_mul_8bit
 	-f UVM/gpu/files.f
 		+incdir+UVM/gpu/src
 		+incdir+UVM/gpu/sequences
@@ -33,7 +33,7 @@ xrun
 		UVM/gpu/assertions/gpu_internal_bind.sv
 		UVM/gpu/tb/gpu_top_tb.sv
 	+UVM_TESTNAME=test_gpu_mul_8bit
-	-l COVERAGE/test_gpu_mul_8bit.log
+	-l COVERAGE/logs/test_gpu_mul_8bit.log
 DEFINE std       ./STD
 |
 xrun: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/tools/cadence/XCELIUM2603/tools/inca/files/STD' (cds.lib command ignored).
@@ -524,30 +524,30 @@ xmvlog_cg: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,11
 DEFINE cds_assertions ./CDS_ASSERTIONS
 |
 xmvlog_cg: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/tools/cadence/XCELIUM2603/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
-		worklib.gpu_host_protocol_sva:sv <0x774b0da2>
+		worklib.gpu_host_protocol_sva:sv <0x2f0cb8eb>
 			streams:  15, words: 10563
-		worklib.alu_unit:sv <0x04c2048b>
+		worklib.alu_unit:sv <0x22917885>
 			streams:   1, words:  6344
-		worklib.register_vector:sv <0x42c6ed46>
+		worklib.register_vector:sv <0x19b47fcb>
 			streams:   3, words:  1638
-		worklib.dualport_memory:sv <0x63bc9147>
+		worklib.dualport_memory:sv <0x15468fbc>
 			streams:   5, words:  3276
-		worklib.fsm_sva:sv <0x1f70cddb>
+		worklib.fsm_sva:sv <0x06dd11e3>
 			streams:  35, words: 23741
-		worklib.scheduler_sva:sv <0x320e8128>
+		worklib.scheduler_sva:sv <0x41b5fdd3>
 			streams:  15, words:  9672
-		worklib.axi_slave:sv <0x6feaa2ce>
+		worklib.axi_slave:sv <0x0c92aa90>
 			streams:  10, words: 19699
-		worklib.packet_decoder:sv <0x3377d52a>
+		worklib.packet_decoder:sv <0x72d6d8aa>
 			streams:   4, words:  4790
-		worklib.alu_simd:sv <0x62f18c44>
+		worklib.alu_simd:sv <0x7ea378f8>
 			streams:   6, words:  5853
-		worklib.scheduler:sv <0x4b5ed197>
+		worklib.scheduler:sv <0x632d1e5f>
 			streams:  10, words: 10638
-		worklib.fsm:sv <0x48df8f38>
+		worklib.fsm:sv <0x707f5800>
 			streams:  13, words: 16016
-		worklib.gpu_internal_if:sv <0x00daf4eb>
-			streams: 1680, words: 1698127
+		worklib.gpu_internal_if:sv <0x2709b8c6>
+			streams: 1703, words: 1730730
 		worklib.cdns_uvm_pkg:sv <0x26577b74>
 			streams: 179, words: 271132
 		worklib.cdns_uvmapi:svp <0x508f7fbf>
@@ -569,12 +569,12 @@ xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_inst
 		Modules:                       16      13
 		Interfaces:                     2       2
 		Verilog packages:               5       5
-		Registers:                 15,894  10,929
+		Registers:                 15,936  10,945
 		Scalar wires:                  99       -
 		Vectored wires:               105       -
 		Named events:                  17      25
 		Always blocks:                114     111
-		Initial blocks:               399     209
+		Initial blocks:               402     210
 		Clocking blocks:                3       3
 		Clocking items:                48      48
 		Parallel blocks:               34      35
@@ -583,8 +583,8 @@ xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_inst
 		Assertions:                    16      16
 		Covergroup Instances:           0       1
 		Compilation units:              1       1
-		SV Class declarations:        226     340
-		SV Class specializations:     450     450
+		SV Class declarations:        227     341
+		SV Class specializations:     452     452
 		Process Clocks:                23       3
 		Simulation timescale:         1ps
 	Writing initial simulation snapshot: worklib.gpu_top_tb:sv
@@ -650,23 +650,23 @@ CDNS-UVM-1.1d (26.03-s005)
       (Specify +UVM_NO_RELNOTES to turn off this notice)
 
 UVM_INFO @ 0: reporter [RNTST] Running test test_gpu_mul_8bit...
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 45000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=00_80_80_80_80 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 45000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=00_80_80_80_80 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 85000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 85000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=00_80_80_80_80 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 85000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=00_80_80_80_80 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 105000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=01_80_80_80_80 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 105000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=01_80_80_80_80 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 145000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 145000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=01_80_80_80_80 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 145000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=01_80_80_80_80 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 165000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_00_01_10 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 165000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_00_01_10 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 205000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 205000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_00_01_10 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 205000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_00_01_10 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 225000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 225000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 355000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 355000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 355000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 375000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=10_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 375000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=10_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 415000: uvm_test_top.env.scoreboard [GPU_SB] MEM_READ endereco=10 conferido: 4000400040004000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 415000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_READ fields=10_00_00_00_00 rsp=4000400040004000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 415000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_READ fields=10_00_00_00_00 rsp=4000400040004000 err=0 received=1
@@ -715,4 +715,4 @@ coverage setup:
 coverage files:
   model(design data) :  COVERAGE/scope/icc_5b7d00b0_156e503b.ucm (reused)
   data               :  COVERAGE/scope/test_gpu_mul_8bit/icc_5b7d00b0_156e503b.ucd
-TOOL:	xrun(64)	26.03-s005: Exiting on Oct 20, 2026 at 20:50:57 -03  (total: 00:00:03)
+TOOL:	xrun(64)	26.03-s005: Exiting on Oct 20, 2026 at 21:18:19 -03  (total: 00:00:04)

@@ -1,5 +1,5 @@
 xrun(64): 26.03-s005: (c) Copyright 1995-2026 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	26.03-s005: Started on Oct 20, 2026 at 20:50:08 -03
+TOOL:	xrun(64)	26.03-s005: Started on Oct 20, 2026 at 21:17:26 -03
 xrun
 	-64bit
 	-uvm
@@ -8,7 +8,7 @@ xrun
 	-covoverwrite
 	-covworkdir COVERAGE
 	-covtest gpu_matrix_mul_test
-	-xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/gpu_matrix_mul_test
+	-xmlibdirname /tmp/mini_gpu_cov.s5d60b/gpu_matrix_mul_test
 	-f UVM/gpu/files.f
 		+incdir+UVM/gpu/src
 		+incdir+UVM/gpu/sequences
@@ -33,7 +33,7 @@ xrun
 		UVM/gpu/assertions/gpu_internal_bind.sv
 		UVM/gpu/tb/gpu_top_tb.sv
 	+UVM_TESTNAME=gpu_matrix_mul_test
-	-l COVERAGE/gpu_matrix_mul_test.log
+	-l COVERAGE/logs/gpu_matrix_mul_test.log
 DEFINE std       ./STD
 |
 xrun: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/tools/cadence/XCELIUM2603/tools/inca/files/STD' (cds.lib command ignored).
@@ -524,30 +524,30 @@ xmvlog_cg: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,11
 DEFINE cds_assertions ./CDS_ASSERTIONS
 |
 xmvlog_cg: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/tools/cadence/XCELIUM2603/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
-		worklib.gpu_host_protocol_sva:sv <0x774b0da2>
+		worklib.gpu_host_protocol_sva:sv <0x2f0cb8eb>
 			streams:  15, words: 10563
-		worklib.alu_unit:sv <0x04c2048b>
+		worklib.alu_unit:sv <0x22917885>
 			streams:   1, words:  6344
-		worklib.register_vector:sv <0x42c6ed46>
+		worklib.register_vector:sv <0x19b47fcb>
 			streams:   3, words:  1638
-		worklib.dualport_memory:sv <0x63bc9147>
+		worklib.dualport_memory:sv <0x15468fbc>
 			streams:   5, words:  3276
-		worklib.fsm_sva:sv <0x1f70cddb>
+		worklib.fsm_sva:sv <0x06dd11e3>
 			streams:  35, words: 23741
-		worklib.scheduler_sva:sv <0x320e8128>
+		worklib.scheduler_sva:sv <0x41b5fdd3>
 			streams:  15, words:  9672
-		worklib.axi_slave:sv <0x6feaa2ce>
+		worklib.axi_slave:sv <0x0c92aa90>
 			streams:  10, words: 19699
-		worklib.packet_decoder:sv <0x3377d52a>
+		worklib.packet_decoder:sv <0x72d6d8aa>
 			streams:   4, words:  4790
-		worklib.alu_simd:sv <0x62f18c44>
+		worklib.alu_simd:sv <0x7ea378f8>
 			streams:   6, words:  5853
-		worklib.scheduler:sv <0x4b5ed197>
+		worklib.scheduler:sv <0x632d1e5f>
 			streams:  10, words: 10638
-		worklib.fsm:sv <0x48df8f38>
+		worklib.fsm:sv <0x707f5800>
 			streams:  13, words: 16016
-		worklib.gpu_internal_if:sv <0x00daf4eb>
-			streams: 1680, words: 1698127
+		worklib.gpu_internal_if:sv <0x2709b8c6>
+			streams: 1703, words: 1730730
 		worklib.cdns_uvm_pkg:sv <0x26577b74>
 			streams: 179, words: 271132
 		worklib.cdns_uvmapi:svp <0x508f7fbf>
@@ -569,12 +569,12 @@ xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_inst
 		Modules:                       16      13
 		Interfaces:                     2       2
 		Verilog packages:               5       5
-		Registers:                 15,894  10,929
+		Registers:                 15,936  10,945
 		Scalar wires:                  99       -
 		Vectored wires:               105       -
 		Named events:                  17      25
 		Always blocks:                114     111
-		Initial blocks:               399     209
+		Initial blocks:               402     210
 		Clocking blocks:                3       3
 		Clocking items:                48      48
 		Parallel blocks:               34      35
@@ -583,8 +583,8 @@ xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_inst
 		Assertions:                    16      16
 		Covergroup Instances:           0       1
 		Compilation units:              1       1
-		SV Class declarations:        226     340
-		SV Class specializations:     450     450
+		SV Class declarations:        227     341
+		SV Class specializations:     452     452
 		Process Clocks:                23       3
 		Simulation timescale:         1ps
 	Writing initial simulation snapshot: worklib.gpu_top_tb:sv
@@ -655,327 +655,327 @@ UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(96) @ 0: uvm_test_top.env.
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(96) @ 0: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] A[2] = 7 7 7 1 | B[2] = 4 3 0 3
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(96) @ 0: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] A[3] = 3 0 4 7 | B[3] = 2 6 6 0
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(99) @ 0: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] Gravando A e B na memoria vetorial
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 45000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=00_00_04_00_05 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 45000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=00_00_04_00_05 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 85000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 85000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=00_00_04_00_05 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 85000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=00_00_04_00_05 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 105000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=01_01_07_00_06 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 105000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=01_01_07_00_06 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 145000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 145000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=01_01_07_00_06 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 145000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=01_01_07_00_06 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 165000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=02_04_03_00_03 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 165000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=02_04_03_00_03 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 205000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 205000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=02_04_03_00_03 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 205000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=02_04_03_00_03 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 225000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=03_02_06_06_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 225000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=03_02_06_06_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 265000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 265000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=03_02_06_06_00 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 265000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=03_02_06_06_00 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 285000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=10_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 285000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=10_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 325000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 325000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=10_01_01_01_01 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 325000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=10_01_01_01_01 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 345000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=11_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 345000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=11_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 385000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 385000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=11_01_01_01_01 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 385000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=11_01_01_01_01 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 405000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=12_06_06_06_06 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 405000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=12_06_06_06_06 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 445000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 445000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=12_06_06_06_06 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 445000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=12_06_06_06_06 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 465000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=13_05_05_05_05 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 465000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=13_05_05_05_05 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 505000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 505000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=13_05_05_05_05 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 505000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=13_05_05_05_05 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 525000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=14_04_04_04_04 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 525000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=14_04_04_04_04 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 565000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 565000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=14_04_04_04_04 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 565000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=14_04_04_04_04 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 585000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=15_03_03_03_03 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 585000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=15_03_03_03_03 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 625000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 625000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=15_03_03_03_03 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 625000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=15_03_03_03_03 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 645000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=16_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 645000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=16_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 685000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 685000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=16_01_01_01_01 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 685000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=16_01_01_01_01 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 705000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=17_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 705000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=17_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 745000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 745000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=17_01_01_01_01 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 745000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=17_01_01_01_01 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 765000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=18_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 765000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=18_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 805000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 805000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=18_07_07_07_07 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 805000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=18_07_07_07_07 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 825000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=19_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 825000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=19_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 865000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 865000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=19_07_07_07_07 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 865000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=19_07_07_07_07 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 885000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1a_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 885000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1a_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 925000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 925000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=1a_07_07_07_07 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 925000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=1a_07_07_07_07 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 945000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1b_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 945000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1b_01_01_01_01 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 985000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 985000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=1b_01_01_01_01 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 985000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=1b_01_01_01_01 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1005000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1c_03_03_03_03 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1005000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1c_03_03_03_03 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1045000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1045000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=1c_03_03_03_03 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1045000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=1c_03_03_03_03 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1065000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1d_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1065000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1d_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1105000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1105000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=1d_00_00_00_00 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1105000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=1d_00_00_00_00 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1125000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1e_04_04_04_04 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1125000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1e_04_04_04_04 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1165000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1165000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=1e_04_04_04_04 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1165000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=1e_04_04_04_04 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1185000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1f_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1185000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_WRITE fields=1f_07_07_07_07 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1225000: uvm_test_top.env.scoreboard [GPU_SB] MEM_WRITE conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1225000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_WRITE fields=1f_07_07_07_07 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1225000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_WRITE fields=1f_07_07_07_07 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(116) @ 1225000: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] Executando C = A x B
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1245000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_10_00_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1245000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_10_00_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1285000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1285000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_10_00_30 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1285000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_10_00_30 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1305000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1305000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 1435000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1435000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1435000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1455000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_11_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1455000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_11_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1495000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1495000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_11_01_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1495000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_11_01_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1515000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1515000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 1645000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1645000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1645000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1665000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1665000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1705000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1705000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1705000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_30_20_30 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1725000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1725000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 1855000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1855000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1855000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1875000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_12_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1875000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_12_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 1915000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 1915000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_12_02_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 1915000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_12_02_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 1935000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 1935000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 2065000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2065000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2065000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2085000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2085000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 2125000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2125000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2125000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_30_20_30 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2145000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2145000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 2275000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2275000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2275000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2295000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_13_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2295000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_13_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 2335000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2335000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_13_03_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2335000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_13_03_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2355000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2355000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 2485000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2485000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2485000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2505000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2505000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 2545000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2545000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_30_20_30 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2545000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_30_20_30 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2565000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2565000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 2695000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2695000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2695000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2715000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_14_00_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2715000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_14_00_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 2755000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2755000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_14_00_31 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2755000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_14_00_31 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2775000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2775000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 2905000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2905000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2905000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2925000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_15_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2925000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_15_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 2965000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 2965000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_15_01_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 2965000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_15_01_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 2985000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 2985000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 3115000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3115000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3115000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3135000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3135000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 3175000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3175000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3175000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_31_20_31 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3195000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3195000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 3325000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3325000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3325000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3345000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_16_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3345000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_16_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 3385000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3385000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_16_02_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3385000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_16_02_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3405000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3405000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 3535000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3535000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3535000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3555000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3555000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 3595000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3595000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3595000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_31_20_31 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3615000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3615000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 3745000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3745000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3745000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3765000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_17_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3765000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_17_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 3805000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3805000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_17_03_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3805000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_17_03_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3825000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3825000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 3955000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 3955000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 3955000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 3975000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 3975000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 4015000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4015000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_31_20_31 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4015000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_31_20_31 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4035000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4035000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 4165000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4165000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4165000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4185000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_18_00_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4185000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_18_00_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 4225000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4225000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_18_00_32 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4225000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_18_00_32 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4245000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4245000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 4375000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4375000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4375000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4395000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_19_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4395000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_19_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 4435000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4435000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_19_01_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4435000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_19_01_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4455000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4455000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 4585000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4585000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4585000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4605000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4605000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 4645000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4645000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4645000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_32_20_32 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4665000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4665000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 4795000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4795000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4795000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4815000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1a_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4815000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1a_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 4855000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 4855000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_1a_02_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 4855000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_1a_02_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 4875000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 4875000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 5005000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5005000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5005000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5025000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5025000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 5065000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5065000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5065000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_32_20_32 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5085000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5085000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 5215000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5215000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5215000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5235000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1b_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5235000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1b_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 5275000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5275000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_1b_03_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5275000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_1b_03_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5295000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5295000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 5425000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5425000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5425000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5445000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5445000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 5485000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5485000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_32_20_32 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5485000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_32_20_32 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5505000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5505000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 5635000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5635000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5635000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5655000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1c_00_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5655000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1c_00_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 5695000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5695000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_1c_00_33 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5695000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_1c_00_33 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5715000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5715000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 5845000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5845000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5845000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5865000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1d_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5865000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1d_01_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 5905000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 5905000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_1d_01_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 5905000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_1d_01_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 5925000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 5925000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 6055000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6055000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6055000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6075000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6075000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 6115000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6115000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6115000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_33_20_33 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6135000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6135000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 6265000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6265000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6265000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6285000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1e_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6285000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1e_02_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 6325000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6325000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_1e_02_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6325000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_1e_02_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6345000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6345000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 6475000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6475000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6475000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6495000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6495000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 6535000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6535000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6535000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_33_20_33 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6555000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6555000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 6685000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6685000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6685000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6705000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1f_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6705000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_03_1f_03_20 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 6745000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6745000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_03_1f_03_20 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6745000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_03_1f_03_20 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6765000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6765000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 6895000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6895000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6895000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6915000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6915000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 6955000: uvm_test_top.env.scoreboard [GPU_SB] GPU_COMMAND conferido: 0000000000000000
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 6955000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_COMMAND fields=00_01_33_20_33 rsp=0000000000000000 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 6955000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_COMMAND fields=00_01_33_20_33 rsp=0000000000000000 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 6975000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 6975000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_START fields=00_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(222) @ 7105000: uvm_test_top.env.scoreboard [GPU_SB] GPU_START concluido com DONE=1
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 7105000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 7105000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_START fields=00_00_00_00_00 rsp=0000000000000002 err=0 received=1
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 7125000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=30_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 7125000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=30_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 7165000: uvm_test_top.env.scoreboard [GPU_SB] MEM_READ endereco=30 conferido: 0023003b001e001d
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 7165000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_READ fields=30_00_00_00_00 rsp=0023003b001e001d err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 7165000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_READ fields=30_00_00_00_00 rsp=0023003b001e001d err=0 received=1
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(138) @ 7165000: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] C[0] observada = 23003b001e001d
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 7185000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=31_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 7185000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=31_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 7225000: uvm_test_top.env.scoreboard [GPU_SB] MEM_READ endereco=31 conferido: 0009002e00060029
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 7225000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_READ fields=31_00_00_00_00 rsp=0009002e00060029 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 7225000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_READ fields=31_00_00_00_00 rsp=0009002e00060029 err=0 received=1
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(138) @ 7225000: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] C[1] observada = 9002e00060029
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 7245000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=32_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 7245000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=32_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 7285000: uvm_test_top.env.scoreboard [GPU_SB] MEM_READ endereco=32 conferido: 0025006800060062
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 7285000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_READ fields=32_00_00_00_00 rsp=0025006800060062 err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 7285000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_READ fields=32_00_00_00_00 rsp=0025006800060062 err=0 received=1
 UVM_INFO UVM/gpu/sequences/gpu_matrix_mul_sequence.sv(138) @ 7285000: uvm_test_top.env.agent.sequencer@@gpu_seq [GPU_MATRIX] C[2] observada = 25006800060062
-UVM_INFO UVM/gpu/src/gpu_monitor.sv(56) @ 7305000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=33_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
+UVM_INFO UVM/gpu/src/gpu_monitor.sv(54) @ 7305000: uvm_test_top.env.agent.monitor [GPU_MON] Requisicao observada: type=GPU_MEM_READ fields=33_00_00_00_00 rsp=xxxxxxxxxxxxxxxx err=x received=0
 UVM_INFO UVM/gpu/src/gpu_scoreboard.sv(145) @ 7345000: uvm_test_top.env.scoreboard [GPU_SB] MEM_READ endereco=33 conferido: 001e0042002a001b
 UVM_INFO UVM/gpu/src/gpu_monitor.sv(74) @ 7345000: uvm_test_top.env.agent.monitor [GPU_MON] Resposta observada: type=GPU_MEM_READ fields=33_00_00_00_00 rsp=001e0042002a001b err=0 received=1
 UVM_INFO UVM/gpu/src/gpu_driver.sv(76) @ 7345000: uvm_test_top.env.agent.driver [GPU_DRV] Resposta recebida: type=GPU_MEM_READ fields=33_00_00_00_00 rsp=001e0042002a001b err=0 received=1
@@ -1024,4 +1024,4 @@ coverage setup:
 coverage files:
   model(design data) :  COVERAGE/scope/icc_5b7d00b0_156e503b.ucm (reused)
   data               :  COVERAGE/scope/gpu_matrix_mul_test/icc_5b7d00b0_156e503b.ucd
-TOOL:	xrun(64)	26.03-s005: Exiting on Oct 20, 2026 at 20:50:12 -03  (total: 00:00:04)
+TOOL:	xrun(64)	26.03-s005: Exiting on Oct 20, 2026 at 21:17:30 -03  (total: 00:00:04)

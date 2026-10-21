@@ -1,1 +1,5 @@
 *.zip
+
+# Bancos binarios de coverage gerados pelo Xcelium/IMC.
+COVERAGE/**/*.ucd
+COVERAGE/**/*.ucm

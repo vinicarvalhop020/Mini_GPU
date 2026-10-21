@@ -1,5 +1,5 @@
 xrun(64): 26.03-s005: (c) Copyright 1995-2026 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	26.03-s005: Started on Oct 20, 2026 at 20:51:05 -03
+TOOL:	xrun(64)	26.03-s005: Started on Oct 20, 2026 at 21:18:27 -03
 xrun
 	-64bit
 	-uvm
@@ -8,7 +8,7 @@ xrun
 	-covoverwrite
 	-covworkdir COVERAGE
 	-covtest test_gpu_random
-	-xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/test_gpu_random
+	-xmlibdirname /tmp/mini_gpu_cov.s5d60b/test_gpu_random
 	-f UVM/gpu/files.f
 		+incdir+UVM/gpu/src
 		+incdir+UVM/gpu/sequences
@@ -33,7 +33,7 @@ xrun
 		UVM/gpu/assertions/gpu_internal_bind.sv
 		UVM/gpu/tb/gpu_top_tb.sv
 	+UVM_TESTNAME=test_gpu_random
-	-l COVERAGE/test_gpu_random.log
+	-l COVERAGE/logs/test_gpu_random.log
 DEFINE std       ./STD
 |
 xrun: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,1): cds.lib Invalid path '/tools/cadence/XCELIUM2603/tools/inca/files/STD' (cds.lib command ignored).
@@ -524,30 +524,30 @@ xmvlog_cg: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,11
 DEFINE cds_assertions ./CDS_ASSERTIONS
 |
 xmvlog_cg: *W,DLCPTH (/tools/cadence/XCELIUM2603/tools/inca/files/cdsvhdl.lib,12): cds.lib Invalid path '/tools/cadence/XCELIUM2603/tools/inca/files/CDS_ASSERTIONS' (cds.lib command ignored).
-		worklib.gpu_host_protocol_sva:sv <0x774b0da2>
+		worklib.gpu_host_protocol_sva:sv <0x2f0cb8eb>
 			streams:  15, words: 10563
-		worklib.alu_unit:sv <0x04c2048b>
+		worklib.alu_unit:sv <0x22917885>
 			streams:   1, words:  6344
-		worklib.register_vector:sv <0x42c6ed46>
+		worklib.register_vector:sv <0x19b47fcb>
 			streams:   3, words:  1638
-		worklib.dualport_memory:sv <0x63bc9147>
+		worklib.dualport_memory:sv <0x15468fbc>
 			streams:   5, words:  3276
-		worklib.fsm_sva:sv <0x1f70cddb>
+		worklib.fsm_sva:sv <0x06dd11e3>
 			streams:  35, words: 23741
-		worklib.scheduler_sva:sv <0x320e8128>
+		worklib.scheduler_sva:sv <0x41b5fdd3>
 			streams:  15, words:  9672
-		worklib.axi_slave:sv <0x6feaa2ce>
+		worklib.axi_slave:sv <0x0c92aa90>
 			streams:  10, words: 19699
-		worklib.packet_decoder:sv <0x3377d52a>
+		worklib.packet_decoder:sv <0x72d6d8aa>
 			streams:   4, words:  4790
-		worklib.alu_simd:sv <0x62f18c44>
+		worklib.alu_simd:sv <0x7ea378f8>
 			streams:   6, words:  5853
-		worklib.scheduler:sv <0x4b5ed197>
+		worklib.scheduler:sv <0x632d1e5f>
 			streams:  10, words: 10638
-		worklib.fsm:sv <0x48df8f38>
+		worklib.fsm:sv <0x707f5800>
 			streams:  13, words: 16016
-		worklib.gpu_internal_if:sv <0x00daf4eb>
-			streams: 1680, words: 1698127
+		worklib.gpu_internal_if:sv <0x2709b8c6>
+			streams: 1703, words: 1730730
 		worklib.cdns_uvm_pkg:sv <0x26577b74>
 			streams: 179, words: 271132
 		worklib.cdns_uvmapi:svp <0x508f7fbf>
@@ -569,12 +569,12 @@ xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_inst
 		Modules:                       16      13
 		Interfaces:                     2       2
 		Verilog packages:               5       5
-		Registers:                 15,894  10,929
+		Registers:                 15,936  10,945
 		Scalar wires:                  99       -
 		Vectored wires:               105       -
 		Named events:                  17      25
 		Always blocks:                114     111
-		Initial blocks:               399     209
+		Initial blocks:               402     210
 		Clocking blocks:                3       3
 		Clocking items:                48      48
 		Parallel blocks:               34      35
@@ -583,8 +583,8 @@ xmelab: *N,COVCGN: Coverage configuration file command "set_covergroup -new_inst
 		Assertions:                    16      16
 		Covergroup Instances:           0       1
 		Compilation units:              1       1
-		SV Class declarations:        226     340
-		SV Class specializations:     450     450
+		SV Class declarations:        227     341
+		SV Class specializations:     452     452
 		Process Clocks:                23       3
 		Simulation timescale:         1ps
 	Writing initial simulation snapshot: worklib.gpu_top_tb:sv
@@ -689,4 +689,4 @@ coverage setup:
 coverage files:
   model(design data) :  COVERAGE/scope/icc_5b7d00b0_156e503b.ucm (reused)
   data               :  COVERAGE/scope/test_gpu_random/icc_5b7d00b0_156e503b.ucd
-TOOL:	xrun(64)	26.03-s005: Exiting on Oct 20, 2026 at 20:51:09 -03  (total: 00:00:04)
+TOOL:	xrun(64)	26.03-s005: Exiting on Oct 20, 2026 at 21:18:31 -03  (total: 00:00:04)

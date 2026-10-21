@@ -2,3 +2,14 @@
 [INFO ] 2026-10-20 23:51:59 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 43955
 [INFO ] 2026-10-20 23:52:09 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 36815
 [INFO ] 2026-10-20 23:54:18 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 34079
+[INFO ] 2026-10-21 00:06:24 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 34089
+[ERROR] 2026-10-21 00:06:24 [com.cadence.mdv.messaging.MDVASynchronicMessaging] [frontend-pool-1] - Nenhum banco individual foi encontrado em COVERAGE/scope.
+[ERROR] 2026-10-21 00:06:24 [com.cadence.mdv.messaging.MDVASynchronicMessaging] [frontend-pool-2] - extra characters after close-brace.
+[INFO ] 2026-10-21 00:06:35 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 43443
+[INFO ] 2026-10-21 00:07:12 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 34075
+[INFO ] 2026-10-21 00:08:56 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 37739
+[INFO ] 2026-10-21 00:09:00 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 33441
+[INFO ] 2026-10-21 00:15:04 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 46633
+[INFO ] 2026-10-21 00:15:08 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 33549
+[INFO ] 2026-10-21 00:18:35 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 38581
+[INFO ] 2026-10-21 00:18:39 [com.cadence.mdv.imc.Main] [main] - Binding debug tools http on port: 36595

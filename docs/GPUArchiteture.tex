@@ -753,6 +753,7 @@ operação e o Scheduler produzir \signal{DONE}.
   \item[\req{PKT_02_FIELDS}] O bloco deve copiar \signal{req_payload[41:40]} para \signal{TYPE} e extrair os cinco campos de 8 bits conforme a Tabela~\ref{tab:packet-format}.
   \item[\req{PKT_03_OUTPUT}] Após aceitar uma requisição, o bloco deve ativar \signal{decoded_valid} e manter todos os campos estáveis até ocorrer \signal{decoded_valid e decoded_ready}.
   \item[\req{PKT_04_UNDERCOMMAND}] Enquanto houver uma requisição decodificada ainda não aceita pelo AXI4-Lite Slave Decoder, o Packet Decoder deve manter desativado \signal{req_ready}.
+  \item[\req{PKT_05_HOST_STABLE}] Quando \signal{req_valid=1} e \signal{req_ready=0}, o host deve manter \signal{req_payload} e \signal{req_valid} estáveis até a requisição ser aceita.
   
 \end{description}
 
@@ -895,6 +896,19 @@ extração exata de \signal{TYPE} e de \signal{FIELD_0} a
 \signal{FIELD_4}.
 &
 \req{PKT_01_HANDSHAKE}, \req{PKT_02_FIELDS}
+&
+Alta
+\\
+
+\path{test_host_backpressure}
+&
+Apresenta um segundo pacote \signal{MEM_WRITE} enquanto o Packet Decoder
+está ocupado e verifica que o host mantém \signal{req_valid} e
+\signal{req_payload} estáveis até \signal{req_ready} voltar a 1.
+&
+\req{PKT_01_HANDSHAKE},
+\req{PKT_04_UNDERCOMMAND},
+\req{PKT_05_HOST_STABLE}
 &
 Alta
 \\

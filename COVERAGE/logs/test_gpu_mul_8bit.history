@@ -1,2 +1,2 @@
-#e1(20Oct2026:20:50:54): source /tmp/mini_gpu_cov_suite.thKPn2/test_gpu_mul_8bit/env.d/env.history.20Oct2026_20_50_54
-s1(20Oct2026:20:50:54):  xrun -64bit -uvm -define ASSERTIONS -coverage all -covoverwrite -covworkdir COVERAGE -covtest test_gpu_mul_8bit -xmlibdirname /tmp/mini_gpu_cov_suite.thKPn2/test_gpu_mul_8bit -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_mul_8bit -l COVERAGE/test_gpu_mul_8bit.log 
+#e1(20Oct2026:21:18:16): source /tmp/mini_gpu_cov.s5d60b/test_gpu_mul_8bit/env.d/env.history.20Oct2026_21_18_16
+s1(20Oct2026:21:18:16):  xrun -64bit -uvm -define ASSERTIONS -coverage all -covoverwrite -covworkdir COVERAGE -covtest test_gpu_mul_8bit -xmlibdirname /tmp/mini_gpu_cov.s5d60b/test_gpu_mul_8bit -f UVM/gpu/files.f +UVM_TESTNAME=test_gpu_mul_8bit -l COVERAGE/logs/test_gpu_mul_8bit.log 

@@ -37,6 +37,7 @@ package gpu_pkg;
 
     // Testes rastreaveis do plano de verificacao.
     `include "test_packet_field_extraction.sv"
+    `include "test_host_backpressure.sv"
     `include "test_packet_mem_write.sv"
     `include "test_packet_mem_read.sv"
     `include "test_packet_command_start.sv"
