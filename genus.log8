@@ -1,0 +1,70 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[22:00:58.360329] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -execute {puts [info body gui_sv_load]} -execute {gui_sv_load -help} -execute {gui_configure_pi_schematic -help} -execute {exit} 
+Date:    Tue Oct 20 22:00:58 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     990870
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[22:00:58.409834] Periodic Lic check successful
+[22:00:58.409843] Feature usage summary:
+[22:00:58.409843] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (2 seconds elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (19 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> puts [info body gui_sv_load]
+
+  eval gui_sv_load_internal $args
+
+#@ Processing -execute option
+@genus 2> gui_sv_load -help
+  gui_sv_load: load a hierarchical instance or design in schematic viewer 
+
+Usage: gui_sv_load <inst|hinst|design>
+
+    <inst|hinst|design>:
+        hierarchical instance or design to load into main schematic 
+#@ Processing -execute option
+@genus 3> gui_configure_pi_schematic -help
+  gui_configure_pi_schematic: Configure Power Intent Schematic Viewer 
+
+Usage: gui_configure_pi_schematic [-schematic_id <string>] -type <string>
+           [-remove] [-callback_report <string>]
+
+    [-schematic_id <string>]:
+        Schematic id 
+    -type <string>:
+        instance|pin|port 
+    [-remove]:
+        Remove registered callback 
+    [-callback_report <string>]:
+        Register callback tcl proc to display and execute context menu 
+        request.Proc template : proc abc {sch_id item}. schematic_id: schematic 
+        id , Item: vdir of object on which Custom Menu is requested 
+#@ Processing -execute option
+@genus 4> exit
+
+Lic Summary:
+[22:01:17.122384] Cdslmd servers: licserver
+[22:01:17.122392] Feature usage summary:
+[22:01:17.122393] Genus_Synthesis
+
+Normal exit.

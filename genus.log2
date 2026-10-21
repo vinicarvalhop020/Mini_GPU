@@ -1,0 +1,48 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[21:55:26.360361] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -no_gui -execute {help gui_snapshot_pv} -execute {help gui_snapshot_sv} -execute {help gui_open_schematic} -execute {exit} 
+Date:    Tue Oct 20 21:55:26 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     985965
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[21:55:26.390138] Periodic Lic check successful
+[21:55:26.390139] Feature usage summary:
+[21:55:26.390144] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (1 second elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (10 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> help gui_snapshot_pv
+No help entry for gui_snapshot_pv
+#@ Processing -execute option
+@genus 2> help gui_snapshot_sv
+No help entry for gui_snapshot_sv
+#@ Processing -execute option
+@genus 3> help gui_open_schematic
+No help entry for gui_open_schematic
+#@ Processing -execute option
+@genus 4> exit
+
+Lic Summary:
+[21:55:37.373011] Cdslmd servers: licserver
+[21:55:37.373018] Feature usage summary:
+[21:55:37.373019] Genus_Synthesis
+

@@ -1,0 +1,76 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[21:59:30.360353] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -execute {puts [info body gui_show]} -execute {puts [info body gui_update]} -execute {puts [info commands *process*event*]} -execute {exit} 
+Date:    Tue Oct 20 21:59:30 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     989841
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[21:59:30.391761] Periodic Lic check successful
+[21:59:30.391762] Feature usage summary:
+[21:59:30.391762] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (1 second elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (16 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> puts [info body gui_show]
+
+  set pov [parse_options [calling_proc] {} $args]
+
+  switch -- $pov {
+    -2 {return}
+     0 {error "Failed on [calling_proc]"}
+  }
+
+  if {[info commands toplevel] eq "toplevel"} {
+    eval halo_gui_show_internal $args
+  } else {
+    puts "GUI not enabled."
+  }
+
+  return -code ok
+
+#@ Processing -execute option
+@genus 2> puts [info body gui_update]
+
+  set pov [parse_options [calling_proc] {} $args]
+
+  switch -- $pov {
+    -2 {return}
+     0 {error "Failed on [calling_proc]"}
+  }
+
+  if {[info commands toplevel] eq "toplevel"} {
+    ##nagelfar ignore Unknown command
+    gui_sync
+  }
+
+#@ Processing -execute option
+@genus 3> puts [info commands *process*event*]
+
+#@ Processing -execute option
+@genus 4> exit
+
+Lic Summary:
+[21:59:46.059666] Cdslmd servers: licserver
+[21:59:46.059675] Feature usage summary:
+[21:59:46.059675] Genus_Synthesis
+
+Normal exit.

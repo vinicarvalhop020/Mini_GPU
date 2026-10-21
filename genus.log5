@@ -1,0 +1,55 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[21:57:08.360377] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -execute {puts [info commands *snapshot*]} -execute {puts [info body gui_pv_snapshot_internal_halo]} -execute {puts [info body gui_snapshot_sv]} -execute {exit} 
+Date:    Tue Oct 20 21:57:08 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     988057
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[21:57:08.392577] Periodic Lic check successful
+[21:57:08.392586] Feature usage summary:
+[21:57:08.392586] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (1 second elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (20 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> puts [info commands *snapshot*]
+pop_snapshot_stack gui_snapshot_pv gui_snapshot_sv save_snapshot create_snapshot write_snapshot rename_snapshot push_snapshot_stack
+#@ Processing -execute option
+@genus 2> puts [info body gui_pv_snapshot_internal_halo]
+
+#@ Processing -execute option
+@genus 3> puts [info body gui_snapshot_sv]
+
+  if {[is_halo]} {
+    if {$::uiHalo::new_schematic} {
+        eval gui_sv_snapshot_halo_internal $args
+    } 
+  } 
+
+#@ Processing -execute option
+@genus 4> exit
+
+Lic Summary:
+[21:57:28.510178] Cdslmd servers: licserver
+[21:57:28.510187] Feature usage summary:
+[21:57:28.510187] Genus_Synthesis
+
+Normal exit.

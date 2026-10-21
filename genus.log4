@@ -1,0 +1,86 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[21:56:44.360369] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -execute {puts [info body gui_snapshot_pv]} -execute {puts [info body gui_open_schematic]} -execute {exit} 
+Date:    Tue Oct 20 21:56:44 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     987574
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[21:56:44.278003] Periodic Lic check successful
+[21:56:44.278009] Feature usage summary:
+[21:56:44.278009] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (1 second elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (18 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> puts [info body gui_snapshot_pv]
+
+  if {[gui_pv_halo_mode]} {
+    # force an update even if GUI is hidden
+    if {![halo_gui_visible]} {
+      gui_process_events
+      ::legacy::set_attr -quiet win_update_layout_window true /
+      ::Win::redraw
+      #::Win::fit
+      #::Win::fit
+    }
+    eval gui_pv_snapshot_internal_halo $args
+    if {![halo_gui_visible]} {
+      ::legacy::set_attr -quiet win_update_layout_window false /
+    }
+  }
+
+#@ Processing -execute option
+@genus 2> puts [info body gui_open_schematic]
+
+  set top ""
+  set pov [parse_options gui_open_schematic {} $args  "-append bos   append to last open cone schematic" append  "-name sos specifies name of the cone window" top  "drs($::nvs::instance|$::nvs::hinst|$::nvs::net|net|$::nvs::pin|$::nvs::hpin|port|$::nvs::subport|$::nvs::hpin_bus|port_bus|$::nvs::subport_bus) instance to load into cone schematic" vdir]
+  
+  switch -- $pov {
+    -2 {return}
+    0 {error "Failed on 'gui_open_schematic'."}
+  } 
+
+  switch [what_is $vdir] {
+    instance - inst - hinst {
+      eval gui_sv_cone_internal $args 
+    }
+    net - hnet {
+      if {[is_halo] && $::uiHalo::new_schematic} {
+          eval gui_sv_cone_net_internal $args
+      }
+    }
+    pin - hpin - port - hport - hpin_bus - port_bus - hport_bus - pin_bus - subport - subport_bus {
+      if {[is_halo] && $::uiHalo::new_schematic} {
+        eval gui_sv_cone_pin_internal $args
+      }
+    }
+  }
+  return -code ok
+
+#@ Processing -execute option
+@genus 3> exit
+
+Lic Summary:
+[21:57:02.160929] Cdslmd servers: licserver
+[21:57:02.160939] Feature usage summary:
+[21:57:02.160939] Genus_Synthesis
+
+Normal exit.

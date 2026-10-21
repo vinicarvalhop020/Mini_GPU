@@ -1,0 +1,62 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[21:54:48.360385] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -legacy_ui 
+Date:    Tue Oct 20 21:54:48 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     984812
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[21:54:48.170234] Periodic Lic check successful
+[21:54:48.170243] Feature usage summary:
+[21:54:48.170243] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (0 seconds elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (12 seconds elapsed).
+
+WARNING: This version of the tool is 862 days old.
+legacy_genus:/> help gui_snapshot
+No help entry for gui_snapshot
+legacy_genus:/> help gui_open_schematic
+That command is:
+
+  GUI
+==============================================================================
+gui_open_schematic  load an object into a cone schematic viewer               
+
+Command details:
+
+  gui_open_schematic: load an object into a cone schematic viewer 
+
+Usage: gui_open_schematic [-append] [-name <string>]
+           <instance|net|pin|port|subport|pin_bus|port_bus|subport_bus>
+
+    [-append]:
+        append to last open cone schematic 
+    [-name <string>]:
+        specifies name of the cone window 
+    <instance|net|pin|port|subport|pin_bus|port_bus|subport_bus>:
+        instance to load into cone schematic 
+legacy_genus:/> exit
+
+Lic Summary:
+[21:55:01.088529] Cdslmd servers: licserver
+[21:55:01.088536] Feature usage summary:
+[21:55:01.088537] Genus_Synthesis
+
+Normal exit.

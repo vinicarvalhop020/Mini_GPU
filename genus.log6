@@ -1,0 +1,67 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[21:57:36.360385] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -execute {gui_snapshot_sv -help} -execute {gui_open_schematic -help} -execute {exit} 
+Date:    Tue Oct 20 21:57:36 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     988663
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[21:57:36.508905] Periodic Lic check successful
+[21:57:36.508913] Feature usage summary:
+[21:57:36.508913] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (2 seconds elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (18 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> gui_snapshot_sv -help
+  gui_snapshot_sv: create a snapshot of main schematic viewer 
+
+Usage: gui_snapshot_sv [-overwrite] [-png] [-no_fit] <string>
+
+    [-overwrite]:
+        overwrite existing file 
+    [-png]:
+        create a PNG format file (GIF format is default) 
+    [-no_fit]:
+        do not fit to full screen 
+    <string>:
+        snapshot file name 
+#@ Processing -execute option
+@genus 2> gui_open_schematic -help
+  gui_open_schematic: load an object into a cone schematic viewer 
+
+Usage: gui_open_schematic [-append] [-name <string>]
+           <inst|hinst|hnet|net|pin|hpin|port|hport|hpin_bus|port_bus|hport_bus>
+
+    [-append]:
+        append to last open cone schematic 
+    [-name <string>]:
+        specifies name of the cone window 
+    <inst|hinst|hnet|net|pin|hpin|port|hport|hpin_bus|port_bus|hport_bus>:
+        instance to load into cone schematic 
+#@ Processing -execute option
+@genus 3> exit
+
+Lic Summary:
+[21:57:54.153624] Cdslmd servers: licserver
+[21:57:54.153632] Feature usage summary:
+[21:57:54.153633] Genus_Synthesis
+
+Normal exit.
