@@ -52,7 +52,20 @@ de uma nova execucao. A memoria vetorial e descrita como RTL; sem uma macro SRAM
 o Genus a implementa com celulas logicas, o que aumenta a area estimada.
 
 
-## Resultados vistos:
+## Resultados vistos
 
-Na primeira execução o genus está expandiu cada acesso da dualport_memory em multiplexadores, e ainda avalia muitas configurações internas.
-Isso resultou em uma area de:
+A `dualport_memory` possui 256 palavras de 64 bits, totalizando
+16.384 bits de armazenamento.
+
+Como a biblioteca GPDK045 disponível no laboratório não contém uma
+macro SRAM de duas portas compatível, o Genus inferiu a memória usando
+células padrão: flip-flops para armazenamento e multiplexadores para
+seleção dos endereços.
+
+Como consequência, a memória ocupou uma área de `188340.084`,
+equivalente a `92,26%` da área total da Mini GPU (`204149.034`).
+
+Em uma implementação ASIC real, essa memória seria substituída por uma
+macro SRAM 256x64 de duas portas. Nesse caso, o Genus utilizaria a área
+e os atrasos fornecidos pela biblioteca da macro, reduzindo
+significativamente a área e o tempo de síntese.
