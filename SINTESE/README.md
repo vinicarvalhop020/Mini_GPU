@@ -1,0 +1,35 @@
+# Sintese da Mini GPU
+
+Esta pasta sintetiza o top-level `gpu_simd` com o Cadence Genus. Somente a RTL
+da GPU entra no fluxo; UVM, assertions e testbenches ficam fora.
+
+## Como executar
+
+No diretorio raiz da Mini GPU:
+
+```bash
+./SINTESE/run_synthesis.sh
+```
+
+O fluxo usa a biblioteca lenta `slow_vdd1v0_basicCells.lib` (0,9 V e 125 °C)
+e um clock de 20 ns, equivalente a 50 MHz.
+
+## Resultados
+
+- `netlist/gpu_simd.v`: netlist Verilog mapeada em celulas padrao.
+- `netlist/gpu_simd.sdc`: constraints exportadas pelo Genus.
+- `reports/gpu_simd_area.rpt`: area total e area por modulo.
+- `reports/gpu_simd_timing.rpt`: caminho critico e slack.
+- `reports/gpu_simd_power.rpt`: estimativa de potencia.
+- `reports/gpu_simd_qor.rpt`: resumo de qualidade da implementacao.
+- `logs/genus.log`: log da execucao.
+
+`work/` contem somente arquivos temporarios do Genus e pode ser removido antes
+de uma nova execucao. A memoria vetorial e descrita como RTL; sem uma macro SRAM,
+o Genus a implementa com celulas logicas, o que aumenta a area estimada.
+
+
+## Resultados vistos:
+
+Na primeira execução o genus está expandiu cada acesso da dualport_memory em multiplexadores, e ainda avalia muitas configurações internas.
+Isso resultou em uma area de:
