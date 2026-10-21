@@ -1,0 +1,103 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[22:19:59.360417] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -no_gui -execute {write_sdf -help} -execute {exit} 
+Date:    Tue Oct 20 22:19:59 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     997266
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[22:19:59.504018] Periodic Lic check successful
+[22:19:59.504019] Feature usage summary:
+[22:19:59.504024] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (1 second elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (13 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> write_sdf -help
+  write_sdf: writes out delay information into a Standard Delay Format (SDF) 
+             file 
+
+Usage: write_sdf [-design <string>] [-view <analysis_view>] [-version <string>]
+           [-precision <integer>] [-timescale <string>] [-delimiter <string>]
+           [-celltiming <string>] [-interconn <string>] [-edges <string>]
+           [-condelse] [-nonegchecks] [-no_escape] [-nosplit_timing_check]
+           [-no_empty_cells] [-no_input_port_nets] [-no_output_port_nets]
+           [-setuphold <string>] [-recrem <string>] [-exclude_ilm] [> file]
+
+    [-design <string>]:
+        name of the top level design 
+    [-view <analysis_view>]:
+        specifies view name to report 
+    [-version <string>]:
+        specify whether to generate OVI 2.1 or 3.0. Default is 'OVI 3.0' 
+    [-precision <integer>]:
+        a non negative integer specifying the number of digits after decimal 
+    [-timescale <string>]:
+        specify the timing unit for the delay values (ns or ps). Default is 
+        'ps' 
+    [-delimiter <string>]:
+        specifies the hierarchy divider character to be used. Valid values are 
+        '/' and '.'. Default is '.' 
+    [-celltiming <string>]:
+        specifies the delays to be written out. Valid values are 
+        'all|none|nochecks'. Default is 'all'. 'None' does not write out any 
+        cell delays and timing checks. 'Nochecks' prevents writing out of 
+        timing checks only 
+    [-interconn <string>]:
+        specify the format for interconnect delay. Valid values are 
+        'interconnect' or 'port'. Default is 'port' 
+    [-edges <string>]:
+        specify whether to add edge specifiers on combinational arcs. Default 
+        is 'edged'. Valid options are 'edged|check_edge'. 'Check_edge' will add 
+        edge specifiers only on timing check arcs 
+    [-condelse]:
+        writes CONDELSE constructs with the default value when a COND construct 
+        is written out 
+    [-nonegchecks]:
+        negative checks not allowed for SETUP/HOLD/RECOVERY/REMOVAL 
+    [-no_escape]:
+        write out object names without escaping special characters 
+    [-nosplit_timing_check]:
+        whether to split the timing check delays for rise and fall transition 
+    [-no_empty_cells]:
+        suppress the writing out of empty cell descriptions. To be used with 
+        '-interconn interconnect' 
+    [-no_input_port_nets]:
+        does not write out the nets connected to input ports. To be used with 
+        '-interconn interconnect' 
+    [-no_output_port_nets]:
+        does not write out the nets connected to output ports. To be used with 
+        '-interconn interconnect' 
+    [-setuphold <string>]:
+        concatenate SETUP and HOLD timing checks into SETUPHOLD. Default is 
+        split. Valid options are 'split|merge_always|merge_when_paired' 
+    [-recrem <string>]:
+        concatenate RECOVERY and REMOVAL timing checks into RECREM. Default is 
+        split. Valid options are 'split|merge_always|merge_when_paired' 
+    [-exclude_ilm]:
+        for ilm flow only dump out nets between top and child ports 
+#@ Processing -execute option
+@genus 2> exit
+
+Lic Summary:
+[22:20:13.027089] Cdslmd servers: licserver
+[22:20:13.027096] Feature usage summary:
+[22:20:13.027096] Genus_Synthesis
+

@@ -1,0 +1,15 @@
+# Cadence Genus(TM) Synthesis Solution, Version 22.16-s078_1, built Jun 10 2024 14:32:57
+
+# Date: Tue Oct 20 22:20:48 2026
+# Host: saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB)
+# OS:   Rocky Linux release 8.10 (Green Obsidian)
+
+set_db lib_search_path /pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/timing
+set_db library {slow_vdd1v0_basicCells.lib}
+read_hdl -sv SINTESE/netlist/gpu_simd.v
+elaborate gpu_simd
+set_top_module gpu_simd
+read_sdc SINTESE/netlist/gpu_simd.sdc
+report_timing -max_paths 1 > /tmp/gpu_netlist_timing_check.rpt
+write_sdf -timescale ns -nonegchecks -recrem split -edges check_edge -setuphold split > /tmp/gpu_simd_test.sdf
+exit

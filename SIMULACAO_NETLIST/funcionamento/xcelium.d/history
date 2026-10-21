@@ -1,0 +1,6 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(20Oct2026:22:12:18):( xrun -64bit -sv -access +rwc -timescale 1ns/1ps /pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/verilog/slow_vdd1v0_basicCells.v ../../SINTESE/netlist/gpu_simd.v ../../GPU_SIMD/gpu_simd_tb.sv -top gpu_simd_tb -l ../logs/gate_level.log )&&(./xcelium.d/env.d/env.history.20Oct2026_22_12_18)
+s2::(20Oct2026:22:13:30):( xrun -64bit -sv -access +rwc -timescale 1ns/1ps /pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/verilog/slow_vdd1v0_basicCells.v /home/aluno24/ci_digital_vinicius_fase_2/max/Mini_GPU/SINTESE/netlist/gpu_simd.v /home/aluno24/ci_digital_vinicius_fase_2/max/Mini_GPU/GPU_SIMD/gpu_simd_tb.sv -top gpu_simd_tb -l /home/aluno24/ci_digital_vinicius_fase_2/max/Mini_GPU/SIMULACAO_NETLIST/logs/gate_level.log )&&(./xcelium.d/env.d/env.history.20Oct2026_22_13_30)

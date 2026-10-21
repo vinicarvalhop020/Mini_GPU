@@ -1,0 +1,167 @@
+Cadence Genus(TM) Synthesis Solution.
+Copyright 2024 Cadence Design Systems, Inc. All rights reserved worldwide.
+Cadence and the Cadence logo are registered trademarks and Genus is a trademark
+of Cadence Design Systems, Inc. in the United States and other countries.
+
+[22:20:48.360337] Configured Lic search path (22.01-s003): 5280@192.168.2.250
+
+Version: 22.16-s078_1, built Mon Jun 10 10:32:57 PDT 2024
+Options: -no_gui -execute {set_db lib_search_path /pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/timing} -execute {set_db library {slow_vdd1v0_basicCells.lib}} -execute {read_hdl -sv SINTESE/netlist/gpu_simd.v} -execute {elaborate gpu_simd} -execute {set_top_module gpu_simd} -execute {read_sdc SINTESE/netlist/gpu_simd.sdc} -execute {report_timing -max_paths 1 > /tmp/gpu_netlist_timing_check.rpt} -execute {write_sdf -timescale ns -nonegchecks -recrem split -edges check_edge -setuphold split > /tmp/gpu_simd_test.sdf} -execute {exit} 
+Date:    Tue Oct 20 22:20:48 2026
+Host:    saitama (x86_64 w/Linux 4.18.0-553.el8_10.x86_64) (16cores*16cpus*1physical cpu*Common KVM processor 16384KB) (263594796KB)
+PID:     997684
+OS:      Rocky Linux release 8.10 (Green Obsidian)
+
+Checking out license: Genus_Synthesis
+[22:20:48.420136] Periodic Lic check successful
+[22:20:48.420145] Feature usage summary:
+[22:20:48.420146] Genus_Synthesis
+
+
+
+***********************************************************************************************************
+***********************************************************************************************************
+
+
+
+Finished executable startup (0 seconds elapsed).
+
+Loading tool scripts...
+Finished loading tool scripts (16 seconds elapsed).
+
+#@ Processing -execute option
+@genus 1> set_db lib_search_path /pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/timing
+  Setting attribute of root '/': 'lib_search_path' = /pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/timing
+#@ Processing -execute option
+@genus 2> set_db library {slow_vdd1v0_basicCells.lib}
+
+  Message Summary for Library slow_vdd1v0_basicCells.lib:
+  *******************************************************
+  Missing a function attribute in the output pin definition. [LBR-518]: 1
+  *******************************************************
+ 
+Info    : Created nominal operating condition. [LBR-412]
+        : Operating condition '_nominal_' was created for the PVT values (1.000000, 0.900000, 125.000000) in library 'slow_vdd1v0_basicCells.lib'.
+        : The nominal operating condition is represented, either by the nominal PVT values specified in the library source (via nom_process,nom_voltage and nom_temperature respectively), or by the default PVT values (1.0,1.0,1.0).
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'ANTENNA' must have an output pin.
+        : Add the missing output pin(s), then reload the library. Else the library cell will be marked as timing model i.e. unusable. Timing_model means that the cell does not have any defined function. If there is no output pin, Genus will mark library cell as unusable i.e. the attribute 'usable' will be marked to 'false' on the libcell. Therefore, the cell is not used for mapping and it will not be picked up from the library for synthesis. If you query the attribute 'unusable_reason' on the libcell; result will be: 'Library cell has no output pins.'Note: The message LBR-9 is only for the logical pins and not for the power_ground pins. Genus will depend upon the output function defined in the pin group (output pin) of the cell, to use it for mapping. The pg_pin will not have any function defined.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'ANTENNA' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP10' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP10' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP2' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP2' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP3' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP3' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP4' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP4' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP5' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP5' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP6' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP6' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP7' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP7' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP8' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP8' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP9' must have an output pin.
+Warning : Library cell has no output pins defined. [LBR-9]
+        : Library cell 'DECAP9' must have an output pin.
+  Setting attribute of root '/': 'library' = slow_vdd1v0_basicCells.lib
+#@ Processing -execute option
+@genus 3> read_hdl -sv SINTESE/netlist/gpu_simd.v
+#@ Processing -execute option
+@genus 4> elaborate gpu_simd
+  Library has 324 usable logic and 128 usable sequential lib-cells.
+Info    : Elaborating Design. [ELAB-1]
+        : Elaborating top-level block 'gpu_simd' from file 'SINTESE/netlist/gpu_simd.v'.
+Info    : Done Elaborating Design. [ELAB-3]
+        : Done elaborating 'gpu_simd'.
+Checking for analog nets...
+Check completed for analog nets.
+Checking for source RTL...
+Check completed for source RTL.
+Running Unified Mux Engine Tricks...
+Completed Unified Mux Engine Tricks
+
+Stage: post_elab
+-------------------------------------------------------
+| Trick             | Accepts | Rejects | Runtime (s) | 
+-------------------------------------------------------
+| ume_constant_bmux |       0 |       0 |        0.00 | 
+| ume_merge         |       0 |       0 |        0.00 | 
+| ume_ssm           |       0 |       0 |        0.00 | 
+| ume_cse           |       0 |       0 |        0.07 | 
+| ume_shrink        |       0 |       0 |        0.00 | 
+| ume_sweep         |       0 |       0 |        0.00 | 
+-------------------------------------------------------
+Starting optimize datapath shifters [v1.0] (stage: post_elab, startdef: gpu_simd, recur: true)
+Completed optimize datapath shifters (accepts: 0, rejects: 0, runtime: 0.003s)
+Starting clip mux common data inputs [v1.0] (stage: post_elab, startdef: gpu_simd, recur: true)
+Completed clip mux common data inputs (accepts: 0, rejects: 0, runtime: 0.002s)
+Starting clip the non-user hierarchies [v2.0] (stage: post_elab, startdef: gpu_simd, recur: true)
+Completed clip the non-user hierarchies (accepts: 0, rejects: 0, runtime: 0.004s)
+Starting basic netlist cleanup [v1.0] (stage: post_elab, startdef: gpu_simd, recur: true)
+Completed basic netlist cleanup (accepts: 0, rejects: 0, runtime: 0.002s)
+
+Stage: post_elab
+--------------------------------------------------------------------
+| Transform                      | Accepts | Rejects | Runtime (s) | 
+--------------------------------------------------------------------
+| hlo_optimize_datapath_shifters |       0 |       0 |        0.00 | 
+| hlo_clip_mux_input             |       0 |       0 |        0.00 | 
+| hlo_clip                       |       0 |       0 |        0.00 | 
+| hlo_cleanup                    |       0 |       0 |        0.00 | 
+--------------------------------------------------------------------
+UM:   flow.cputime  flow.realtime  timing.setup.tns  timing.setup.wns  snapshot
+UM:*                                                                   elaborate
+#@ Processing -execute option
+@genus 5> set_top_module gpu_simd
+#@ Processing -execute option
+@genus 6> read_sdc SINTESE/netlist/gpu_simd.sdc
+Statistics for commands executed by read_sdc:
+ "create_clock"             - successful      1 , failed      0 (runtime  0.01)
+ "current_design"           - successful      1 , failed      0 (runtime  0.01)
+ "get_clocks"               - successful    112 , failed      0 (runtime  0.00)
+ "get_nets"                 - successful      2 , failed      0 (runtime  0.00)
+ "get_ports"                - successful    111 , failed      0 (runtime  0.01)
+ "set_clock_gating_check"   - successful      1 , failed      0 (runtime  0.00)
+ "set_clock_uncertainty"    - successful      2 , failed      0 (runtime  0.00)
+ "set_ideal_net"            - successful      2 , failed      0 (runtime  0.01)
+ "set_input_delay"          - successful     43 , failed      0 (runtime  0.00)
+ "set_output_delay"         - successful     67 , failed      0 (runtime  0.00)
+ "set_units"                - successful      2 , failed      0 (runtime  0.00)
+ "set_wire_load_mode"       - successful      1 , failed      0 (runtime  0.01)
+read_sdc completed in 00:00:00 (hh:mm:ss)
+#@ Processing -execute option
+@genus 7> report_timing -max_paths 1 > /tmp/gpu_netlist_timing_check.rpt
+Warning : Timing problems have been detected in this design. [TIM-11]
+        : The design is 'gpu_simd'.
+        : Use 'check_timing_intent' or 'report timing -lint' to report more information.
+#@ Processing -execute option
+@genus 8> write_sdf -timescale ns -nonegchecks -recrem split -edges check_edge -setuphold split > /tmp/gpu_simd_test.sdf
+#@ Processing -execute option
+@genus 9> exit
+
+Lic Summary:
+[22:21:56.192976] Cdslmd servers: licserver
+[22:21:56.192979] Feature usage summary:
+[22:21:56.192984] Genus_Synthesis
+

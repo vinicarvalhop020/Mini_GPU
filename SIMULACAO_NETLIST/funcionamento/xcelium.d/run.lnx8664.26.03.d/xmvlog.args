@@ -1,0 +1,22 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx8664.26.03.d
+-RUNMODE
+-sv
+/pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/verilog/slow_vdd1v0_basicCells.v
+../../SINTESE/netlist/gpu_simd.v
+../../GPU_SIMD/gpu_simd_tb.sv
+-CDSLIB
+./xcelium.d/run.lnx8664.26.03.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx8664.26.03.d/hdlrun.var
+-no_analogsolver
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./xcelium.d/run.lnx8664.26.03.d/xllibs
+-ALLOWUNBOUND
+-hastop

@@ -1,0 +1,17 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-64bit
+-sv
+-access
++rwc
+-timescale
+1ns/1ps
+/pdk/gpdk045/gsclib045_svt_v4.7/gsclib045/verilog/slow_vdd1v0_basicCells.v
+../../SINTESE/netlist/gpu_simd.v
+../../GPU_SIMD/gpu_simd_tb.sv
+-top
+gpu_simd_tb
+-l
+../logs/gate_level.log

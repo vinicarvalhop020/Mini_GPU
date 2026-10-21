@@ -1,5 +1,11 @@
 `timescale 1ns/1ps
 
+// A simulacao funcional usa 100 MHz por padrao. A simulacao com SDF define
+// CLOCK_HALF_PERIOD=10 e roda a 50 MHz, conforme a constraint da sintese.
+`ifndef CLOCK_HALF_PERIOD
+    `define CLOCK_HALF_PERIOD 5
+`endif
+
 // Teste funcional dos comandos individuais da GPU SIMD.
 module gpu_simd_tb;
 
@@ -45,7 +51,7 @@ module gpu_simd_tb;
         .rsp_error  (rsp_error)
     );
 
-    always #5 clk = ~clk;
+    always #`CLOCK_HALF_PERIOD clk = ~clk;
 
     task automatic check(
         input logic condition,

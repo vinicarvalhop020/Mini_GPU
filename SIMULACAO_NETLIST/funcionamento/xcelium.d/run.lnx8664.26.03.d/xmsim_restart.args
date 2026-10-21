@@ -1,0 +1,23 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-MESSAGES
++EMGRLOG
+/home/aluno24/ci_digital_vinicius_fase_2/max/Mini_GPU/SIMULACAO_NETLIST/logs/gate_level.log
+-XLSTIME
+1792545210
+-XLKEEP
+-XLMODE
+./xcelium.d/run.lnx8664.26.03.d
+-RUNMODE
+-CDSLIB
+./xcelium.d/run.lnx8664.26.03.d/cds.lib
+-HDLVAR
+./xcelium.d/run.lnx8664.26.03.d/hdl.var
+-XLNAME
+xrun
+-XLVERSION
+"TOOL:	xrun(64)	26.03-s005"
+-XLNAME
+./xcelium.d/run.lnx8664.26.03.d/saitama_995210
