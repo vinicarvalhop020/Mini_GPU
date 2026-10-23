@@ -1,7 +1,7 @@
 # Sintese da Mini GPU
 
 Esta pasta sintetiza o top-level `gpu_simd` com o Cadence Genus. Somente a RTL
-da GPU entra no fluxo; UVM, assertions e testbenches ficam fora.
+da GPU entra no fluxo.
 
 ## Como executar
 
@@ -12,24 +12,16 @@ No diretorio raiz da Mini GPU:
 ```
 
 O fluxo usa a biblioteca lenta `slow_vdd1v0_basicCells.lib` (0,9 V e 125 °C)
-e um clock de 20 ns, equivalente a 50 MHz.
+e um clock de 20 ns, equivalente a 50 MHz. Vista em laboratório.
 
 ## Abrir a netlist na GUI
 
 Depois da sintese, execute:
 
-```bash
-./SINTESE/open_gui.sh
-```
-
-Na janela do Genus, expanda `gpu_simd` no *Design Browser*. Para um screenshot
-legivel, abra o esquematico de um bloco menor, como `u_alu_simd`, uma instancia
-`gen_alu_lanes[0].alu_lane` ou `u_axi_slave`. O esquematico do topo completo
-tem mais de 81 mil celulas e ficara muito poluido.
-
 ## Exportar um esquematico em imagem
 
 Para gerar automaticamente o esquematico sintetizado do SIMD:
+Uma imagem do esquematico, atualmente existe em `schematics/alu_simd_schematic.gif`.
 
 ```bash
 ./SINTESE/export_schematic.sh

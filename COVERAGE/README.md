@@ -2,19 +2,16 @@
 
 Esta pasta contém os bancos de cobertura gerados pelo Xcelium.
 
-- `scope/merged/`: banco unificado da campanha; este é o diretório principal para abrir no IMC.
-- `scope/<nome_do_teste>/`: banco individual de cada teste UVM.
-- `logs/`: logs do Xcelium, histórico de cada execução e relatórios do IMC.
-
 ## Executar tudo automaticamente
 
 ```bash
 ./COVERAGE/run_coverage.sh
 ```
 
-O script executa todos os testes, chama `merge_coverage.tcl` e abre a GUI do IMC ao final.
+O script executa todos os testes e chama `merge_coverage.tcl` e abre a GUI do IMC ao final.
+Onde é possivel visualizar a cobertura de cada teste individualmente na GUI do IMC.
 
-## Executar a campanha completa
+## Executar cada teste individualmente
 
 Execute os comandos a partir da raiz `Mini_GPU`:
 
@@ -76,4 +73,5 @@ Na hierarquia do IMC:
 - cobertura RTL: `gpu_top_tb > dut`;
 - cobertura funcional UVM: `uvm_pkg > uvm_test_top > env > coverage`.
 
-Na campanha inicial, a cobertura funcional atingiu 100% e a cobertura de código do DUT atingiu 97.72%.
+A cobertura funcional atingiu 100% e a cobertura de código do DUT atingiu 97.72%.
+Os logs da execução estão em `COVERAGE/logs/`.
