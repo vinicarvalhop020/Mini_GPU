@@ -55,7 +55,6 @@ No diretorio raiz da Mini GPU:
 | Arquivo ou diretorio | Conteudo |
 | --- | --- |
 | `run_netlist_sim.sh` | Script que compila e executa a simulacao gate-level |
-| `logs/gate_level.log` | Log completo do Xcelium |
 | `work/` | Diretorio temporario de compilacao do Xcelium; ignorado pelo Git |
 
 ## Escopo

@@ -74,8 +74,6 @@ timing registradas.
 | `run_timing_sim.sh` | Compila a netlist, anota o SDF e executa o Xcelium |
 | `gpu_simd.sdf` | Atrasos extraidos da netlist; gerado localmente e ignorado pelo Git |
 | `reports/gpu_simd_sdf_timing.rpt` | Relatorio de timing usado na geracao do SDF |
-| `logs/generate_sdf.log` | Log da geracao do SDF no Genus |
-| `logs/timing_sim.log` | Log completo da simulacao temporal no Xcelium |
 | `work/` | Diretorio temporario de compilacao; ignorado pelo Git |
 
 ## Relacao com a simulacao funcional
