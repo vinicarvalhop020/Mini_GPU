@@ -128,9 +128,7 @@ nem violacoes temporais registradas. O resultado e coerente com o slack
 positivo de 2,836 ns encontrado na analise estatica.
 
 Os scripts permitem reproduzir as duas execucoes em um ambiente que possua o
-Genus, o Xcelium e a biblioteca GPDK045. Os logs do simulador sao artefatos
-transitorios: os relatorios de sintese, os scripts de reproducao e este resumo
-sao mantidos no repositorio como evidencia permanente.
+Genus, o Xcelium e a biblioteca GPDK045.
 
 **Fontes:** [script da simulacao funcional](funcionamento/run_netlist_sim.sh),
 [documentacao funcional](funcionamento/README.md),

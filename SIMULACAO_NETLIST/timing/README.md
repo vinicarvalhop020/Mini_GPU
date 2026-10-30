@@ -80,5 +80,4 @@ timing registradas.
 
 A simulacao em [`../funcionamento`](../funcionamento/README.md) usa a mesma
 netlist, mas sem atrasos SDF. Ela isola a validacao funcional. Esta etapa
-acrescenta os atrasos MAXIMUM e os *timing checks*, sendo a evidencia temporal
-da entrega de simulacao de netlist.
+acrescenta os atrasos MAXIMUM e os *timing checks*.
