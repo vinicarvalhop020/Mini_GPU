@@ -105,7 +105,7 @@
 % =============================================================================
 \pagenumbering{roman}
 \section*{Resumo}
-Este trabalho apresenta o desenvolvimento e a verificação de uma unidade de processamento vetorial simplificada baseada no paradigma SIMD (\textit{Single Instruction, Multiple Data}). A arquitetura utiliza quatro unidades aritméticas de 16 bits, que executam a mesma operação sobre elementos independentes de dois vetores. O sistema inclui memória vetorial dual-port, interface de requisições por pacotes, decodificação de comandos, escalonamento e controle por máquina de estados. A implementação foi descrita em SystemVerilog e verificada por meio de simulação, testes direcionados e um ambiente UVM com \textit{scoreboard}, cobertura funcional e assertions. São apresentados resultados de síntese, análise temporal e simulações da netlist, incluindo uma execução com anotação SDF.
+Este trabalho apresenta o desenvolvimento e a verificação de uma unidade de processamento vetorial simplificada baseada no paradigma SIMD (\textit{Single Instruction, Multiple Data}). A arquitetura combina 4 unidades aritméticas de 16 bits em uma unidade de processamento central capaz de executar a mesma operação sobre elementos independentes de dois vetores.  O sistema inclui memória vetorial de acesso dual-port, interface de requisições por pacotes, decodificação de comandos, escalonamento e controle de execução por máquina de estados. A implementação RTL foi escrita em SystemVerilog e verificada por meio de simulação e testes direcionados a cada módulo bem como a criação de um ambiente UVM com \textit{scoreboard}, cobertura funcional e assertions. São apresentados resultados de síntese, análise temporal e simulações da netlist, incluindo uma execução com anotação SDF.
 
 \noindent\textbf{Palavras-chave:} SIMD; GPU; SystemVerilog; UVM; verificação digital; análise temporal.
 
@@ -144,18 +144,17 @@ UVM & \textit{Universal Verification Methodology}
 % =============================================================================
 \section{Introdução}
 
-\subsection{Contextualização e motivação}
-Aplicações que processam vetores frequentemente realizam a mesma operação sobre vários elementos independentes. O paradigma SIMD (\textit{Single Instruction, Multiple Data}) explora essa característica ao aplicar uma única instrução a múltiplos dados em paralelo. Essa organização permite estudar como unidades de processamento, memória e controle podem ser integrados para executar operações vetoriais.
+\subsection{Contextualização}
+Aplicações que processam vetores frequentemente realizam a mesma operação sobre vários elementos independentes. Um exemplo claro disso é visto no processo de multiplicação matricial em que na etapa de multiplicar uma linha por uma coluna a operação de multiplicação elemento a elemento entre dois vetores é inevitavel.
 
-Neste trabalho, esse conceito é explorado por meio de uma mini GPU simplificada, composta por quatro \textit{lanes} aritméticas. O projeto oferece uma oportunidade de percorrer etapas do desenvolvimento de um circuito digital, desde a descrição da arquitetura em nível de transferência entre registradores (RTL) até sua verificação funcional e avaliação após a síntese.
+O paradigma SIMD (\textit{Single Instruction, Multiple Data}) explora essa característica ao aplicar uma única instrução a múltiplos dados em paralelo. Essa organização permite estudar como unidades de processamento, memória e controle podem ser integrados para executar operações vetoriais.
+
+Neste trabalho, o conceito SIMD é explorado por meio de uma mini GPU simplificada, composta por quatro \textit{lanes} aritméticas, cada \textit{lane} representa uma posição no vetor, ou seja, o núcleo SIMD é capaz de realizar operações simultanea em um vetor de 4 elementos.
 
 \subsection{Objetivos e escopo}
-O objetivo deste trabalho é projetar, implementar e verificar uma unidade de processamento vetorial capaz de executar as operações de soma, subtração, multiplicação e divisão sobre quatro pares de elementos. A implementação utiliza SystemVerilog e reúne memória vetorial de duas portas, unidades aritméticas paralelas e lógica de controle para coordenar a execução.
+O objetivo deste trabalho é projetar, implementar e verificar uma unidade de processamento vetorial capaz de executar as operaçõesde soma, subtração, multiplicação e divisão sobre quatro pares de elementos, juntos compondo dois vetores de 4 posições. A implementação utiliza SystemVerilog e reúne memória vetorial de duas portas, unidades aritméticas paralelas e lógica de controle para coordenar a execução.
 
-A comunicação ocorre por meio de pacotes de requisição de 42 bits, utilizados para acessar a memória, configurar comandos e iniciar operações. No escopo do projeto, o host é representado pelo ambiente de teste. A verificação emprega testes direcionados e um ambiente UVM, com \textit{scoreboard}, cobertura funcional e \textit{assertions}. O trabalho também aborda a síntese do circuito e a avaliação da netlist por simulação funcional e temporal.
-
-\subsection{Organização do relatório}
-Após esta introdução, o relatório apresenta a especificação e o protocolo do sistema, seguidos da arquitetura e da implementação RTL. Em seguida, descreve a metodologia e os resultados de verificação, a síntese e a análise temporal. Por fim, discute as limitações, as possibilidades de melhoria e as conclusões do trabalho.
+A comunicação com o módulo ocorre com requisições via host de 42 bits, tais requisições são utilizadas para realizar acessos de leitura/escrita em memória, enviar e configurar comandos, e iniciar operações de processamento. A verificação utiliza testes direcionados a cada módulo e um ambiente UVM, composto por \textit{scoreboard}, cobertura funcional e \textit{assertions}. Nesse projeto também foi realizado a síntese do circuito RTL e a avaliação da netlist gerada por simulação funcional e temporal a nível \textit{gate-level}.
 
 % =============================================================================
 % 2. ESPECIFICACAO E PROTOCOLO
@@ -163,7 +162,7 @@ Após esta introdução, o relatório apresenta a especificação e o protocolo 
 \section{Especificação do Sistema e Protocolo}
 
 \subsection{Parâmetros e representação dos dados}
-A GPU recebe dois vetores de quatro elementos. Cada elemento enviado pelo host possui 8 bits e é interpretado como inteiro \textit{signed} em complemento de dois. Na escrita da memória, cada elemento é estendido com sinal para 16 bits. Assim, cada palavra vetorial possui 64 bits, divididos em quatro \textit{lanes} de 16 bits.
+Para que a MiniGPU realize operações matemáticas é necessário que ela receba dois vetores de quatro elementos. Cada elemento enviado pelo host possui 8 bits, assim cada vetor enviado contém 32 bits de dados. Cada elemento do vetor é interpretado como inteiro \textit{signed} em complemento de dois. Na escrita da memória, cada elemento é estendido com sinal para 16 bits, isso é necessario para comportar operações em que o resultado ultrapasse 8 bits como o produto completo de dois operandos signed de 8 bits. Assim, cada palavra vetorial possui, ao final em memória, 64 bits, divididos em quatro \textit{lanes} de 16 bits.
 
 \begin{table}[H]
 \centering
@@ -189,7 +188,7 @@ Operações & ADD, SUB, MUL e DIV\\
 \end{table}
 
 \subsection{Conjunto de instruções (ISA)}
-As quatro unidades recebem o mesmo \textit{opcode} e operam sobre posições correspondentes dos vetores A e B.
+As quatro unidades recebem o mesmo \textit{opcode} e operam sobre posições correspondentes dos vetores enviados A e B.
 
 \begin{table}[H]
 \centering
@@ -208,9 +207,16 @@ DIV & \signal{0000 0100} & Realiza divisão inteira signed.\\
 \end{tabularx}
 \end{table}
 
-\noindent A ALU sinaliza erro quando ocorre divisão por zero ou \textit{overflow} signed. Em ADD, SUB e MUL, o resultado é limitado aos 16 bits menos significativos; na divisão por zero, a lane produz zero. A divisão de $-32768$ por $-1$ também sinaliza overflow e produz \signal{16'h8000}. Os erros das quatro lanes são combinados e registrados para a resposta ao pacote \signal{GPU_START}.
+\noindent Casos de erro e sua sinalização são tratados principalmente pela ALU.
+O erro é sinalizado quando ocorre divisão por zero ou \textit{overflow} signed.
+Em caso de divisão por zero, a lane correspondente ao erro retorna zero.
+Em complemento de dois, uma lane de 16 bits é capaz de representar a faixa
+de $-32768$ até $32767$. O cenário de divisão de $-32768$ por $-1$ causa
+overflow e produz como resultado o valor \signal{16'h8000}. Os erros das
+quatro lanes são combinados e registrados para a resposta ao pacote
+\signal{GPU_START}, comando responsável por sinalizar à GPU o início da operação.
 
-\subsection{Formato dos pacotes}
+\subsection{Formato das requisições}
 Toda requisição do host utiliza um pacote de 42 bits, dividido em um campo de tipo de 2 bits e cinco campos de 8 bits.
 
 \begin{table}[H]
@@ -244,14 +250,36 @@ Toda requisição do host utiliza um pacote de 42 bits, dividido em um campo de 
 \end{tabularx}
 \end{table}
 
-No pacote \signal{GPU_COMMAND}, o campo [39:32] é reservado, seguido por \signal{OPCODE}, \signal{SRC_A}, \signal{SRC_B} e \signal{DST}. Em \signal{MEM_WRITE}, o campo [39:32] indica o endereço e os quatro campos restantes transportam \signal{LANE_3} a \signal{LANE_0}, cada um com 8 bits. Os elementos são estendidos com sinal na formação da palavra de 64 bits. Em \signal{MEM_READ}, [39:32] contém o endereço e os 32 bits restantes são reservados. Em \signal{GPU_START}, os 40 bits de payload são reservados.
+Na requisição \signal{GPU_COMMAND}, o campo [39:32] é reservado, seguido por \signal{OPCODE}, \signal{SRC_A}, \signal{SRC_B} e \signal{DST}. Em \signal{MEM_WRITE}, o campo [39:32] indica o endereço de memória que o vetor será armazenado e os quatro campos \signal{LANE_3} a \signal{LANE_0} carregam o dado do vetor, cada um com 8 bits. Em \signal{MEM_READ}, [39:32] contém o endereço e os 32 bits restantes são reservados. Em \signal{GPU_START}, os 40 bits de payload são reservados.
 
 \subsection{Endereçamento e resposta}
-Os pacotes de leitura e escrita utilizam \signal{FIELD_0} como índice de 8 bits da memória vetorial. Os valores de \signal{8'h00} a \signal{8'hFF} selecionam diretamente as 256 palavras, cada uma com 64 bits. Os campos \signal{SRC_A}, \signal{SRC_B} e \signal{DST} do comando utilizam o mesmo espaço de índices.
+Como visto, as requisições \signal{MEM_READ} e \signal{MEM_WRITE} fazem uso do \signal{FIELD_0} como índice de 8 bits da memória. Os valores variam em intervalos inteiros de \signal{8'h00} a \signal{8'hFF} selecionam diretamente as 256 palavras que compõem a memória, cada posição armazena um valor de 64 bits. Os campos \signal{SRC_A}, \signal{SRC_B} e \signal{DST} presente na requisição \signal{GPU_COMMAND} utilizam o mesmo espaço de índices para selecionar vetores na memoria a serem operados.
 
-Na implementação atual, os tipos de pacote selecionam diretamente as ações de memória, armazenamento de comando e início de execução. O mapa de registradores em bytes apresentado no plano inicial não é exposto pela interface RTL implementada.
+A miniGPU envia respostas ao host utilizando os três sinais: \signal{rsp_data[63:0]},
+contendo o dado da resposta, \signal{rsp_valid}, é um pulso que indica quando a
+resposta está válida, e \signal{rsp_error}, que informa a ocorrência de erro. O host deve observar esses sinais e capturar a resposta quando \signal{rsp_valid} estiver ativo.
 
-A resposta ao host utiliza \signal{rsp_data[63:0]}, \signal{rsp_valid} e \signal{rsp_error}. Uma leitura retorna o dado da memória; escritas e configuração de comando retornam zero. Para \signal{GPU_START}, o módulo aguarda \signal{cmd_done}, armazena os bits de estado e o erro aritmético e gera a resposta no estado seguinte. \signal{rsp_valid} dura um ciclo; \signal{rsp_error} é apresentado junto à resposta de execução.
+A valor esperado do campo \signal{rsp_data} para cada requisição vista abaixo:
+
+\begin{itemize}
+    \item \signal{MEM_READ}: \signal{rsp_data} contém a palavra de 64 bits
+    lida do endereço solicitado.
+
+    \item \signal{MEM_WRITE}: \signal{rsp_data} retorna zero, confirmando
+    a conclusão da escrita.
+
+    \item \signal{GPU_COMMAND}: \signal{rsp_data} retorna zero, confirmando
+    o armazenamento dos campos do comando.
+
+    \item \signal{GPU_START}: após a conclusão da operação, a GPU retorna
+    uma resposta de estado. Nessa resposta, \signal{rsp_data[1]} indica
+    \signal{DONE} e \signal{rsp_data[0]} indica \signal{BUSY}. Como a
+    resposta é enviada após o término, o valor esperado é
+    \signal{DONE = 1} e \signal{BUSY = 0}. O sinal \signal{rsp_error}
+    informa se ocorreu erro aritmético em alguma lane. O vetor resultante
+    fica armazenado no endereço \signal{DST} da requisição \signal{GPU_COMMAND} anterior e pode ser obtido por uma
+    requisição \signal{MEM_READ}.
+\end{itemize}
 
 % =============================================================================
 % 3. ARQUITETURA E IMPLEMENTACAO RTL
@@ -274,7 +302,7 @@ A arquitetura é composta por uma interface de entrada, lógica de decodificaç�
 ]
 \node[block] (host) {Host / Testbench};
 \node[block, right=of host] (pkt) {Packet Decoder};
-\node[block, right=of pkt] (axi) {Interface de\\requisições};
+\node[block, right=of pkt] (axi) {Interface de\\requisições 'AXI SLAVE'};
 \node[block, below=1.0cm of axi] (sched) {Scheduler};
 \node[block, below=of sched] (fsm) {FSM de execução};
 \node[data, right=1.4cm of sched] (mem) {Memória vetorial\\dual-port};
@@ -319,8 +347,7 @@ O módulo \signal{packet_decoder} recebe e armazena o pacote de 42 bits do host.
 \subsection{Interface de requisições}
 O módulo \signal{axi_slave} interpreta os quatro tipos de pacote. Em \signal{MEM_WRITE}, forma uma palavra de 64 bits pela extensão de sinal dos quatro campos de dados de 8 bits; em \signal{MEM_READ}, solicita a leitura pela porta A da memória. O pacote \signal{GPU_COMMAND} armazena os campos da operação, enquanto \signal{GPU_START} encaminha o comando ao Scheduler e aguarda sua conclusão antes de responder ao host.
 
-Embora o módulo receba o nome \signal{axi_slave}, sua interface implementada utiliza os sinais de pacote e handshake descritos neste trabalho; ela não expõe os canais de um barramento AXI4-Lite. A resposta é indicada por um pulso de \signal{rsp_valid}; no início de uma operação, \signal{rsp_error} informa o erro aritmético registrado para a execução.
-
+Embora o módulo receba o nome \signal{axi_slave}, sua interface implementada utiliza os sinais de pacote e handshake descritos neste trabalho; ela não expõe os canais de um barramento AXI4-Lite.
 \begin{table}[H]
 \centering\small
 \caption{Principais sinais da interface de requisições.}
@@ -341,9 +368,9 @@ Embora o módulo receba o nome \signal{axi_slave}, sua interface implementada ut
 \end{table}
 
 \subsection{Memória vetorial dual-port}
-O módulo \signal{dualport_memory} armazena 256 palavras de 64 bits, cada uma contendo quatro elementos de 16 bits. A porta A atende às requisições do host e a porta B é controlada pela FSM durante a execução. As leituras são síncronas e as saídas de leitura são atualizadas na borda de clock quando a respectiva habilitação está ativa.
+O módulo \signal{dualport_memory} armazena 256 palavras de 64 bits, cada uma contendo quatro elementos de 16 bits. A porta A atende às requisições do host e a porta B é controlada pela FSM durante a execução. As operações de leitura/escrita são síncronas e as saídas de leitura são realizadas na borda subida de clock quando o estado está ativo (\signal{a_re}, \signal{b_re}).
 
-A implementação descreve comportamento \textit{read-first}: uma leitura e uma escrita simultâneas na mesma posição retornam o valor anterior à escrita. Caso as duas portas escrevam simultaneamente no mesmo endereço, a escrita da porta B tem prioridade no modelo RTL.
+A implementação utiliza o padrão comportamental \textit{read-first}, ou seja, uma leitura e uma escrita simultâneas na mesma posição retornam o valor anterior à escrita. Caso as duas portas escrevam simultaneamente no mesmo endereço, a escrita da porta B tem prioridade a porta A.
 
 \begin{table}[H]
 \centering\small
@@ -363,7 +390,7 @@ A implementação descreve comportamento \textit{read-first}: uma leitura e uma 
 \end{table}
 
 \subsection{Scheduler}
-O módulo \signal{scheduler} armazena um comando de 32 bits, composto por opcode e endereços de origem e destino, e o entrega à FSM por um handshake \signal{exec_valid}/\signal{exec_ready}. Seus estados são \signal{IDLE}, \signal{DISPATCH}, \signal{EXECUTE} e \signal{DONE}. O sinal \signal{busy} permanece ativo durante o despacho e a execução; \signal{done} indica a conclusão e permanece ativo até a aceitação do próximo comando.
+O módulo \signal{scheduler} armazena um comando de 32 bits, composto por opcode e endereços de origem e destino, e o entrega à FSM por um protocolo de handshake \signal{exec_valid}/\signal{exec_ready}. Seus estados internos são \signal{IDLE}, \signal{DISPATCH}, \signal{EXECUTE} e \signal{DONE}. O sinal \signal{busy} permanece ativo durante os estados \signal{DISPATCH} e \signal{EXECUTE}. O sinal \signal{done} indica a conclusão de operação e permanece ativo até a aceitação do próximo comando.
 
 \begin{table}[H]
 \centering\small
@@ -383,7 +410,7 @@ O módulo \signal{scheduler} armazena um comando de 32 bits, composto por opcode
 \end{table}
 
 \subsection{FSM de execução}
-O módulo \signal{fsm} armazena o comando aceito e gera os sinais de controle para executar a operação. As leituras síncronas dos dois operandos ocorrem em etapas separadas, seguidas do carregamento dos registradores, da operação aritmética e da escrita do resultado.
+O módulo \signal{fsm} armazena o comando aceito e gera os sinais de controle para executar a operação. As leituras síncronas de memória dos valores dos dois operandos ocorrem em etagios separados, podendo ser evidenciado na tabela de estados abaixo, seguidas do carregamento dos registradores, da operação aritmética e da escrita do resultado.
 
 \begin{table}[H]
 \centering\small
@@ -421,7 +448,7 @@ O módulo \signal{fsm} armazena o comando aceito e gera os sinais de controle pa
 \end{table}
 
 \subsection{Registradores vetoriais}
-O módulo \signal{register_vector} contém os registradores dos operandos A e B. Ambos recebem o dado lido pela porta B da memória, mas são carregados separadamente pelos sinais \signal{load_a} e \signal{load_b}. O reset assíncrono limpa os dois registradores.
+O módulo \signal{register_vector} contém os registradores dos operandos A e B. Ambos recebem o dado lido pela porta B da memória, mas são carregados separadamente pelos sinais \signal{load_a} e \signal{load_b}, comandado pelo estado da FSM. O reset assíncrono limpa os dois registradores.
 
 \begin{table}[H]
 \centering\small
@@ -439,9 +466,9 @@ O módulo \signal{register_vector} contém os registradores dos operandos A e B.
 \end{table}
 
 \subsection{ALU SIMD e unidade aritmética}
-O módulo \signal{alu_simd} instancia quatro unidades \signal{alu_unit}. Cada unidade recebe um par de elementos signed de 16 bits e o mesmo código de operação, produzindo um resultado de 16 bits. Os quatro resultados compõem o vetor de saída de 64 bits. A ALU SIMD combina os sinais de erro das lanes por uma operação OU; o módulo superior registra esse erro para a resposta de \signal{GPU_START}.
+O módulo \signal{alu_simd} instancia quatro unidades \signal{alu_unit}. Cada unidade recebe um par de elementos signed de 16 bits e o mesmo código de operação, produzindo um resultado de 16 bits. Os quatro resultados compõem o vetor de saída de 64 bits. A ALU SIMD combina os sinais de erro das lanes por uma operação \signal{OR}; o módulo superior registra esse erro para a resposta de \signal{GPU_START}.
 
-Cada unidade aritmética executa ADD, SUB, MUL ou DIV. Nas operações com overflow, o resultado permanece limitado a 16 bits e o erro é sinalizado. Na divisão por zero, a lane produz zero e sinaliza erro. O caso de divisão do menor valor signed de 16 bits por $-1$ também sinaliza overflow.
+Cada unidade aritmética executa ADD, SUB, MUL ou DIV. Como visto mais acima em casos de overflow, o resultado permanece limitado a 16 bits e o erro é sinalizado. Na divisão por zero, a lane produz zero e sinaliza erro.
 
 \begin{table}[H]
 \centering\small
@@ -460,19 +487,16 @@ Cada unidade aritmética executa ADD, SUB, MUL ou DIV. Nas operações com overf
 \end{tabularx}
 \end{table}
 
-\subsection{Ferramentas e integração}
-A descrição RTL e o ambiente de verificação utilizam SystemVerilog. Os registros da campanha indicam Cadence Xcelium 26.03-s005 e CDNS-UVM 1.1d para simulação, Cadence IMC 26.03-s030 para cobertura e Cadence Genus 22.16-s078\_1 para síntese e relatórios temporais. A integração reúne os módulos em \signal{gpu_simd}, conectado ao testbench pela interface de pacotes.
-
 % =============================================================================
 % 4. METODOLOGIA DE VERIFICACAO
 % =============================================================================
 \section{Metodologia de Verificação}
 
 \subsection{Ambiente de simulação e testbench}
-O host é modelado pelo testbench, responsável por gerar pacotes de requisição, observar respostas e controlar a sequência das operações. O ambiente verifica tanto o comportamento isolado dos blocos quanto a integração completa da GPU.
+Inicialmente cada módulo foi testado utilizando um testbench não UVM, ou seja, um arquivo escrito em SystemVerilog capaz de verificar tanto o comportamento funcional isolado dos blocos quanto a integração completa da miniGPU. No caso da MiniGPU como módulo completo o host foi modelado completamente pelo testbench, sendo  responsável por gerar pacotes de requisição, observar respostas e controlar a sequência das operações.
 
 \subsection{Ambiente UVM, scoreboard e assertions}
-O ambiente UVM é organizado em agentes, driver, monitor, ambiente, sequências e testes. O driver aplica os estímulos; o monitor observa as transações; e o scoreboard compara os resultados obtidos com um modelo de referência. Assertions em SystemVerilog verificam propriedades de handshake, estabilidade dos sinais, controle e sequência de execução. Descrever apenas os componentes realmente presentes na versão final do ambiente.
+Mais adiante, foi realizado a construção de um ambiente UVM composto por agentes, driver, monitor, ambiente, sequências e testes. O driver aplica os estímulos; o monitor observa as transações; e o scoreboard compara os resultados obtidos com um modelo de referência. Assertions também foram adicionados e verificam propriedades de handshake, estabilidade dos sinais, controle e sequência de execução.
 
 \begin{table}[H]
 \centering
@@ -495,14 +519,22 @@ Cobertura & Medir os cenários e valores exercitados durante a simulação.\\
 \end{table}
 
 \subsection{Estratégia de testes e cobertura}
-A estratégia combina testes de reset, extração de campos, handshake, acesso à memória, configuração e início de comandos, sequência da FSM, operações aritméticas, integração end-to-end, casos extremos, execução back-to-back e estímulos aleatórios. A cobertura funcional deve observar, no mínimo, os opcodes, tipos de pacote, endereços relevantes, valores signed e condições de erro. A cobertura estrutural deve ser apresentada conforme os tipos efetivamente habilitados na ferramenta.
+A estratégia de criação do ambiente combina testes de reset, extração de campos, handshake, acesso
+à memória, configuração e início de comandos, sequência da FSM, operações
+aritméticas, integração end-to-end, casos extremos, execução back-to-back
+e estímulos aleatórios. A cobertura funcional mede os tipos de pacote,
+opcodes, regiões de endereço, sinais de estado e condições de erro
+definidos no modelo de cobertura. A cobertura de código também foi
+coletada durante as simulações. Esses casos são apresentados na
+Tabela~\ref{tab:resultados-verificacao}, que contém o nome e a descrição
+de cada teste implementado.
 
 % =============================================================================
 % 5. RESULTADOS DE VERIFICACAO
 % =============================================================================
 \section{Resultados da Verificação}
 
-A Tabela~\ref{tab:resultados-verificacao} apresenta os testes UVM do projeto, seus objetivos e as funcionalidades associadas no plano de verificação. As prioridades são as definidas no plano de arquitetura. As descrições foram confrontadas com os testes e sequências implementados. Nos 17 logs disponíveis da campanha, os resumos UVM registram zero ocorrências de \signal{UVM_ERROR} e \signal{UVM_FATAL}; esses resultados se referem às execuções registradas, sem substituir uma nova regressão.
+A Tabela~\ref{tab:resultados-verificacao} apresenta os testes UVM criados para o projeto projeto bem como seus objetivos e as funcionalidades associadas referente ao plano de verificação. Nas 17 execuções realizadas, uma para cada teste, os resumos UVM registram zero ocorrências de \signal{UVM_ERROR} e \signal{UVM_FATAL}.
 
 \clearpage
 \begin{landscape}
@@ -792,21 +824,37 @@ Alta
 \clearpage
 
 \subsection{Evidências e análise}
-Os logs da campanha registram exemplos de verificação ponta a ponta. Em \signal{test_gpu_add_end_to_end}, o scoreboard observou cinco transações e confirmou na leitura o vetor \signal{0006_0008_000A_000C}, sem divergências. Em \signal{test_gpu_mul_8bit}, a multiplicação de $-128$ por $-128$ nas quatro lanes produziu \signal{4000_4000_4000_4000}, também sem divergências. Na execução de \signal{test_gpu_random}, foram registradas 5.000 transações e 1.000 leituras, sem divergências no scoreboard.
+Os logs do suit de teste  registram exemplos de verificação ponta a ponta. Por exemplo  Em \signal{test_gpu_mul_8bit}, a multiplicação de $-128$ por $-128$ nas quatro lanes produziu \signal{4000_4000_4000_4000}, também sem divergências. Na execução de \signal{test_gpu_random}, foram registradas 5.000 transações e 1.000 leituras, sem divergências no scoreboard.
 
 \begin{figure}[H]
 \centering
 \fbox{\parbox[c][2.2cm][c]{0.88\textwidth}{\centering Inserir forma de onda ou log representativo de uma operação end-to-end.\\[0.3em]\small Identificar requisições, handshake, execução, escrita e resposta.}}
-\caption{Evidência de simulação end-to-end.}
+\caption{est gpu mul 8bit.}
 \label{fig:evidencia-e2e}
 \end{figure}
 
 \subsection{Cobertura e falhas}
-O relatório consolidado do IMC registra 100\% de cobertura funcional para a instância \signal{env.coverage}, com 44 de 44 itens cobertos. O modelo contempla tipos de pacote, regiões de endereço, opcodes, regiões dos operandos e destino, o cruzamento de opcode com região de destino, \signal{DONE} e \signal{rsp_error}. Esse percentual refere-se aos pontos definidos no modelo de cobertura, e não a todas as combinações possíveis de dados.
 
-Na linha \signal{gpu_top_tb.dut}, o mesmo relatório registra 97,72\% na coluna \textit{Code Covered}, correspondentes a 643 de 658 itens; o relatório apresenta os blocos hierárquicos separadamente. Não se deve interpretar esse valor como um percentual único de toda a hierarquia nem atribuí-lo individualmente a linhas, expressões ou alternâncias sem relatórios detalhados.
+A verificação atingiu 100\% de cobertura funcional, com 44 dos 44 itens
+definidos no modelo exercitados. Foram contemplados os tipos de pacote,
+opcodes, regiões de endereço dos operandos e do destino, o cruzamento
+entre opcode e região de destino, além dos sinais \signal{DONE} e
+\signal{rsp_error}. Esse resultado se refere aos cenários definidos no
+modelo de cobertura funcional.
 
-O histórico documentado de desenvolvimento relata que o driver podia enviar uma requisição enquanto o reset ainda era desconhecido. O driver atual aguarda a confirmação de reset desativado antes de iniciar a transação. A ampliação das lanes e da memória para 16 bits também foi adotada para preservar produtos de operandos de 8 bits. Os 17 resumos UVM disponíveis registram zero erros e zero falhas fatais nas execuções documentadas.
+Na instância principal da GPU, a cobertura de código atingiu 97,72\%,
+com 643 de 658 itens cobertos. Os resultados dos módulos internos foram
+medidos separadamente.
+
+Durante o desenvolvimento, foi identificada uma falha na inicialização:
+o driver podia enviar uma requisição antes de o reset estar definido
+como desativado. O driver foi corrigido para aguardar a liberação do
+reset antes de transmitir. Outra melhoria foi a ampliação das lanes e
+da memória para 16 bits, permitindo preservar o produto completo de
+dois operandos signed de 8 bits.
+
+Nas execuções documentadas dos 17 testes UVM, não foram registrados
+erros ou falhas fatais.
 
 % =============================================================================
 % 6. SINTESE E ANALISE TEMPORAL
@@ -814,7 +862,7 @@ O histórico documentado de desenvolvimento relata que o driver podia enviar uma
 \section{Síntese e Análise de Timing}
 
 \subsection{Fluxo e resultados de síntese}
-O fluxo lê o RTL de \signal{gpu_simd}, elabora o projeto e executa síntese genérica e mapeamento para células padrão. Foram utilizados o canto lento da biblioteca GPDK045, com tensão de 0,9 V e temperatura de 125~$^\circ$C, e as restrições temporais do arquivo SDC. Os resultados a seguir são estimativas da síntese, anteriores à implementação física.
+O fluxo lê o RTL da mini GPU , elabora o projeto e executa síntese genérica e mapeamento para células padrão. Foram utilizados o canto lento da biblioteca GPDK045, com tensão de 0,9 V e temperatura de 125~$^\circ$C, e as restrições temporais do arquivo SDC. Os resultados a seguir são estimativas da síntese, anteriores à implementação física.
 
 \begin{table}[H]
 \centering
@@ -835,7 +883,7 @@ Restrições relevantes & Incerteza de clock de 1 ns; atrasos de entrada e saíd
 \end{tabularx}
 \end{table}
 
-A memória foi inferida com células padrão, pois o fluxo não utiliza uma macro SRAM compatível; sua área reportada é 188.340,084 unidades, cerca de 92,26\% da área total de células. A Figura~\ref{fig:esquematico-sintese} apresenta a imagem exportada a partir dessa netlist no Cadence Genus, permitindo visualizar a organização dos blocos e suas conexões. A imagem serve como visão geral; detalhes dos caminhos e das células devem ser examinados na ferramenta.
+A memória foi inferida com células padrão, pois o fluxo não utiliza uma IP SRAM compatível, em um projeto industrial é recomendado utilizar uma IP RTL pronta de uma memória para que a ferramenta nãoo a crie utilizando FlipFlops, sua área reportada é 188.340,084 unidades, cerca de 92,26\% da área total de células. A Figura~\ref{fig:esquematico-sintese} apresenta a imagem exportada a partir dessa netlist no Cadence Genus, permitindo visualizar a organização dos blocos e suas conexões. A imagem serve como visão geral; detalhes dos caminhos e das células devem ser examinados na ferramenta.
 
 \begin{figure}[H]
 \centering
@@ -867,9 +915,7 @@ Anotação SDF & \signal{gpu_simd.sdf}, valores máximos; 239.898 de 239.914 atr
 \end{tabularx}
 \end{table}
 
-A análise temporal também foi avaliada por simulação da netlist com anotação dos atrasos do arquivo SDF. Conforme o registro do fluxo, o Cadence Genus gerou o SDF e o Xcelium anotou os valores máximos de atraso na instância da GPU. O testbench executou com período de clock de 20 ns, permitindo observar o comportamento funcional da implementação mapeada sob os atrasos anotados. O registro da execução informa conclusão sem violações temporais, além de 321 avisos de \signal{REMOVAL} relacionados ao modelo das células.
-
-A Figura~\ref{fig:simulacao-sdf} reserva espaço para a evidência a ser obtida no laboratório. Recomenda-se apresentar uma forma de onda ou uma tela da ferramenta que identifique a simulação com SDF, a escala temporal e os sinais relevantes para a operação observada.
+A análise temporal também foi avaliada por simulação da netlist com anotação dos atrasos do arquivo SDF. Conforme o registro do fluxo, o Cadence Genus gerou o SDF e o Xcelium anotou os valores máximos de atraso na instância da GPU. O testbench executou com período de clock de 20 ns, permitindo observar o comportamento funcional da implementação mapeada sob os atrasos anotados. O registro da execução informa conclusão sem violações temporais.
 
 \begin{figure}[H]
 \centering
