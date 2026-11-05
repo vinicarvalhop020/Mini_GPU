@@ -3,3 +3,7 @@
 # Bancos binarios de coverage gerados pelo Xcelium/IMC.
 COVERAGE/**/*.ucd
 COVERAGE/**/*.ucm
+
+# Artefatos locais da simulacao temporal da netlist.
+SIMULACAO_NETLIST/timing/logs/*.history
+SIMULACAO_NETLIST/timing/work/
