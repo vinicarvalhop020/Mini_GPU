@@ -846,6 +846,13 @@ Na instância principal da GPU, a cobertura de código atingiu 97,72\%,
 com 643 de 658 itens cobertos. Os resultados dos módulos internos foram
 medidos separadamente.
 
+\begin{figure}[H]
+\centering
+\fbox{\parbox[c][4cm][c]{0.88\textwidth}{\centering Inserir captura do resumo de cobertura no IMC.\\[0.4em]\small Mostrar as barras de cobertura funcional e de código, com o escopo principal \signal{gpu_simd} selecionado.}}
+\caption{Resumo de cobertura obtido no IMC após a campanha de testes UVM.}
+\label{fig:coverage-summary}
+\end{figure}
+
 Durante o desenvolvimento, foi identificada uma falha na inicialização:
 o driver podia enviar uma requisição antes de o reset estar definido
 como desativado. O driver foi corrigido para aguardar a liberação do
