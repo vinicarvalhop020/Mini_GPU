@@ -828,8 +828,8 @@ Os logs do suit de teste  registram exemplos de verificação ponta a ponta. Por
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox[c][2.2cm][c]{0.88\textwidth}{\centering Inserir forma de onda ou log representativo de uma operação end-to-end.\\[0.3em]\small Identificar requisições, handshake, execução, escrita e resposta.}}
-\caption{est gpu mul 8bit.}
+\includegraphics[width=0.96\textwidth]{funcional.png}
+\caption{Forma de onda do teste \signal{test_gpu_mul_8bit}. Os vetores de entrada possuem quatro lanes com \signal{FF80} ($-128$) e a resposta de leitura apresenta \signal{4000_4000_4000_4000}, correspondente ao produto \signal{-128 x -128} nas quatro lanes.}
 \label{fig:evidencia-e2e}
 \end{figure}
 
@@ -848,8 +848,8 @@ medidos separadamente.
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox[c][4cm][c]{0.88\textwidth}{\centering Inserir captura do resumo de cobertura no IMC.\\[0.4em]\small Mostrar as barras de cobertura funcional e de código, com o escopo principal \signal{gpu_simd} selecionado.}}
-\caption{Resumo de cobertura obtido no IMC após a campanha de testes UVM.}
+\includegraphics[width=0.96\textwidth]{coverage_imc.png}
+\caption{Resumo de cobertura no IMC após a campanha de testes UVM. A instância \signal{gpu_simd} atingiu 643 de 658 itens de código (97,72\%) e o modelo de cobertura funcional atingiu 44 de 44 itens (100\%).}
 \label{fig:coverage-summary}
 \end{figure}
 
