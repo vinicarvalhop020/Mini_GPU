@@ -54,7 +54,7 @@
   \rowcolor{azulclaro}\multicolumn{5}{l}{\textbf{#1}}\\
 }
 
-\title{\textbf{Desenvolvimento do Plano de Verificação Versão 1.3}\\[0.3em]
+\title{\textbf{Desenvolvimento do Plano de Verificação Versão 1.4}\\[0.3em]
        \large Mini GPU SIMD Simplificada}
 \author{Vinícius Carvalho Pimpim\\Projeto Fase 2 - CI Digital}
 \date{}
@@ -129,7 +129,7 @@ que enviará diretamente os pacotes de requisição de 42 bits.
     \midrule
     Interface de requisição do host & Pacote de 42 bits com protocolo \\
     Interface de resposta ao host & Dados de 64 bits e resposta de um comando \\
-    Barramento interno & AXI4-Lite simplificado, dados vetoriais de 64 bits \\
+    Interface interna & Sinais de controle e dados vetoriais de 64 bits \\
     Número de \textit{lanes} & 4 \\
     Largura de cada elemento & Entrada do host: int8; \textit{lane} interna e resultado: int16, signed \\
     Palavra vetorial & 64 bits \\
@@ -158,7 +158,7 @@ que enviará diretamente os pacotes de requisição de 42 bits.
 ]
   \node[block] (host) {Host};
   \node[block, below=of host] (packet) {Packet Decoder};
-  \node[block, below=of packet] (axis) {AXI4-Lite Slave\\+ Decoder};
+  \node[block, below=of packet] (axis) {Interface de\\requisições};
   \node[block, below left=1.2cm and 2.3cm of axis] (scheduler) {Scheduler\\de comando};
   \node[block, below=of scheduler] (fsm) {FSM de execução};
   \node[data, below right=1.2cm and 2.3cm of axis] (mem) {Memória vetorial\\dual-port};
@@ -188,27 +188,24 @@ que enviará diretamente os pacotes de requisição de 42 bits.
 
 É a porta de entrada das requisições do host. O bloco recebe o pacote de 42 bits. O Packet Decoder não acessa a memória nem o
 Scheduler diretamente; sua única responsabilidade é entregar uma representação
-decodificada e estável diretamente ao AXI4-Lite Slave Decoder.
+decodificada e estável diretamente ao módulo de requisições \signal{axi_slave}.
 
-\subsubsection{AXI4-Lite Slave Decoder}
+\subsubsection{Módulo de requisições \signal{axi_slave}}
 
 Recebe diretamente do Packet Decoder o tipo e os cinco campos desempacotados.
-O bloco interpreta a requisição, calcula o endereço interno correspondente e
-seleciona \signal{CONTROL} e \signal{COMMAND} ou a
-memória vetorial.
+O bloco interpreta o tipo da requisição e seleciona o acesso à memória, o armazenamento do comando ou a solicitação de execução. Apesar do nome, sua interface não implementa os canais AXI4-Lite.
 
 \subsubsection{Memória vetorial dual-port}
 
 Memória com duas interfaces independentes de leitura e escrita. A porta A é
-controlada pelo AXI4-Lite Slave Decoder, e a porta B é controlada pela FSM. Cada endereço
+controlada pelo módulo de requisições \signal{axi_slave}, e a porta B é controlada pela FSM. Cada endereço
 armazena um vetor completo de 64 bits, formado por quatro \textit{lanes} de 16 bits.
 
 \subsubsection{Scheduler de comando}
 
-Recebe do AXI4-Lite Slave Decoder o opcode, os endereços dos vetores A e B e o endereço de
+Recebe do módulo de requisições \signal{axi_slave} o opcode, os endereços dos vetores A e B e o endereço de
 destino. O Scheduler armazena um comando, controla os sinais \signal{BUSY} e
-\signal{DONE}, via registrador de STATUS e entrega o comando à FSM.
-\signal{valid/ready}.
+\signal{DONE} e entrega o comando à FSM por meio de \signal{valid/ready}.
 
 \subsubsection{FSM de execução}
 
@@ -285,7 +282,7 @@ responsável apenas pelos sinais de controle.
     \signal{decoded_valid/ready}
       & Output/Input
       & 1 cada
-      & Handshake com o AXI4-Lite Slave Decoder. \\
+      & Handshake com o módulo de requisições \signal{axi_slave}. \\
 
     \signal{req_type}
       & Output
@@ -301,11 +298,11 @@ responsável apenas pelos sinais de controle.
 \end{table}
 
 
-\subsection{AXI4-Lite Slave Decoder}
+\subsection{Módulo de requisições \signal{axi_slave}}
 
 \begin{table}[H]
   \centering
-  \caption{Interface do AXI4-Lite Slave Decoder.}
+  \caption{Interface do módulo de requisições \signal{axi_slave}.}
   \small
   \begin{tabularx}{\textwidth}
     {L{0.29\textwidth} L{0.16\textwidth} L{0.10\textwidth} X}
@@ -355,7 +352,7 @@ responsável apenas pelos sinais de controle.
     \signal{cmd_valid}
       & Output
       & 1
-      & Pulso enviado ao Scheduler quando chega \signal{GPU_START}. \\
+      & Solicitação mantida até a aceitação pelo Scheduler após \signal{GPU_START}. \\
 
     \signal{cmd_ready/busy/done}
       & Input
@@ -588,34 +585,20 @@ A e B. Da mesma forma, \signal{result} da ALU liga-se diretamente a
 
 \clearpage
 
-\section{Mapa de endereços AXI}
+\section{Endereçamento da memória}
 
-\begin{table}[ht]
-  \centering
-  \caption{Mapa de endereços do periférico.}
-  \begin{tabularx}{\textwidth}{l l X}
-    \toprule
-    \textbf{Endereço} & \textbf{Nome} & \textbf{Função} \\
-    \midrule
-    \signal{0x000} & \signal{CONTROL} & Bit 0: solicitação de início da execução. \\
-    \signal{0x004} & \signal{STATUS} & Bit 0: \signal{BUSY}; bit 1: \signal{DONE}. \\
-    \signal{0x008} & \signal{COMMAND} & Opcode, \signal{SRC_A}, \signal{SRC_B} e \signal{DST}. \\
-    \signal{0x100--0x4FC} & Memória vetorial & 256 palavras de 64 bits. \\
-    \bottomrule
-  \end{tabularx}
-\end{table}
-
-O mapa de endereços é interno à mini GPU. O host não produz endereços AXI;
-ele envia somente o pacote de 42 bits. O Packet Decoder desempacota os campos, e
-o AXI4-Lite Slave Decoder calcula o endereço e os dados da operação interna.
+Os pacotes \signal{MEM_READ} e \signal{MEM_WRITE} utilizam \signal{FIELD_0}
+como índice de 8 bits da memória vetorial. Os valores de \signal{8'h00} a
+\signal{8'hFF} selecionam diretamente as 256 palavras de 64 bits. Os campos
+\signal{SRC_A}, \signal{SRC_B} e \signal{DST} do comando utilizam esses mesmos
+índices. A interface implementada não expõe um mapa de registradores AXI.
 
 \clearpage
 \section{Estrutura de comandos}
 
-O host não acessa diretamente os canais AXI4-Lite. Toda requisição entra na mini
-GPU pelo Packet Decoder no formato único de 42 bits descrito a seguir. Os campos
-extraídos são encaminhados diretamente ao AXI4-Lite Slave Decoder, responsável
-pela tradução para o mapa interno de endereços.
+O host envia requisições ao Packet Decoder no formato de 42 bits descrito a seguir.
+Os campos extraídos são encaminhados ao módulo \signal{axi_slave}, que interpreta
+o tipo do pacote e controla os acessos à memória ou a execução do comando.
 
 \subsection{Formato geral do pacote}
 
@@ -676,8 +659,7 @@ pela tradução para o mapa interno de endereços.
 \end{table}
 
 Os campos \signal{LANE_0} a \signal{LANE_3} do pacote continuam tendo 8 bits, pois
-representam os valores de entrada do host. No \signal{MEM_WRITE}, o AXI4-Lite Slave
-Decoder estende cada campo com sinal e grava as quatro \textit{lanes} de 16 bits na
+representam os valores de entrada do host. No \signal{MEM_WRITE}, o módulo de requisições estende cada campo com sinal e grava as quatro \textit{lanes} de 16 bits na
 palavra vetorial de 64 bits.
 
 \subsection{Leitura de vetor}
@@ -695,8 +677,8 @@ palavra vetorial de 64 bits.
 \end{table}
 
 A resposta de leitura é retornada em \signal{rsp_data[63:0]}, acompanhada por
-\signal{rsp_valid}. Caso o AXI retorne uma resposta de erro, o adaptador também
-ativa \signal{rsp_error}.
+\signal{rsp_valid}. O sinal \signal{rsp_error} indica erro aritmético na resposta
+de execução de \signal{GPU_START}.
 
 \subsection{Início da operação}
 
@@ -752,21 +734,21 @@ operação e o Scheduler produzir \signal{DONE}.
   \item[\req{PKT_01_HANDSHAKE}] O Packet Decoder deve capturar \signal{req_payload} somente quando ocorrer \signal{req_valid e req_ready}.
   \item[\req{PKT_02_FIELDS}] O bloco deve copiar \signal{req_payload[41:40]} para \signal{TYPE} e extrair os cinco campos de 8 bits conforme a Tabela~\ref{tab:packet-format}.
   \item[\req{PKT_03_OUTPUT}] Após aceitar uma requisição, o bloco deve ativar \signal{decoded_valid} e manter todos os campos estáveis até ocorrer \signal{decoded_valid e decoded_ready}.
-  \item[\req{PKT_04_UNDERCOMMAND}] Enquanto houver uma requisição decodificada ainda não aceita pelo AXI4-Lite Slave Decoder, o Packet Decoder deve manter desativado \signal{req_ready}.
+  \item[\req{PKT_04_UNDERCOMMAND}] Enquanto houver uma requisição decodificada ainda não aceita pelo módulo de requisições \signal{axi_slave}, o Packet Decoder deve manter desativado \signal{req_ready}.
   \item[\req{PKT_05_HOST_STABLE}] Quando \signal{req_valid=1} e \signal{req_ready=0}, o host deve manter \signal{req_payload} e \signal{req_valid} estáveis até a requisição ser aceita.
   
 \end{description}
 
-\subsection{AXI4-Lite Slave Decoder}
+\subsection{Módulo de requisições \signal{axi_slave}}
 
 \begin{description}[style=nextline]
-  \item[\req{AXI_01_DECODE}] O bloco deve interpretar \signal{req_type} e os cinco campos recebidos diretamente do Packet Decoder, direcionando a requisição para \signal{CONTROL}, \signal{STATUS}, \signal{COMMAND} ou para a porta A da memória vetorial.
+  \item[\req{AXI_01_DECODE}] O bloco deve interpretar \signal{req_type} e os cinco campos recebidos diretamente do Packet Decoder, selecionando o acesso à porta A da memória, o armazenamento do comando ou o início da execução.
   \item[\req{AXI_02_MEM_WRITE}] Para \signal{MEM_WRITE}, o bloco deve usar \signal{FIELD_0} como endereço da memória e formar uma palavra vetorial de 64 bits, estendendo com sinal os quatro campos de entrada de 8 bits \signal{FIELD_1} a \signal{FIELD_4}.
   \item[\req{AXI_03_MEM_READ}] Para \signal{MEM_READ}, o bloco deve ler pela porta A o endereço indicado por \signal{FIELD_0} e retornar a palavra em \signal{rsp_data}.
   \item[\req{AXI_04_COMMAND}] Para \signal{GPU_COMMAND}, o bloco deve armazenar corretamente \signal{OPCODE}, \signal{SRC_A}, \signal{SRC_B} e \signal{DST}.
   \item[\req{AXI_05_CONTROL_STATUS}] Para \signal{GPU_START}, o bloco deve solicitar a execução e acompanhar os sinais \signal{BUSY} e \signal{DONE} do Scheduler.
-  \item[\req{AXI_06_SINGLE_REQUEST}] O bloco deve manter no máximo uma requisição ou execução da GPU pendente.
-  \item[\req{AXI_07_RESPONSE}] O bloco deve montar o pacote de resposta ao host com o resultado da ALU.
+  \item[\req{AXI_06_SINGLE_REQUEST}] O bloco processa uma requisição ou execução por vez; o Packet Decoder pode manter um pacote adicional pendente até que o bloco esteja pronto.
+  \item[\req{AXI_07_RESPONSE}] O bloco deve enviar ao host uma resposta com dados de leitura, confirmação ou estado; o resultado aritmético é obtido por uma leitura de memória.
 \end{description}
 
 \subsection{Scheduler}
@@ -775,12 +757,13 @@ operação e o Scheduler produzir \signal{DONE}.
   \item[\req{SCH_01_HANDSHAKE}] O Scheduler deve aceitar um comando somente quando ocorrer \signal{cmd_valid e cmd_ready}.
   \item[\req{SCH_02_DISPATCH}] O Scheduler deve armazenar o comando aceito e entregá-lo integralmente à FSM usando \signal{exec_valid} e \signal{exec_ready}.
   \item[\req{SCH_03_STATUS}] O Scheduler deve ativar \signal{BUSY} após aceitar um comando, desativá-lo após \signal{exec_done} e ativar \signal{DONE} quando a operação terminar.
+  \item[\req{SCH_04_SINGLE_COMMAND}] O Scheduler deve manter um único comando em despacho ou execução, sem aceitar outro enquanto estiver ocupado.
 \end{description}
 
 \subsection{Memória vetorial dual-port}
 
 \begin{description}[style=nextline]
-  \item[\req{MEM_01_PORT_A}] Todos os 256 endereços devem ser legíveis e graváveis pela porta A, controlada pelo AXI4-Lite Slave Decoder.
+  \item[\req{MEM_01_PORT_A}] Todos os 256 endereços devem ser legíveis e graváveis pela porta A, controlada pelo módulo de requisições \signal{axi_slave}.
   \item[\req{MEM_02_PORT_B}] Todos os 256 endereços devem ser legíveis e graváveis pela porta B, controlada pela FSM.
   \item[\req{MEM_03_DUAL_PORT}] As duas portas devem operar independentemente quando acessarem endereços diferentes.
   \item[\req{MEM_04_SYNC_READ}] Uma leitura deve disponibilizar o dado de acordo com a latência síncrona definida para a memória.
@@ -822,18 +805,20 @@ operação e o Scheduler produzir \signal{DONE}.
 
 \section{Lista de testes}
 
+A tabela apresenta os testes implementados e as funcionalidades associadas no plano. As descrições resumem o escopo de cada teste; assertions e scoreboard complementam a verificação.
+
 \begingroup
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.15}
+\renewcommand{\arraystretch}{0.95}
 \setlength{\LTleft}{\fill}
 \setlength{\LTright}{\fill}
 
 \begin{longtable}{
-  >{\raggedright\arraybackslash}p{4.0cm}
-  >{\raggedright\arraybackslash}p{8.4cm}
-  >{\raggedright\arraybackslash}p{7.0cm}
-  >{\centering\arraybackslash}p{1.4cm}
+  >{\raggedright\arraybackslash}p{4.6cm}
+  >{\raggedright\arraybackslash}p{8.0cm}
+  >{\raggedright\arraybackslash}p{6.7cm}
+  >{\centering\arraybackslash}p{1.7cm}
 }
 
 \caption{Lista consolidada de testes e rastreabilidade com as funcionalidades.}
@@ -844,7 +829,7 @@ operação e o Scheduler produzir \signal{DONE}.
 &
 \textbf{Descrição}
 &
-\textbf{Funcionalidades cobertas}
+\textbf{Funcionalidades associadas}
 &
 \textbf{Prioridade}
 \\
@@ -860,7 +845,7 @@ operação e o Scheduler produzir \signal{DONE}.
 &
 \textbf{Descrição}
 &
-\textbf{Funcionalidades cobertas}
+\textbf{Funcionalidades associadas}
 &
 \textbf{Prioridade}
 \\
@@ -891,8 +876,8 @@ Alta
 
 \path{test_packet_field_extraction}
 &
-Aplica pacotes com padrões distintos nos seis campos e verifica a
-extração exata de \signal{TYPE} e de \signal{FIELD_0} a
+Aplica um pacote com valores conhecidos nos campos e verifica a
+extração de \signal{TYPE} e de \signal{FIELD_0} a
 \signal{FIELD_4}.
 &
 \req{PKT_01_HANDSHAKE}, \req{PKT_02_FIELDS}
@@ -930,9 +915,8 @@ Alta
 
 \path{test_packet_mem_read}
 &
-Envia um pacote \signal{MEM_READ}, fornece um valor conhecido em
-\signal{mem_a_rdata} e verifica \signal{rsp_data},
-\signal{rsp_valid} e a propagação de erro.
+Escreve e lê vetores na memória integrada e verifica a ativação de
+\signal{mem_a_re}; o scoreboard compara as respostas de leitura.
 &
 \req{AXI_03_MEM_READ},
 \req{AXI_07_RESPONSE}
@@ -944,8 +928,8 @@ Alta
 \path{test_packet_command_start}
 &
 Envia \signal{GPU_COMMAND} seguido de \signal{GPU_START};
-verifica os campos entregues ao Scheduler, o pulso
-\signal{cmd_valid} e a resposta somente após \signal{DONE}.
+verifica os campos entregues ao Scheduler e a ativação de
+\signal{cmd_valid}.
 &
 \req{AXI_04_COMMAND},
 \req{AXI_05_CONTROL_STATUS},
@@ -958,9 +942,8 @@ Alta
 
 \path{test_axi_decode}
 &
-Aplica os quatro valores de \signal{req_type} e verifica se cada
-requisição seleciona corretamente a memória, o registrador de
-comando ou o registrador de controle.
+Observa a seleção dos caminhos de escrita e leitura de memória e o
+encaminhamento do comando durante uma operação completa.
 &
 \req{AXI_01_DECODE},
 \req{AXI_04_COMMAND},
@@ -985,9 +968,8 @@ Alta
 
 \path{test_scheduler_handshake}
 &
-Verifica o protocolo \signal{valid/ready}, o armazenamento do
-comando, os sinais \signal{BUSY} e \signal{DONE} e a rejeição
-de um novo comando enquanto o Scheduler estiver ocupado.
+Observa os estados \signal{DISPATCH}, \signal{EXECUTE} e
+\signal{DONE} e os sinais \signal{BUSY} e \signal{DONE}.
 &
 \req{SCH_01_HANDSHAKE} a
 \req{SCH_04_SINGLE_COMMAND}
@@ -998,9 +980,8 @@ Alta
 
 \path{test_fsm_sequence}
 &
-Verifica todos os estados e transições, os endereços apresentados
-à memória e os pulsos \signal{load_a}, \signal{load_b} e
-\signal{exec_done}.
+Observa a sequência dos estados de \signal{READ_A} até
+\signal{FINISH} durante uma operação.
 &
 \req{FSM_01_ACCEPT} a
 \req{FSM_07_DONE}
@@ -1068,9 +1049,8 @@ Alta
 
 \path{test_gpu_back_to_back}
 &
-Executa várias sequências de pacotes, verificando que uma nova
-requisição só é aceita após a conclusão da anterior e que os
-resultados não são sobrescritos.
+Executa operações consecutivas e lê os três destinos para verificar
+que os resultados anteriores são preservados.
 &
 \req{PKT_04_UNDERCOMMAND},
 \req{AXI_06_SINGLE_REQUEST},
@@ -1101,7 +1081,7 @@ Média
 Gera vetores, operações e endereços aleatórios e compara o
 resultado final com um modelo de referência.
 &
-Todas as funcionalidades válidas
+Operações, endereços e dados gerados
 &
 Alta
 \\
@@ -1121,18 +1101,17 @@ Alta
 \begin{itemize}
   \item Todos os testes de prioridade alta devem ser aprovados.
   \item Todas as funcionalidades listadas devem estar associadas a pelo menos um teste.
-  \item A cobertura funcional deve contemplar todos os opcodes, endereços de borda, valores zero, valores signed de interesse e \signal{rsp_error}.
+  \item A cobertura funcional deve contemplar os tipos de pacote, opcodes, regiões de endereço, status e \signal{rsp_error} definidos no modelo; valores zero e signed de interesse são exercitados por testes.
   \item A cobertura de código deve ser analisada para linhas, blocos, expressões, alternâncias e estados da FSM.
 \end{itemize}
 
 
-\section{Próxima versão}
+\section{Evolução do projeto}
 
-\begin{itemize}
-  \item Revisão das interfaces de cada bloco, verificação de necessidade de cada entrada e saida.
-  \item Implementação do módulo RTL para teste de conceito
-  \item Implementação do testbench para o módulo
-\end{itemize}
+A implementação RTL, os testbenches e o ambiente UVM foram desenvolvidos. A
+verificação inclui testes direcionados, estímulos aleatórios, scoreboard,
+assertions e cobertura. Os resultados das execuções, da síntese e da análise
+temporal são apresentados no relatório final do projeto.
 
 \clearpage
 \section{Hist\'orico de vers\~oes}
@@ -1144,8 +1123,9 @@ Alta
     \textbf{Vers\~ao} & \textbf{Modifica\c{c}\~ao} \\
     \midrule
     1.1 & Testes de m\'odulos internos removidos e teste GPU MUL adicionado ao plano de verifica\c{c}\~ao UVM. \\
-    1.2 & Caminho vetorial ampliado de 32 para 64 bits, com quatro \textit{lanes} internas de 16 bits e entradas do host mantidas em 8 bits. Adicionado o teste \path{test_gpu_mul_8bit}, que valida \signal{8'hFF * 8'hFF = 16'hFE01} em todas as \textit{lanes}. \\
+    1.2 & Caminho vetorial ampliado de 32 para 64 bits, com quatro \textit{lanes} internas de 16 bits e entradas do host mantidas em 8 bits. Na especificação sem sinal dessa versão, o teste \path{test_gpu_mul_8bit} validava \signal{8'hFF * 8'hFF = 16'hFE01}. \\
     1.3 & Operandos do host definidos como int8 em complemento de dois, com extensão de sinal para as lanes int16. Adicionado \signal{rsp_error} para divisão por zero e overflow signed. \\
+    1.4 & Interfaces e endereçamento alinhados ao RTL implementado; descrições dos testes e evolução do projeto atualizadas. \\
     \bottomrule
   \end{tabularx}
   \caption{Hist\'orico de vers\~oes do plano de verifica\c{c}\~ao.}
