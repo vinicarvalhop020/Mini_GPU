@@ -10,3 +10,7 @@ SIMULACAO_NETLIST/timing/work/
 
 # Pacote local da entrega final.
 /entrega_final/
+
+# Configurações locais do editor e do SimVision.
+/.vscode/
+/.simvision/
